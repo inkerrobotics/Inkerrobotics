@@ -30,8 +30,8 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
   res.status(500).json({ success: false, message: 'Server error' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Inker Robotics API running on http://localhost:${PORT}`);
+app.listen(Number(PORT), '127.0.0.1', () => {
+  console.log(`Inker Robotics API running internally on http://127.0.0.1:${PORT}`);
 });
 
 process.on('uncaughtException', err => console.error('[uncaughtException]', err));

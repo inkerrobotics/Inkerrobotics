@@ -11,20 +11,19 @@ function start(name, cmd, args, cwd, env) {
   return proc;
 }
 
-// Backend always on port 4000 (internal) — Next.js rewrites forward to this port
-const BACKEND_PORT = '4000';
-start('backend', 'node', ['dist/index.js'], '/app/backend', { PORT: BACKEND_PORT });
-
-// Frontend on Render's public PORT (typically 10000)
-// If PORT is missing or mistakenly set to 4000, default to 10000 to prevent EADDRINUSE crash
+// 1. Frontend listens on Render's public routing port (10000) on 0.0.0.0
+// This ensures Render's edge router immediately latches onto port 10000 as the public web service!
 const rawPort = process.env.PORT;
-const frontendPort = (!rawPort || rawPort === BACKEND_PORT) ? '10000' : rawPort;
+const frontendPort = (!rawPort || rawPort === '4000') ? '10000' : rawPort;
 
-setTimeout(() => {
-  console.log(`[launcher] Launching frontend on port ${frontendPort}...`);
-  start('frontend', 'node', ['server.js'], '/app/frontend', {
-    PORT: frontendPort,
-    HOSTNAME: '0.0.0.0',
-  });
-}, 4000);
+console.log(`[launcher] Launching frontend on public port ${frontendPort}...`);
+start('frontend', 'node', ['server.js'], '/app/frontend', {
+  PORT: frontendPort,
+  HOSTNAME: '0.0.0.0',
+});
+
+// 2. Backend listens on internal port 4000 (bound strictly to 127.0.0.1)
+console.log('[launcher] Launching backend on internal port 4000...');
+start('backend', 'node', ['dist/index.js'], '/app/backend', { PORT: '4000' });
+
 

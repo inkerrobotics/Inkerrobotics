@@ -29,11 +29,11 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:4000/api/:path*',
+        destination: 'http://127.0.0.1:4000/api/:path*',
       },
       {
         source: '/health',
-        destination: 'http://localhost:4000/health',
+        destination: 'http://127.0.0.1:4000/health',
       },
     ];
   },
