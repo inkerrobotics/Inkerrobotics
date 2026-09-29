@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Technical schematic of a humanoid robot bust">
+  <title>Inker humanoid unit — schematic</title>
+
+  <defs>
+    <linearGradient id="plate" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b1b22"/>
+      <stop offset="0.45" stop-color="#101015"/>
+      <stop offset="1" stop-color="#050507"/>
+    </linearGradient>
+
+    <linearGradient id="plateLit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2b2b36"/>
+      <stop offset="0.5" stop-color="#16161d"/>
+      <stop offset="1" stop-color="#0a0a0e"/>
+    </linearGradient>
+
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2a3582" stop-opacity="0.85"/>
+      <stop offset="0.5" stop-color="#2a3582" stop-opacity="0"/>
+      <stop offset="1" stop-color="#eb670e" stop-opacity="0.7"/>
+    </linearGradient>
+
+    <radialGradient id="optic" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffb088"/>
+      <stop offset="0.35" stop-color="#eb670e"/>
+      <stop offset="1" stop-color="#eb670e" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2a3582" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#2a3582" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <clipPath id="visorClip">
+      <path d="M300 300 h200 a18 18 0 0 1 18 18 v52 a26 26 0 0 1 -26 26 h-184 a26 26 0 0 1 -26 -26 v-52 a18 18 0 0 1 18 -18 z"/>
+    </clipPath>
+  </defs>
+
+  <!-- ambient halo -->
+  <ellipse cx="400" cy="430" rx="300" ry="300" fill="url(#halo)" filter="url(#soft)"/>
+
+  <!-- ══ construction grid ══ -->
+  <g stroke="#eb670e" stroke-opacity="0.10" stroke-width="1">
+    <line x1="400" y1="120" x2="400" y2="960"/>
+    <line x1="120" y1="430" x2="680" y2="430"/>
+    <circle cx="400" cy="430" r="215" fill="none" stroke-dasharray="4 10"/>
+    <circle cx="400" cy="430" r="270" fill="none" stroke-dasharray="2 14"/>
+  </g>
+
+  <!-- ══ SHOULDERS / TORSO ══ -->
+  <g>
+    <path d="M170 1000 v-150 a70 70 0 0 1 46 -66 l120 -44 a40 40 0 0 0 26 -38 v-40 h76 v40 a40 40 0 0 0 26 38 l120 44 a70 70 0 0 1 46 66 v150 z"
+          fill="url(#plate)" stroke="#3a3a48" stroke-width="2"/>
+
+    <!-- chest core -->
+    <path d="M330 760 h140 a22 22 0 0 1 22 22 v92 a22 22 0 0 1 -22 22 h-140 a22 22 0 0 1 -22 -22 v-92 a22 22 0 0 1 22 -22 z"
+          fill="url(#plateLit)" stroke="#4a4a5c" stroke-width="2"/>
+    <circle cx="400" cy="828" r="30" fill="none" stroke="#eb670e" stroke-opacity="0.5" stroke-width="2"/>
+    <circle cx="400" cy="828" r="15" fill="url(#optic)" filter="url(#glow)"/>
+    <circle cx="400" cy="828" r="44" fill="none" stroke="#2a3582" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="3 7"/>
+
+    <!-- clavicle vents -->
+    <g stroke="#5a5a70" stroke-width="2" stroke-linecap="round">
+      <line x1="250" y1="800" x2="300" y2="800"/>
+      <line x1="250" y1="820" x2="300" y2="820"/>
+      <line x1="250" y1="840" x2="300" y2="840"/>
+      <line x1="500" y1="800" x2="550" y2="800"/>
+      <line x1="500" y1="820" x2="550" y2="820"/>
+      <line x1="500" y1="840" x2="550" y2="840"/>
+    </g>
+
+    <!-- shoulder caps -->
+    <path d="M170 880 a86 86 0 0 1 74 -84 l24 84 z" fill="url(#plateLit)" stroke="#4a4a5c" stroke-width="2"/>
+    <path d="M630 880 a86 86 0 0 0 -74 -84 l-24 84 z" fill="url(#plateLit)" stroke="#4a4a5c" stroke-width="2"/>
+  </g>
+
+  <!-- ══ NECK ══ -->
+  <g>
+    <rect x="366" y="588" width="68" height="86" rx="14" fill="url(#plateLit)" stroke="#4a4a5c" stroke-width="2"/>
+    <g stroke="#eb670e" stroke-opacity="0.45" stroke-width="2" stroke-linecap="round">
+      <line x1="378" y1="606" x2="422" y2="606"/>
+      <line x1="378" y1="626" x2="422" y2="626"/>
+      <line x1="378" y1="646" x2="422" y2="646"/>
+    </g>
+  </g>
+
+  <!-- ══ HEAD ══ -->
+  <g>
+    <!-- cranium -->
+    <path d="M400 168
+             c 92 0 152 62 152 148
+             v 118
+             c 0 78 -62 132 -152 132
+             s -152 -54 -152 -132
+             v -118
+             c 0 -86 60 -148 152 -148 z"
+          fill="url(#plate)" stroke="#4a4a5c" stroke-width="2.5"/>
+
+    <!-- crown seam + sensor fin -->
+    <path d="M400 168 v82" stroke="#5a5a70" stroke-width="2"/>
+    <path d="M372 196 h56 a10 10 0 0 1 10 10 v18 h-76 v-18 a10 10 0 0 1 10 -10 z"
+          fill="url(#plateLit)" stroke="#eb670e" stroke-opacity="0.4" stroke-width="1.5"/>
+
+    <!-- visor housing -->
+    <path d="M300 300 h200 a18 18 0 0 1 18 18 v52 a26 26 0 0 1 -26 26 h-184 a26 26 0 0 1 -26 -26 v-52 a18 18 0 0 1 18 -18 z"
+          fill="#07070a" stroke="#5a5a70" stroke-width="2"/>
+
+    <!-- visor scanlines -->
+    <g clip-path="url(#visorClip)" stroke="#eb670e" stroke-opacity="0.16" stroke-width="1">
+      <line x1="282" y1="312" x2="518" y2="312"/>
+      <line x1="282" y1="324" x2="518" y2="324"/>
+      <line x1="282" y1="336" x2="518" y2="336"/>
+      <line x1="282" y1="348" x2="518" y2="348"/>
+      <line x1="282" y1="360" x2="518" y2="360"/>
+      <line x1="282" y1="372" x2="518" y2="372"/>
+      <line x1="282" y1="384" x2="518" y2="384"/>
+    </g>
+
+    <!-- optics -->
+    <g filter="url(#glow)">
+      <rect x="322" y="332" width="62" height="16" rx="8" fill="url(#optic)"/>
+      <rect x="416" y="332" width="62" height="16" rx="8" fill="url(#optic)"/>
+    </g>
+    <rect x="322" y="332" width="62" height="16" rx="8" fill="none" stroke="#eb670e" stroke-opacity="0.8"/>
+    <rect x="416" y="332" width="62" height="16" rx="8" fill="none" stroke="#eb670e" stroke-opacity="0.8"/>
+
+    <!-- cheek vents -->
+    <g stroke="#5a5a70" stroke-width="2" stroke-linecap="round">
+      <line x1="276" y1="430" x2="300" y2="430"/>
+      <line x1="276" y1="448" x2="300" y2="448"/>
+      <line x1="500" y1="430" x2="524" y2="430"/>
+      <line x1="500" y1="448" x2="524" y2="448"/>
+    </g>
+
+    <!-- jaw / speaker grille -->
+    <path d="M338 470 h124 a16 16 0 0 1 16 16 v34 a30 30 0 0 1 -30 30 h-96 a30 30 0 0 1 -30 -30 v-34 a16 16 0 0 1 16 -16 z"
+          fill="url(#plateLit)" stroke="#4a4a5c" stroke-width="2"/>
+    <g stroke="#eb670e" stroke-opacity="0.35" stroke-width="2" stroke-linecap="round">
+      <line x1="356" y1="492" x2="444" y2="492"/>
+      <line x1="356" y1="508" x2="444" y2="508"/>
+      <line x1="364" y1="524" x2="436" y2="524"/>
+    </g>
+
+    <!-- side actuators -->
+    <circle cx="252" cy="380" r="22" fill="url(#plateLit)" stroke="#5a5a70" stroke-width="2"/>
+    <circle cx="252" cy="380" r="8" fill="#2a3582" fill-opacity="0.75"/>
+    <circle cx="548" cy="380" r="22" fill="url(#plateLit)" stroke="#5a5a70" stroke-width="2"/>
+    <circle cx="548" cy="380" r="8" fill="#2a3582" fill-opacity="0.75"/>
+  </g>
+
+  <!-- rim light -->
+  <path d="M400 168 c 92 0 152 62 152 148 v118 c0 78 -62 132 -152 132 s-152 -54 -152 -132 v-118 c0 -86 60 -148 152 -148 z"
+        fill="none" stroke="url(#rim)" stroke-width="3" opacity="0.9"/>
+
+  <!-- ══ technical annotations ══ -->
+  <g font-family="'JetBrains Mono', ui-monospace, monospace" font-size="13" letter-spacing="2"
+     fill="#eb670e" fill-opacity="0.55" stroke="none">
+    <g stroke="#eb670e" stroke-opacity="0.28" stroke-width="1">
+      <line x1="552" y1="340" x2="672" y2="340"/>
+      <line x1="248" y1="470" x2="128" y2="470"/>
+      <line x1="492" y1="828" x2="672" y2="828"/>
+    </g>
+    <text x="678" y="336">OPTIC ARRAY</text>
+    <text x="124" y="466" text-anchor="end">AUDIO I/O</text>
+    <text x="678" y="824">POWER CORE</text>
+    <circle cx="672" cy="340" r="3" fill="#eb670e"/>
+    <circle cx="128" cy="470" r="3" fill="#eb670e"/>
+    <circle cx="672" cy="828" r="3" fill="#eb670e"/>
+  </g>
+
+  <!-- corner brackets -->
+  <g stroke="#eb670e" stroke-opacity="0.4" stroke-width="2" fill="none">
+    <path d="M40 96 v-40 h40"/>
+    <path d="M760 96 v-40 h-40"/>
+  </g>
+  <text x="40" y="140" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="12"
+        letter-spacing="3" fill="#eb670e" fill-opacity="0.4">UNIT / HUMANOID</text>
+</svg>

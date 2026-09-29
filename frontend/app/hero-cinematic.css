@@ -1,0 +1,230 @@
+/* ==================================================================
+   CINEMATIC HERO — the reference site's 400vh pinned frame-sequence
+   opening, re-scoped under `cin-*` so it can't collide with the
+   existing `.hero-*` rules in globals.css.
+   ================================================================== */
+
+.cin-shaft {
+  position: relative;
+  width: 100%;
+  height: 400vh;
+  z-index: 20;
+  background: var(--black);
+}
+
+/* --- the pinned frame ------------------------------------------- */
+.cin-stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+}
+
+.cin-visual {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.cin-visual canvas { filter: contrast(1.06) saturate(1.05); }
+
+/* Aurora behind the robot: violet from the left, lime from the right */
+.cin-glows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.cin-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+}
+.cin-glow-violet {
+  width: 70vw; height: 70vw;
+  left: -18vw; top: -14vw;
+  background: radial-gradient(circle, rgba(var(--violet-rgb), 0.34) 0%, transparent 62%);
+  animation: cinDriftA 18s ease-in-out infinite alternate;
+}
+.cin-glow-lime {
+  width: 52vw; height: 52vw;
+  right: -12vw; bottom: -16vw;
+  background: radial-gradient(circle, rgba(var(--lime-rgb), 0.16) 0%, transparent 64%);
+  animation: cinDriftB 22s ease-in-out infinite alternate;
+}
+@keyframes cinDriftA {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(4vw, 3vh, 0) scale(1.12); }
+}
+@keyframes cinDriftB {
+  from { transform: translate3d(0, 0, 0) scale(1.08); }
+  to   { transform: translate3d(-5vw, -4vh, 0) scale(1); }
+}
+
+/* --- copy ------------------------------------------------------- */
+.cin-copy {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+
+.cin-beat {
+  position: absolute;
+  bottom: 132px;
+  left: var(--gutter);
+  right: var(--gutter);
+  max-width: 20ch;
+  transition: opacity 340ms cubic-bezier(.16,1,.3,1);
+  will-change: opacity;
+}
+.cin-beat .kicker { color: var(--lime); margin-bottom: 20px; }
+.cin-beat h1 {
+  font-size: clamp(38px, 5.4vw, 92px);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  color: var(--white);
+  text-shadow: 0 8px 60px rgba(0, 0, 0, 0.85);
+  max-width: 16ch;
+}
+.cin-beat h1 em {
+  font-style: normal;
+  color: var(--lime);
+  text-shadow: 0 0 44px rgba(var(--lime-rgb), 0.45);
+}
+
+.cin-actions {
+  position: absolute;
+  bottom: 48px;
+  left: var(--gutter);
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  pointer-events: auto;
+  transition: opacity 340ms cubic-bezier(.16,1,.3,1);
+}
+
+/* --- right-hand scrub readout ----------------------------------- */
+.cin-hud {
+  position: absolute;
+  right: var(--gutter);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: rgba(255, 255, 255, 0.45);
+}
+.cin-hud-num { color: var(--lime); font-size: 12px; letter-spacing: 0.14em; }
+.cin-hud-rail {
+  width: 1px;
+  height: 180px;
+  background: rgba(255, 255, 255, 0.14);
+  position: relative;
+  display: block;
+}
+.cin-hud-rail > span {
+  position: absolute;
+  inset: 0;
+  background: var(--lime);
+  transform-origin: top;
+  box-shadow: 0 0 14px rgba(var(--lime-rgb), 0.9);
+}
+.cin-hud-label { writing-mode: vertical-rl; }
+
+/* --- scroll hint ------------------------------------------------ */
+.cin-scroll-hint {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.55);
+  transition: opacity 400ms ease;
+}
+.cin-scroll-hint i {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, var(--lime), transparent);
+  animation: cinHint 1.9s ease-in-out infinite;
+}
+@keyframes cinHint {
+  0%, 100% { transform: scaleY(0.35); opacity: 0.35; transform-origin: top; }
+  50%      { transform: scaleY(1);    opacity: 1;    transform-origin: top; }
+}
+
+/* --- responsive ------------------------------------------------- */
+@media (max-width: 900px) {
+  .cin-shaft { height: 320vh; }
+  .cin-hud { display: none; }
+  .cin-beat { bottom: 150px; max-width: none; }
+  .cin-beat h1 { max-width: 12ch; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cin-shaft { height: 100vh; }
+  .cin-glow, .cin-scroll-hint i { animation: none; }
+}
+
+/* ==================================================================
+   STATEMENT BAND — the oversized line the hero sequence hands off to
+   ================================================================== */
+.statement-band {
+  position: relative;
+  padding: clamp(90px, 14vh, 180px) 0 clamp(70px, 11vh, 150px);
+  background: var(--black);
+  overflow: hidden;
+}
+.statement-band::before {
+  content: "";
+  position: absolute;
+  width: 62vw; height: 62vw;
+  left: 50%; top: -22vw;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(var(--violet-rgb), 0.20) 0%, transparent 62%);
+  pointer-events: none;
+}
+.statement-line {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 4.4vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.30);
+  max-width: 24ch;
+}
+.statement-line .accent { color: var(--lime); }
+
+/* Word-mask machinery used by lib/motion's `data-anim="words"` split.
+   Declared here so it applies even on pages that don't load home.css. */
+.m-word-mask { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.m-word { display: inline-block; will-change: transform; }
+.m-char { display: inline-block; will-change: transform, opacity; }
+
+/* Keep split headings hidden until GSAP sets them visible, so the raw
+   text never flashes unmasked on first paint. */
+[data-anim="words"], [data-anim="chars"] { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  [data-anim="words"], [data-anim="chars"] { opacity: 1; }
+}

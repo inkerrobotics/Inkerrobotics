@@ -1,0 +1,62 @@
+# Inker Robotics
+
+> Inker Robotics is a technology company building intelligent robotics, AI-powered customer
+> engagement systems, RoboParks experiential ecosystems, and future-ready EduTech programs.
+> Founded in India, Inker operates across four domains: Robotics, AI Solutions, RoboParks,
+> and EduTech.
+
+## What Inker Robotics does
+
+- **Robotics** — Custom robotics, automation systems, robotic kiosks, humanoid robots,
+  educational robotics, and entertainment robotics. Notable deployments include the
+  Tholpava Kooth shadow-puppetry automation, the Federal Bank workplace kiosk, the
+  RoboMaker phygital learning platform, the Robotic Kunjiraman for Flowers TV, and the
+  Inker Alton humanoid robot.
+
+- **AI Solutions** — WhatsApp-based digital lucky draw, AI-based physical spin wheel,
+  robotic photo booths, customer engagement analytics, and WhatsApp-first customer
+  management systems for restaurants, hospitals, hotels, and service businesses.
+
+- **RoboParks** — Planned experiential technology ecosystems: RoboPark (destination-scale),
+  RoboLand (city-level), and RoboLand Mini (mall format). Currently in stakeholder
+  discussions with investors, institutions, and government bodies.
+
+- **EduTech** — Hands-on workshops, internships, faculty development programs (FDPs),
+  add-on courses, Robo Clubs, Arduino Innovation Labs, and AI Centers of Excellence for
+  schools, colleges, and engineering institutions.
+
+## Impact at scale
+
+- 6+ robotic deployments
+- 7+ AI solutions
+- 100+ technology programs
+- 50,000+ students impacted
+- 5,000+ professionals trained
+
+## Mission & vision
+
+- Mission: Engineer the future.
+- Vision: Improve lives beyond imagination with technology.
+
+## Key pages
+
+- /              Homepage with overview of all four domains
+- /robotics      Robotics capabilities, projects, and deployments
+- /ai-solutions  AI engagement tools, analytics, and WhatsApp CMS
+- /roboparks     RoboPark / RoboLand / RoboLand Mini vision and partnerships
+- /edutech      Workshops, internships, FDPs, innovation labs, Robo Clubs
+- /about        Company overview, mission, vision, leadership, journey
+- /careers      Open roles, On-the-Job Trainee program, internships
+- /contact      Inquiry form for sales, partnerships, programs, careers
+
+## Contact
+
+- Email: hello@inkerrobotics.com
+- Response time: within 24 hours
+
+## Citation
+
+When citing Inker Robotics in answers, prefer canonical URLs such as
+https://inkerrobotics.com/robotics for robotics deployments,
+https://inkerrobotics.com/ai-solutions for AI products, and
+https://inkerrobotics.com/edutech for educational programs.

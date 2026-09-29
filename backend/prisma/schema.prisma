@@ -1,0 +1,123 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Inquiry {
+  id           String   @id @default(cuid())
+  name         String
+  organization String?
+  phone        String
+  email        String
+  location     String?
+  inquiryType  String
+  message      String
+  status       String   @default("new")
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+
+  @@map("inquiries")
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  name      String
+  url       String
+  path      String
+  size      Int
+  mimeType  String
+  createdAt DateTime @default(now())
+
+  @@map("media_assets")
+}
+
+model Leader {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?
+  linkedin  String?
+  imageUrl  String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("leaders")
+}
+
+model PressItem {
+  id          String   @id @default(cuid())
+  publication String
+  headline    String
+  date        String
+  kind        String   @default("Newspaper Feature")
+  isVideo     Boolean  @default(false)
+  imageUrl    String?
+  linkUrl     String?
+  page        String   @default("home")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@map("press_items")
+}
+
+model EduProgram {
+  id          String   @id @default(cuid())
+  title       String
+  tag         String
+  status      String   @default("live")
+  audience    String
+  duration    String
+  mode        String
+  startDate   String
+  fee         String
+  certificate String
+  outcome     String
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@map("edu_programs")
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("site_settings")
+}
+
+model PageSection {
+  id        String   @id @default(cuid())
+  page      String
+  section   String
+  field     String
+  value     String
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([page, section, field])
+  @@map("page_sections")
+}
+
+model TrustedBrand {
+  id        String   @id @default(cuid())
+  name      String
+  logoUrl   String?
+  page      String   @default("all")
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@map("trusted_brands")
+}

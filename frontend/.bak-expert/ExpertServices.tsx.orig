@@ -1,0 +1,916 @@
+'use client';
+
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
+import Link from 'next/link';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { prefersReducedMotion } from '@/lib/smoothScroll';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
+
+export type ServiceCategory = 'all' | 'edutech' | 'robotics' | 'careers';
+
+export interface ServiceCard {
+  id: string;
+  num: string;
+  title: string;
+  category: 'edutech' | 'robotics' | 'careers';
+  categoryLabel: string;
+  tag: string;
+  description: string;
+  image: string;
+  video: string;
+  link: string;
+  linkText: string;
+  highlights: string[];
+}
+
+const SERVICES: ServiceCard[] = [
+  {
+    id: 'robotics-show',
+    num: '01',
+    title: 'Robotics Show',
+    category: 'robotics',
+    categoryLabel: 'Robotics & Expos',
+    tag: 'Live Performance',
+    description:
+      'Immerse yourself in the future with our robotic shows, showcasing advanced technology, innovative designs, and thrilling performances.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-6_43_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-6.mp4',
+    link: '/robotics',
+    linkText: 'Explore Shows',
+    highlights: ['Autonomous Choreography', 'Humanoid Demos', 'Events & Expos'],
+  },
+  {
+    id: 'summer-camp',
+    num: '02',
+    title: 'Summer Camp',
+    category: 'edutech',
+    categoryLabel: 'EduTech & Labs',
+    tag: 'Hands-On Learning',
+    description:
+      'Robotic summer camp for an immersive experience with hands-on projects and cutting-edge technology!',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/summer-camp-480p_65_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/summer-camp-480p.mp4',
+    link: '/edutech',
+    linkText: 'Discover Camps',
+    highlights: ['Interactive STEM', 'Robotics Kits', 'Ages 8-18'],
+  },
+  {
+    id: 'internship',
+    num: '03',
+    title: 'Internship',
+    category: 'careers',
+    categoryLabel: 'Career & Innovation',
+    tag: 'Career Accelerator',
+    description:
+      'Gain valuable real-world experience and kickstart your career with our internship opportunities.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-12_57_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-12.mp4',
+    link: '/careers',
+    linkText: 'Join as Intern',
+    highlights: ['Live Industry Projects', 'Mechatronics & AI', 'Expert Mentors'],
+  },
+  {
+    id: 'school-college-labs',
+    num: '04',
+    title: 'School & College Labs',
+    category: 'edutech',
+    categoryLabel: 'EduTech & Labs',
+    tag: 'Lab Infrastructure',
+    description:
+      'Design & implement advanced technology labs for schools and colleges, featuring the latest in robotics and AI.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-16_74_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-16.mp4',
+    link: '/edutech',
+    linkText: 'Setup Labs',
+    highlights: ['Turnkey Lab Setup', 'Curriculum Mapping', 'Hardware Benches'],
+  },
+  {
+    id: 'skill-development-program',
+    num: '05',
+    title: 'Skill Development Program',
+    category: 'edutech',
+    categoryLabel: 'EduTech & Labs',
+    tag: 'Skill Building',
+    description:
+      'Sharpen your talents and unlock new career opportunities, paving the way for your growth.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-13_59_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-13.mp4',
+    link: '/edutech',
+    linkText: 'Skill Programs',
+    highlights: ['Industry Alignment', 'Applied Automation', 'Practical Skills'],
+  },
+  {
+    id: 'workshops',
+    num: '06',
+    title: 'Workshops',
+    category: 'edutech',
+    categoryLabel: 'EduTech & Labs',
+    tag: 'Practical Training',
+    description:
+      'Hands-on workshops to mold tech enthusiasts into experts on the latest tools and technologies.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-17_60_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-17.mp4',
+    link: '/edutech',
+    linkText: 'View Workshops',
+    highlights: ['1-3 Day Intensives', 'Hardware Kits Included', 'Expert Trainers'],
+  },
+  {
+    id: 'on-the-job-training',
+    num: '07',
+    title: 'On the Job Training',
+    category: 'careers',
+    categoryLabel: 'Career & Innovation',
+    tag: 'Professional Immersion',
+    description:
+      'Hands-on training for career success! Dive into real-world projects and accelerate your career with us.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/On-the-Job-Program_61_layer-600x338.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-11.mp4',
+    link: '/careers',
+    linkText: 'Explore Training',
+    highlights: ['Real Client Scenarios', 'Embedded Firmware', 'Deployment Cycles'],
+  },
+  {
+    id: 'bootcamp',
+    num: '08',
+    title: 'Bootcamp',
+    category: 'edutech',
+    categoryLabel: 'EduTech & Labs',
+    tag: 'Intensive Immersion',
+    description:
+      'Intensive hands-on training in robotic technologies and applications, turning participants into proficient robotics experts.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-15_62_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-15.mp4',
+    link: '/edutech',
+    linkText: 'Join Bootcamp',
+    highlights: ['Fast-Paced Sprints', 'Full Robot Builds', 'Capstone Project'],
+  },
+  {
+    id: 'faculty-development-program',
+    num: '09',
+    title: 'Faculty Development Program',
+    category: 'edutech',
+    categoryLabel: 'EduTech & Labs',
+    tag: 'Educator Enablement',
+    description:
+      'Empowers educators with the latest teaching methodologies and technological advancements.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-14_63_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-14.mp4',
+    link: '/edutech',
+    linkText: 'FDP Programs',
+    highlights: ['Modern Pedagogy', 'Emerging Tech Tools', 'Lab Management'],
+  },
+  {
+    id: 'industrial-visit',
+    num: '10',
+    title: 'Industrial Visit',
+    category: 'careers',
+    categoryLabel: 'Career & Innovation',
+    tag: 'Industry Tour',
+    description:
+      'Join us for an enriching industrial visit to gain practical insights and experience industry best practices firsthand.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-10_64_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-10.mp4',
+    link: '/contact',
+    linkText: 'Plan a Visit',
+    highlights: ['Live Facility Walkthrough', 'Robotic Assembly Lines', 'Interactive Q&A'],
+  },
+  {
+    id: 'research-and-development',
+    num: '11',
+    title: 'Research & Development',
+    category: 'careers',
+    categoryLabel: 'Career & Innovation',
+    tag: 'Futuristic R&D',
+    description:
+      "Dedicated to pioneering innovations that shape the future, driving progress and creating impactful solutions for tomorrow's challenges.",
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-8_66_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-8.mp4',
+    link: '/robotics',
+    linkText: 'Explore R&D',
+    highlights: ['Custom Mechatronics', 'Computer Vision & AI', 'Patent Engineering'],
+  },
+  {
+    id: 'school-classes',
+    num: '12',
+    title: 'School Classes',
+    category: 'edutech',
+    categoryLabel: 'EduTech & Labs',
+    tag: 'Curriculum Integration',
+    description:
+      'Interactive learning, hands-on projects, and advanced tech fostering creativity with our custom curriculum and kits.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-9_67_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-9.mp4',
+    link: '/edutech',
+    linkText: 'School Programs',
+    highlights: ['CBSE/ICSE Aligned', 'Gamified Software', 'Trained Faculty'],
+  },
+  {
+    id: 'robotic-rentals',
+    num: '13',
+    title: 'Robotic Rentals',
+    category: 'robotics',
+    categoryLabel: 'Robotics & Expos',
+    tag: 'Event Deployments',
+    description:
+      'Our robotic rentals provide advanced solutions tailored to your specific requirements for events and celebration.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-7_68_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-7.mp4',
+    link: '/robotics',
+    linkText: 'Rent Robots',
+    highlights: ['Humanoid Greeters', 'Kiosk Automations', 'On-Site Technical Crew'],
+  },
+  {
+    id: 'product-development',
+    num: '14',
+    title: 'Product Development',
+    category: 'robotics',
+    categoryLabel: 'Robotics & Expos',
+    tag: 'Turnkey Engineering',
+    description:
+      'Focus on transforming ideas into market-ready solutions, leveraging innovation, expertise, and market insights.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-4_69_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-4.mp4',
+    link: '/robotics',
+    linkText: 'Product Solutions',
+    highlights: ['Rapid Prototyping', 'PCB & CAD Design', 'Pilot Batching'],
+  },
+  {
+    id: 'integrated-solutions',
+    num: '15',
+    title: 'Integrated Solutions',
+    category: 'robotics',
+    categoryLabel: 'Robotics & Expos',
+    tag: 'System Integration',
+    description:
+      'Seamlessly combine technology and strategy to deliver comprehensive and efficient outcomes tailored to your specific needs.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-5_70_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-5.mp4',
+    link: '/robotics',
+    linkText: 'Custom Solutions',
+    highlights: ['Custom Cloud Dashboards', 'Hardware Integration', 'Scalable Architecture'],
+  },
+  {
+    id: 'robo-kits',
+    num: '16',
+    title: 'Robo Kits',
+    category: 'edutech',
+    categoryLabel: 'EduTech & Labs',
+    tag: 'Hardware Kits',
+    description:
+      'Immersive learning experience, allowing enthusiasts of all ages to build, program, and explore the fascinating world of robotics.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/kit-2_72_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/kit-2.mp4',
+    link: '/edutech',
+    linkText: 'Explore Kits',
+    highlights: ['RoboBox Hardware', 'Modular Plug & Play', 'Project Missions'],
+  },
+  {
+    id: 'events-inauguration',
+    num: '17',
+    title: 'Events - Inauguration',
+    category: 'robotics',
+    categoryLabel: 'Robotics & Expos',
+    tag: 'VIP Experiences',
+    description:
+      'Immerse yourself in our engaging events where creativity, learning, and connections unite for unforgettable experiences.',
+    image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-3_71_layer.jpeg',
+    video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-3.mp4',
+    link: '/contact',
+    linkText: 'Event Inquiries',
+    highlights: ['Robotic Ribbon Cutting', 'VIP Bot Hosts', 'Unforgettable First Impressions'],
+  },
+];
+
+const CATEGORIES: { id: ServiceCategory; label: string; count: number }[] = [
+  { id: 'all', label: 'All Services', count: 17 },
+  { id: 'edutech', label: 'EduTech & Labs', count: 8 },
+  { id: 'robotics', label: 'Robotics & Expos', count: 5 },
+  { id: 'careers', label: 'Career & Innovation', count: 4 },
+];
+
+export default function ExpertServices() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>('all');
+  const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(true);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [activeModalItem, setActiveModalItem] = useState<ServiceCard | null>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Filter items
+  const filteredServices = useMemo(() => {
+    if (selectedCategory === 'all') return SERVICES;
+    return SERVICES.filter((s) => s.category === selectedCategory);
+  }, [selectedCategory]);
+
+  // Scroll tracking & progress
+  const checkScroll = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollPrev(scrollLeft > 10);
+    setCanScrollNext(scrollLeft < scrollWidth - clientWidth - 10);
+
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll > 0) {
+      setScrollProgress(Math.min(Math.max(scrollLeft / maxScroll, 0), 1));
+    }
+
+    const cardWidth = el.firstElementChild
+      ? (el.firstElementChild as HTMLElement).offsetWidth + 24
+      : clientWidth;
+    const index = Math.round(scrollLeft / cardWidth);
+    setActiveIdx(Math.min(Math.max(index, 0), filteredServices.length - 1));
+  }, [filteredServices.length]);
+
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('resize', checkScroll);
+    return () => {
+      el.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [checkScroll]);
+
+  // Reset scroll on category change
+  useEffect(() => {
+    const el = trackRef.current;
+    if (el) {
+      el.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+    setActiveIdx(0);
+    setScrollProgress(0);
+  }, [selectedCategory]);
+
+  const scroll = (direction: 'prev' | 'next') => {
+    const el = trackRef.current;
+    if (!el) return;
+    const cardEl = el.firstElementChild as HTMLElement | null;
+    const scrollAmount = cardEl ? cardEl.offsetWidth + 24 : el.clientWidth * 0.8;
+    el.scrollBy({
+      left: direction === 'prev' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth',
+    });
+  };
+
+  const scrollToIndex = (idx: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const cardEl = el.children[idx] as HTMLElement | null;
+    if (cardEl) {
+      el.scrollTo({
+        left: cardEl.offsetLeft - el.offsetLeft,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  // 3D Magnetic tilt effect on cards
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -7;
+    const rotateY = ((x - centerX) / centerX) * 7;
+
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+
+    gsap.to(card, {
+      rotateX,
+      rotateY,
+      transformPerspective: 900,
+      scale: 1.02,
+      duration: 0.25,
+      ease: 'power2.out',
+    });
+  };
+
+  const handleCardMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const card = e.currentTarget;
+    gsap.to(card, {
+      rotateX: 0,
+      rotateY: 0,
+      scale: 1,
+      duration: 0.45,
+      ease: 'power3.out',
+    });
+  };
+
+  // Keyboard accessibility for modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveModalItem(null);
+    };
+    if (activeModalItem) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [activeModalItem]);
+
+  // Entrance GSAP Animation
+  useGSAP(
+    () => {
+      if (prefersReducedMotion()) return;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      tl.from('.expert-services-eyebrow', {
+        y: 20,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+      })
+        .from(
+          '.expert-services-main-title',
+          {
+            y: 35,
+            opacity: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+          },
+          '-=0.4'
+        )
+        .from(
+          '.expert-services-sub',
+          {
+            y: 25,
+            opacity: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+          },
+          '-=0.5'
+        )
+        .from(
+          '.expert-categories-bar',
+          {
+            y: 20,
+            opacity: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+          },
+          '-=0.4'
+        )
+        .from(
+          '.expert-services-card',
+          {
+            y: 60,
+            opacity: 0,
+            rotationX: 12,
+            duration: 0.8,
+            stagger: 0.06,
+            ease: 'power3.out',
+          },
+          '-=0.3'
+        );
+    },
+    { scope: sectionRef }
+  );
+
+  // GSAP category change transition
+  const handleCategoryChange = (cat: ServiceCategory) => {
+    setSelectedCategory(cat);
+    if (!prefersReducedMotion()) {
+      gsap.fromTo(
+        '.expert-services-card',
+        { opacity: 0, y: 30, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 0.04, ease: 'power2.out' }
+      );
+    }
+  };
+
+  return (
+    <section ref={sectionRef} className="expert-services-section" id="expert-services">
+      {/* High-tech ambient glowing orbs */}
+      <div className="expert-ambient-glow expert-glow-1" aria-hidden="true" />
+      <div className="expert-ambient-glow expert-glow-2" aria-hidden="true" />
+
+      <div className="expert-services-container">
+        {/* Header with futuristic Eyebrow, Title & Subtitle */}
+        <div className="expert-services-header">
+          <div className="expert-services-eyebrow">
+            <span className="expert-pulse-dot" />
+            <span className="expert-eyebrow-text">CAPABILITIES &amp; EXPERTISE</span>
+            <span className="expert-serial-badge">// INKER-CORP-SRV-2024</span>
+          </div>
+
+          <h2 className="expert-services-main-title">
+            EXPERT <span className="expert-gradient-text">SERVICES</span>
+          </h2>
+
+          <p className="expert-services-sub">
+            From groundbreaking robotic performances and hands-on maker ecosystems to turnkey academic
+            labs and custom industrial R&amp;D — engineered to elevate human potential.
+          </p>
+        </div>
+
+        {/* Categories Bar & View Mode Switcher */}
+        <div className="expert-control-panel">
+          <div className="expert-categories-bar" role="tablist" aria-label="Filter Services">
+            {CATEGORIES.map((cat) => {
+              const isActive = selectedCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  className={`expert-cat-pill ${isActive ? 'is-active' : ''}`}
+                  onClick={() => handleCategoryChange(cat.id)}
+                >
+                  <span className="expert-cat-label">{cat.label}</span>
+                  <span className="expert-cat-count">{cat.count}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* View switcher & Active Slide Counter */}
+          <div className="expert-toolbar-right">
+            <div className="expert-counter-hud">
+              <span className="expert-counter-current">
+                {String(activeIdx + 1).padStart(2, '0')}
+              </span>
+              <span className="expert-counter-sep">/</span>
+              <span className="expert-counter-total">
+                {String(filteredServices.length).padStart(2, '0')}
+              </span>
+            </div>
+
+            <div className="expert-layout-toggle" role="radiogroup" aria-label="Layout view">
+              <button
+                type="button"
+                className={`expert-layout-btn ${viewMode === 'carousel' ? 'is-active' : ''}`}
+                onClick={() => setViewMode('carousel')}
+                title="Carousel View"
+                aria-label="Carousel View"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="5" width="6" height="14" rx="1" />
+                  <rect x="10" y="3" width="6" height="18" rx="1" />
+                  <rect x="18" y="5" width="6" height="14" rx="1" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className={`expert-layout-btn ${viewMode === 'grid' ? 'is-active' : ''}`}
+                onClick={() => setViewMode('grid')}
+                title="Grid View"
+                aria-label="Grid View"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Carousel Progress Scrub Bar (Active in carousel mode) */}
+        {viewMode === 'carousel' && (
+          <div className="expert-progress-track" aria-hidden="true">
+            <div
+              className="expert-progress-fill"
+              style={{ width: `${Math.max(scrollProgress * 100, 6)}%` }}
+            />
+          </div>
+        )}
+
+        {/* Slider / Grid Container */}
+        <div
+          className={`expert-display-area ${
+            viewMode === 'grid' ? 'is-grid-layout' : 'is-carousel-layout'
+          }`}
+        >
+          {/* Navigation Arrows (Carousel Mode) */}
+          {viewMode === 'carousel' && (
+            <>
+              <button
+                type="button"
+                className={`expert-nav-btn expert-nav-prev ${
+                  !canScrollPrev ? 'is-disabled' : ''
+                }`}
+                onClick={() => scroll('prev')}
+                aria-label="Previous service"
+                disabled={!canScrollPrev}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                className={`expert-nav-btn expert-nav-next ${
+                  !canScrollNext ? 'is-disabled' : ''
+                }`}
+                onClick={() => scroll('next')}
+                aria-label="Next service"
+                disabled={!canScrollNext}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </>
+          )}
+
+          {/* Cards Track */}
+          <div
+            ref={trackRef}
+            className={`expert-services-track ${viewMode === 'grid' ? 'is-grid' : 'is-slider'}`}
+            role="region"
+            aria-label="Expert services track"
+            tabIndex={0}
+          >
+            {filteredServices.map((item, idx) => (
+              <article
+                key={item.id}
+                className="expert-services-card"
+                aria-roledescription="slide"
+                aria-label={`${idx + 1} of ${filteredServices.length}: ${item.title}`}
+                onMouseMove={handleCardMouseMove}
+                onMouseLeave={handleCardMouseLeave}
+              >
+                {/* Cyber Corner Ticks */}
+                <div className="expert-card-corner corner-tl" aria-hidden="true" />
+                <div className="expert-card-corner corner-tr" aria-hidden="true" />
+                <div className="expert-card-corner corner-br" aria-hidden="true" />
+                <div className="expert-card-corner corner-bl" aria-hidden="true" />
+
+                {/* Top Metabar */}
+                <div className="expert-card-header-bar">
+                  <div className="expert-card-num-wrap">
+                    <span className="expert-card-serial">SRV-{item.num}</span>
+                    <span className="expert-card-badge">{item.tag}</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="expert-quick-view-btn"
+                    onClick={() => setActiveModalItem(item)}
+                    title="Watch Full Reel & Details"
+                    aria-label={`Preview video reel for ${item.title}`}
+                  >
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                    >
+                      <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" />
+                    </svg>
+                    <span>PREVIEW</span>
+                  </button>
+                </div>
+
+                {/* Media Wrapper with Live Autoplay Video */}
+                <div
+                  className="expert-card-media-wrap"
+                  onClick={() => setActiveModalItem(item)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActiveModalItem(item);
+                    }
+                  }}
+                  aria-label={`Open preview modal for ${item.title}`}
+                >
+                  <video
+                    className="expert-card-media"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    poster={item.image}
+                    preload="metadata"
+                  >
+                    <source src={item.video} type="video/mp4" />
+                    <img src={item.image} alt={item.title} className="expert-card-media" />
+                  </video>
+
+                  {/* Scanline & ambient overlay */}
+                  <div className="expert-scanline-overlay" aria-hidden="true" />
+
+                  {/* Live Status indicator */}
+                  <div className="expert-live-pill">
+                    <span className="expert-live-dot" />
+                    <span>REEL</span>
+                  </div>
+
+                  {/* Hover play prompt */}
+                  <div className="expert-media-play-hud" aria-hidden="true">
+                    <div className="expert-play-circle">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="6 4 20 12 6 20 6 4" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Body Content */}
+                <div className="expert-card-body">
+                  <h3 className="expert-card-title">{item.title}</h3>
+                  <p className="expert-card-desc">{item.description}</p>
+
+                  {/* Micro Highlights Pill Tags */}
+                  <div className="expert-card-highlights">
+                    {item.highlights.map((hl, i) => (
+                      <span key={i} className="expert-hl-pill">
+                        {hl}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Footer CTAs */}
+                  <div className="expert-card-actions">
+                    <Link href={item.link} className="expert-card-cta">
+                      <span>{item.linkText}</span>
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </svg>
+                    </Link>
+
+                    <Link
+                      href={`/contact?service=${encodeURIComponent(item.title)}`}
+                      className="expert-card-inquire"
+                      title={`Inquire about ${item.title}`}
+                    >
+                      Enquire
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        {/* Slide Pagination Dots (Only in Carousel View) */}
+        {viewMode === 'carousel' && (
+          <div className="expert-services-dots" role="tablist" aria-label="Services pagination">
+            {filteredServices.map((s, i) => (
+              <button
+                key={s.id}
+                type="button"
+                role="tab"
+                aria-selected={i === activeIdx}
+                aria-label={`Go to slide ${i + 1}: ${s.title}`}
+                className={`expert-dot ${i === activeIdx ? 'is-active' : ''}`}
+                onClick={() => scrollToIndex(i)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Futuristic Interactive Quick-View Modal */}
+      {activeModalItem && (
+        <div
+          className="expert-modal-backdrop"
+          onClick={() => setActiveModalItem(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-service-title"
+        >
+          <div className="expert-modal-card" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="expert-modal-close"
+              onClick={() => setActiveModalItem(null)}
+              aria-label="Close modal"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            <div className="expert-modal-video-box">
+              <video
+                controls
+                autoPlay
+                loop
+                playsInline
+                poster={activeModalItem.image}
+                className="expert-modal-video"
+              >
+                <source src={activeModalItem.video} type="video/mp4" />
+                <img src={activeModalItem.image} alt={activeModalItem.title} />
+              </video>
+            </div>
+
+            <div className="expert-modal-details">
+              <div className="expert-modal-meta">
+                <span className="expert-modal-serial">SERVICE // {activeModalItem.num}</span>
+                <span className="expert-modal-cat">{activeModalItem.categoryLabel}</span>
+              </div>
+
+              <h3 id="modal-service-title" className="expert-modal-title">
+                {activeModalItem.title}
+              </h3>
+
+              <p className="expert-modal-desc">{activeModalItem.description}</p>
+
+              <div className="expert-modal-highlights-title">CAPABILITY HIGHLIGHTS</div>
+              <div className="expert-modal-pills">
+                {activeModalItem.highlights.map((h, idx) => (
+                  <span key={idx} className="expert-modal-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    {h}
+                  </span>
+                ))}
+              </div>
+
+              <div className="expert-modal-cta-row">
+                <Link
+                  href={`/contact?service=${encodeURIComponent(activeModalItem.title)}`}
+                  className="expert-modal-btn-primary"
+                  onClick={() => setActiveModalItem(null)}
+                >
+                  <span>Book / Enquire This Service</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </Link>
+
+                <Link
+                  href={activeModalItem.link}
+                  className="expert-modal-btn-secondary"
+                  onClick={() => setActiveModalItem(null)}
+                >
+                  {activeModalItem.linkText}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}

@@ -1,0 +1,2404 @@
+/* ==================================================================
+   HOME PAGE — GLASS, DOODLES, DEPTH
+
+   Hand-written and unlayered, so it wins over anything Tailwind emits.
+   The home components carry both their original utility classes and
+   these semantic ones; this file is what actually renders the design.
+   ================================================================== */
+
+/* ------------------------------------------------------------------
+   SHARED GLASS SURFACE
+   ------------------------------------------------------------------ */
+
+.hm-glass {
+    position: relative;
+    background:
+        linear-gradient(158deg, rgba(255, 255, 255, 0.055) 0%, rgba(255, 255, 255, 0.012) 55%, rgba(255, 255, 255, 0.03) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(26px) saturate(150%);
+    -webkit-backdrop-filter: blur(26px) saturate(150%);
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+    border-radius: 22px;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Specular sweep across the top edge — the thing that reads as "glass" */
+.hm-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(120% 60% at 20% -10%, rgba(255, 255, 255, 0.14), transparent 62%);
+    pointer-events: none;
+}
+
+/* Faint accent bleed in the far corner */
+.hm-glass::after {
+    content: '';
+    position: absolute;
+    right: -18%;
+    bottom: -35%;
+    z-index: -1;
+    width: 58%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(42, 53, 130, 0.22), transparent 68%);
+    filter: blur(38px);
+    pointer-events: none;
+}
+
+.hm-glass.accent-lime::after {
+    background: radial-gradient(circle, rgba(235, 103, 14, 0.16), transparent 68%);
+}
+
+/* ------------------------------------------------------------------
+   DOODLES
+   Thin hand-drawn strokes. `.hm-doodle path` is stroke-dashed and
+   drawn by ScrollTrigger, so they appear to be sketched in as you go.
+   ------------------------------------------------------------------ */
+
+.hm-doodle {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.hm-doodle path,
+.hm-doodle circle,
+.hm-doodle line {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.hm-doodle.lime path { stroke: var(--c-lime); }
+.hm-doodle.violet path { stroke: var(--c-violet); }
+.hm-doodle.ink path { stroke: rgba(255, 255, 255, 0.4); }
+
+/* ------------------------------------------------------------------
+   SECTION 1 — NEURAL COGNITION GLASS PANEL
+   (components/PostScrollTypography.tsx)
+   ------------------------------------------------------------------ */
+
+.hm-panel {
+    position: relative;
+    z-index: 20;
+    max-width: 1000px;
+    margin: -6rem auto 0;
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.hm-panel-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    display: grid;
+    gap: 1.15rem;
+    justify-items: center;
+}
+
+.hm-pill {
+    display: inline-block;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid rgba(235, 103, 14, 0.3);
+    border-radius: 999px;
+    background: rgba(235, 103, 14, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--c-lime);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+
+.hm-panel-title {
+    margin: 0;
+    font-size: clamp(1.4rem, 3.2vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+}
+
+.hm-panel-sub {
+    margin: 0;
+    max-width: 46ch;
+    font-size: clamp(0.85rem, 1vw, 0.98rem);
+    line-height: 1.6;
+    color: var(--c-ink-dim);
+}
+
+/* metrics */
+.hm-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 540px;
+    margin-top: 1.4rem;
+    text-align: left;
+}
+
+.hm-metric {
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.035);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: border-color 0.5s var(--e-out), transform 0.5s var(--e-out), background 0.5s var(--e-out);
+}
+
+.hm-metric:hover {
+    transform: translateY(-3px);
+    border-color: rgba(235, 103, 14, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.hm-metric-label {
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--c-ink-faint);
+}
+
+.hm-metric-value {
+    margin-top: 0.35rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.hm-metric-value.lime { color: var(--c-lime); }
+.hm-metric-value.violet { color: var(--c-violet); }
+
+/* status strip */
+.hm-status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 1.4rem;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--c-ink-faint);
+}
+
+.hm-status .lime { color: var(--c-lime); }
+.hm-status .violet { color: var(--c-violet); }
+
+.hm-status .sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+}
+
+/* ------------------------------------------------------------------
+   SECTION 2 — EDITORIAL / KINETIC TYPOGRAPHY
+   (components/KineticShiftTypography.tsx)
+   ------------------------------------------------------------------ */
+
+.hm-editorial {
+    position: relative;
+    z-index: 20;
+    min-height: 84vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: clamp(5rem, 12vh, 10rem) 0;
+    padding: 0 var(--gutter);
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.hm-editorial-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.hm-editorial-title {
+    margin: 0;
+    width: 100%;
+    text-align: right;
+    font-size: clamp(3rem, 11.5vw, 11rem);
+    font-weight: 700;
+    line-height: 0.84;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    color: var(--c-ink);
+}
+
+.hm-editorial-title .thin {
+    color: transparent;
+    -webkit-text-stroke: clamp(2px, 0.28vw, 3.5px) rgba(255, 255, 255, 0.85);
+}
+
+.hm-editorial-sub {
+    margin: clamp(1.5rem, 4vh, 2.5rem) 0 0;
+    max-width: 42ch;
+    text-align: right;
+    font-size: clamp(1rem, 1.9vw, 1.7rem);
+    font-weight: 300;
+    line-height: 1.32;
+    letter-spacing: -0.01em;
+    color: var(--c-ink-dim);
+}
+
+.hm-editorial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 5vw, 4rem);
+    width: 100%;
+    max-width: 900px;
+    margin-top: clamp(4rem, 12vh, 9rem);
+    padding-top: clamp(1.8rem, 4vh, 3rem);
+    border-top: 1px solid var(--c-line);
+    text-align: left;
+}
+
+.hm-editorial-col h4 {
+    margin: 0 0 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--c-ink);
+}
+
+.hm-editorial-col p {
+    margin: 0;
+    font-size: 0.86rem;
+    font-weight: 300;
+    line-height: 1.62;
+    color: var(--c-ink-faint);
+}
+
+/* ------------------------------------------------------------------
+   SECTION 3 — GLASS FEATURE CARDS
+   (components/GlassFeatureCards.tsx)
+   ------------------------------------------------------------------ */
+
+.hm-features {
+    position: relative;
+    z-index: 20;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: clamp(4rem, 12vh, 9rem) var(--gutter);
+    isolation: isolate;
+}
+
+.hm-features-head {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: grid;
+    gap: 1rem;
+    justify-items: center;
+    margin-bottom: clamp(2.5rem, 7vh, 5rem);
+}
+
+.hm-features-title {
+    margin: 0;
+    font-size: clamp(1.6rem, 3.6vw, 3rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    text-wrap: balance;
+}
+
+.hm-features-title .grad {
+    background: linear-gradient(100deg, var(--c-violet), var(--c-lime));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hm-feature-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1rem, 1.8vw, 1.6rem);
+    perspective: 1400px;
+}
+
+.hm-feature-card {
+    position: relative;
+    padding: clamp(1.6rem, 2.4vw, 2.3rem);
+    border-radius: 20px;
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+    transition: transform 0.6s var(--e-out), border-color 0.6s var(--e-out);
+    transform-style: preserve-3d;
+}
+
+.hm-feature-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+
+.hm-feature-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.hm-feature-badge {
+    font-size: 9px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--c-ink-faint);
+}
+
+.hm-feature-card h3 {
+    margin: 0;
+    font-size: clamp(0.98rem, 1.35vw, 1.2rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    transition: color 0.45s var(--e-out);
+}
+
+.hm-feature-card:hover h3 {
+    color: var(--c-lime);
+}
+
+.hm-feature-card p {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.62;
+    color: var(--c-ink-faint);
+}
+
+.hm-feature-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.6rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--c-ink-faint);
+}
+
+.hm-feature-foot svg {
+    transition: transform 0.5s var(--e-out);
+}
+
+.hm-feature-card:hover .hm-feature-foot svg {
+    transform: translateX(6px);
+}
+
+/* Live status dot */
+.hm-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-right: 0.55em;
+    border-radius: 50%;
+    background: var(--c-lime);
+    box-shadow: 0 0 0 0 rgba(235, 103, 14, 0.6);
+    animation: hm-pulse 2.4s ease-out infinite;
+}
+
+@keyframes hm-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(235, 103, 14, 0.5); }
+    70% { box-shadow: 0 0 0 7px rgba(235, 103, 14, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(235, 103, 14, 0); }
+}
+
+/* ------------------------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------------------------ */
+
+@media (max-width: 1024px) and (min-width: 681px) {
+    .hm-feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .hm-editorial-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hm-editorial-title,
+    .hm-editorial-sub {
+        text-align: left;
+    }
+
+    .hm-editorial-inner {
+        align-items: flex-start;
+    }
+
+    .hm-panel {
+        margin-top: -2rem;
+    }
+}
+
+@media (max-width: 680px) {
+    .hm-feature-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 620px) {
+    .hm-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    /* doodles get busy on small screens */
+    .hm-doodle.hide-sm {
+        display: none;
+    }
+
+    .hm-editorial-title {
+        font-size: clamp(2.2rem, 9.5vw, 4.5rem);
+    }
+
+    .hm-editorial-sub {
+        font-size: clamp(0.95rem, 3.8vw, 1.3rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .hm-panel {
+        margin-top: -1.5rem;
+        padding: clamp(1.5rem, 5vw, 2.2rem) clamp(1rem, 3.5vw, 1.4rem);
+        border-radius: 16px;
+    }
+
+    .hm-panel-title {
+        font-size: clamp(1.25rem, 5vw, 1.6rem);
+    }
+
+    .hm-feature-card {
+        padding: 1.4rem 1.1rem;
+        border-radius: 16px;
+    }
+
+    .hm-features {
+        padding: clamp(3rem, 8vh, 5rem) var(--gutter);
+    }
+
+    .hm-features-head {
+        margin-bottom: 2rem;
+    }
+
+    .hm-features-title {
+        font-size: clamp(1.4rem, 5.5vw, 2rem);
+    }
+
+    .hm-editorial {
+        margin: clamp(2.5rem, 6vh, 4rem) 0;
+        padding: 0 16px;
+    }
+
+    .hm-doodle {
+        opacity: 0.4;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hm-dot {
+        animation: none;
+    }
+}
+
+/* ==========================================================================
+   EXPERT SERVICES SECTION (Carousel / Cards)
+   ========================================================================== */
+/* ==========================================================================
+   EXPERT SERVICES SECTION - HIGH-TECH CYBER KINETIC DESIGN SYSTEM
+   ========================================================================== */
+
+.expert-services-section {
+    position: relative;
+    z-index: 20;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: clamp(4rem, 9vh, 7.5rem) clamp(1rem, 3.5vw, 3rem);
+    isolation: isolate;
+    overflow: hidden;
+}
+
+/* Ambient Radial Lighting */
+.expert-ambient-glow {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.35;
+    z-index: -1;
+}
+
+.expert-glow-1 {
+    top: 5%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(235, 103, 14, 0.4) 0%, transparent 70%);
+}
+
+.expert-glow-2 {
+    bottom: 10%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(14, 165, 233, 0.25) 0%, transparent 70%);
+}
+
+.expert-services-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Header & Eyebrow */
+.expert-services-header {
+    text-align: center;
+    margin-bottom: clamp(2rem, 4vh, 3rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.expert-services-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    background: rgba(235, 103, 14, 0.08);
+    border: 1px solid rgba(235, 103, 14, 0.25);
+    margin-bottom: 1.25rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #f97316;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(235, 103, 14, 0.15);
+}
+
+.expert-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #f97316;
+    box-shadow: 0 0 10px #f97316;
+    animation: expertPulse 1.8s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+@keyframes expertPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+}
+
+.expert-serial-badge {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
+}
+
+.expert-services-main-title {
+    margin: 0;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.expert-gradient-text {
+    background: linear-gradient(135deg, #ff8001 0%, #ffa534 50%, #ffffff 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 28px rgba(255, 128, 1, 0.35));
+}
+
+.expert-services-sub {
+    max-width: 680px;
+    margin: 1.1rem auto 0;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.65);
+    text-wrap: balance;
+}
+
+/* Control Panel (Categories & View Modes) */
+.expert-control-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 0 4px;
+}
+
+.expert-categories-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.expert-cat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(12px);
+    outline: none;
+}
+
+.expert-cat-pill:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.expert-cat-pill.is-active {
+    background: linear-gradient(135deg, rgba(235, 103, 14, 0.9) 0%, rgba(255, 128, 1, 0.95) 100%);
+    border-color: rgba(255, 128, 1, 0.6);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(235, 103, 14, 0.4);
+}
+
+.expert-cat-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.35);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.expert-cat-pill.is-active .expert-cat-count {
+    background: #ffffff;
+    color: #ea580c;
+}
+
+/* Toolbar Right: Counter & Layout switch */
+.expert-toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.expert-counter-hud {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.expert-counter-current {
+    color: #f97316;
+    font-size: 1.05rem;
+}
+
+.expert-counter-sep {
+    margin: 0 4px;
+    color: rgba(255, 255, 255, 0.25);
+}
+
+.expert-layout-toggle {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.expert-layout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.expert-layout-btn:hover {
+    color: #ffffff;
+}
+
+.expert-layout-btn.is-active {
+    background: rgba(255, 255, 255, 0.14);
+    color: #f97316;
+}
+
+/* Progress scrub track */
+.expert-progress-track {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 9999px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.expert-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ea580c, #f97316, #38bdf8);
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.7);
+    border-radius: 9999px;
+    transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Display Area (Carousel vs Grid) */
+.expert-display-area {
+    position: relative;
+    width: 100%;
+}
+
+/* Floating Navigation Arrows (Carousel Mode) */
+.expert-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 25;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+}
+
+.expert-nav-btn:hover:not(:disabled) {
+    background: #f97316;
+    border-color: #f97316;
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.12);
+    box-shadow: 0 0 28px rgba(249, 115, 22, 0.55);
+}
+
+.expert-nav-btn:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.expert-nav-btn.is-disabled,
+.expert-nav-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.expert-nav-prev {
+    left: -24px;
+}
+
+.expert-nav-next {
+    right: -24px;
+}
+
+@media (max-width: 1200px) {
+    .expert-nav-prev { left: -12px; }
+    .expert-nav-next { right: -12px; }
+}
+
+@media (max-width: 768px) {
+    .expert-nav-btn { display: none; }
+}
+
+/* Track: Carousel Mode */
+.expert-services-track.is-slider {
+    display: flex;
+    gap: clamp(1.2rem, 2.2vw, 2rem);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 18px 8px 24px 8px;
+    width: 100%;
+    scrollbar-width: none;
+}
+
+.expert-services-track.is-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.expert-services-track.is-slider .expert-services-card {
+    flex: 0 0 calc((100% - 2 * clamp(1.2rem, 2.2vw, 2rem)) / 3);
+    min-width: 320px;
+    scroll-snap-align: start;
+}
+
+/* Track: Bento Grid Mode */
+.expert-services-track.is-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    padding: 10px 4px 30px;
+}
+
+@media (max-width: 1080px) {
+    .expert-services-track.is-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 680px) {
+    .expert-services-track.is-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* ==========================================================================
+   INDIVIDUAL 3D CYBER GLASS CARD
+   ========================================================================== */
+
+.expert-services-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(175deg, rgba(255, 255, 255, 0.05) 0%, rgba(15, 23, 42, 0.65) 60%, rgba(2, 6, 23, 0.85) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 22px;
+    padding: 16px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.4s ease,
+                box-shadow 0.4s ease;
+    transform-style: preserve-3d;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+/* Radial spotlight on mouse hover */
+.expert-services-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(249, 115, 22, 0.18), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: 1;
+}
+
+.expert-services-card:hover::before {
+    opacity: 1;
+}
+
+.expert-services-card:hover {
+    border-color: rgba(249, 115, 22, 0.45);
+    box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.8),
+                0 0 35px -5px rgba(249, 115, 22, 0.22);
+}
+
+/* Cyber Corner Ticks */
+.expert-card-corner {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    pointer-events: none;
+    z-index: 2;
+    border-color: rgba(249, 115, 22, 0.4);
+    transition: border-color 0.3s ease;
+}
+
+.corner-tl { top: 8px; left: 8px; border-top: 1.5px solid; border-left: 1.5px solid; }
+.corner-tr { top: 8px; right: 8px; border-top: 1.5px solid; border-right: 1.5px solid; }
+.corner-bl { bottom: 8px; left: 8px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+.corner-br { bottom: 8px; right: 8px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+
+.expert-services-card:hover .expert-card-corner {
+    border-color: #f97316;
+}
+
+/* Card Header Bar */
+.expert-card-header-bar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 2px 4px;
+}
+
+.expert-card-num-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.expert-card-serial {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.06em;
+}
+
+.expert-card-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+}
+
+.expert-quick-view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(249, 115, 22, 0.1);
+    border: 1px solid rgba(249, 115, 22, 0.25);
+    color: #f97316;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    outline: none;
+}
+
+.expert-quick-view-btn:hover {
+    background: #f97316;
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(249, 115, 22, 0.5);
+    transform: scale(1.05);
+}
+
+/* Card Media Wrapper */
+.expert-card-media-wrap {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    aspect-ratio: 16 / 9.4;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #020617;
+    cursor: pointer;
+}
+
+.expert-card-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.expert-services-card:hover .expert-card-media {
+    transform: scale(1.06);
+}
+
+.expert-scanline-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.expert-live-pill {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    backdrop-filter: blur(8px);
+}
+
+.expert-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+}
+
+.expert-media-play-hud {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.expert-services-card:hover .expert-media-play-hud {
+    opacity: 1;
+}
+
+.expert-play-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(249, 115, 22, 0.9);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+    transform: scale(0.9);
+    transition: transform 0.25s ease;
+}
+
+.expert-services-card:hover .expert-play-circle {
+    transform: scale(1);
+}
+
+/* Card Body Content */
+.expert-card-body {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    padding: 1.15rem 0.35rem 0.25rem;
+    flex-grow: 1;
+}
+
+.expert-card-title {
+    margin: 0 0 0.6rem 0;
+    font-size: clamp(1.2rem, 1.45vw, 1.35rem);
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    transition: color 0.3s ease;
+}
+
+.expert-services-card:hover .expert-card-title {
+    color: #f97316;
+}
+
+.expert-card-desc {
+    margin: 0 0 1rem 0;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.68);
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Micro Highlight Pills */
+.expert-card-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+}
+
+.expert-hl-pill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+}
+
+/* Footer CTAs */
+.expert-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.expert-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(235, 103, 14, 0.25) 0%, rgba(249, 115, 22, 0.15) 100%);
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    transition: all 0.25s ease;
+}
+
+.expert-card-cta:hover {
+    background: #f97316;
+    border-color: #f97316;
+    color: #ffffff;
+    box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4);
+    transform: translateY(-2px);
+}
+
+.expert-card-cta svg {
+    transition: transform 0.25s ease;
+}
+
+.expert-card-cta:hover svg {
+    transform: translate(2px, -2px);
+}
+
+.expert-card-inquire {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    padding: 7px 10px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.expert-card-inquire:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Carousel Slide Dots */
+.expert-services-dots {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 90%;
+    margin: 1.8rem auto 0;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+}
+
+.expert-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.22);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.expert-dot:hover {
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.expert-dot.is-active {
+    width: 28px;
+    background: #f97316;
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.6);
+}
+
+/* Responsive adjust for slider */
+@media (max-width: 1024px) {
+    .expert-services-track.is-slider .expert-services-card {
+        flex: 0 0 calc((100% - clamp(1rem, 2vw, 1.8rem)) / 2);
+    }
+}
+
+@media (max-width: 640px) {
+    .expert-services-track.is-slider .expert-services-card {
+        flex: 0 0 88%;
+        min-width: 280px;
+    }
+    .expert-services-section {
+        padding: 3.5rem 14px;
+    }
+    .expert-control-panel {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .expert-toolbar-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* ==========================================================================
+   INTERACTIVE QUICK-VIEW MODAL
+   ========================================================================== */
+
+.expert-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(2, 6, 23, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.expert-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 840px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: #0f172a;
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    border-radius: 24px;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(249, 115, 22, 0.2);
+    animation: modalCardScale 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalCardScale {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.expert-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.expert-modal-close:hover {
+    background: #f97316;
+    border-color: #f97316;
+    transform: rotate(90deg);
+}
+
+.expert-modal-video-box {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000000;
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    overflow: hidden;
+}
+
+.expert-modal-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.expert-modal-details {
+    padding: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.expert-modal-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.expert-modal-serial {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #f97316;
+}
+
+.expert-modal-cat {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+}
+
+.expert-modal-title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+}
+
+.expert-modal-desc {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0 0 1.5rem 0;
+}
+
+.expert-modal-highlights-title {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.45);
+    margin-bottom: 0.75rem;
+}
+
+.expert-modal-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2rem;
+}
+
+.expert-modal-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.expert-modal-pill svg {
+    color: #22c55e;
+}
+
+.expert-modal-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.expert-modal-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.4);
+    transition: all 0.25s ease;
+}
+
+.expert-modal-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(249, 115, 22, 0.55);
+}
+
+.expert-modal-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 12px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.expert-modal-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+
+
+/* ==========================================================================
+   EXPERT SERVICES — CINEMATIC SCROLL LAYER
+   --------------------------------------------------------------------------
+   Appended deliberately: every rule here either introduces the new pinned
+   horizontal mode or overrides an earlier rule at equal-or-higher
+   specificity, so nothing above needed editing.
+   ========================================================================== */
+
+/* ---- Split-text plumbing for the heading --------------------------------
+   splitChars() rebuilds the span's contents as per-character boxes. The
+   part needs to be inline-block so the mask has a box to clip against, and
+   the gradient has to move onto the generated word wrapper — a
+   background-clip:text gradient painted on the original span has nothing
+   left to clip once its text nodes are emptied. */
+.expert-title-part {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.expert-gradient-text .m-word-c {
+    background: linear-gradient(135deg, #ff8001 0%, #ffa534 50%, #ffffff 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 0 28px rgba(255, 128, 1, 0.35));
+}
+
+.expert-services-main-title .m-char,
+.expert-services-sub .m-word {
+    will-change: auto;
+}
+
+/* Masked rise needs the overflow box to be tall enough for descenders. */
+.expert-services-main-title .m-word-c {
+    display: inline-block;
+    overflow: hidden;
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+}
+
+/* ---- Card shell ---------------------------------------------------------
+   The shell owns the scroll-driven depth transform; the <article> inside
+   keeps the pointer tilt. Two elements, two matrices, no fight. */
+.expert-card-shell {
+    display: flex;
+    min-width: 0;
+    transform-style: preserve-3d;
+}
+
+.expert-card-shell > .expert-services-card {
+    width: 100%;
+    height: 100%;
+}
+
+/* Sizing moves from the card to the shell, since the shell is now the
+   flex/grid item. Specificity beats the original single-class rules. */
+.expert-services-track.is-slider .expert-card-shell {
+    flex: 0 0 calc((100% - 2 * clamp(1.2rem, 2.2vw, 2rem)) / 3);
+    min-width: 320px;
+    scroll-snap-align: start;
+}
+
+.expert-services-track.is-slider .expert-card-shell .expert-services-card {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+@media (max-width: 1024px) {
+    .expert-services-track.is-slider .expert-card-shell {
+        flex: 0 0 calc((100% - clamp(1rem, 2vw, 1.8rem)) / 2);
+    }
+}
+
+@media (max-width: 640px) {
+    .expert-services-track.is-slider .expert-card-shell {
+        flex: 0 0 88%;
+        min-width: 280px;
+    }
+}
+
+/* ---- Progress bar -------------------------------------------------------
+   Driven by a GSAP quickSetter on scaleX instead of a React width, so the
+   scroll handler no longer re-renders seventeen cards per frame. */
+.expert-progress-fill {
+    width: 100%;
+    transform: scaleX(0.02);
+    transform-origin: 0 50%;
+    transition: none;
+    will-change: transform;
+}
+
+/* ==========================================================================
+   PINNED HORIZONTAL MODE  (desktop, carousel view, motion allowed)
+   ========================================================================== */
+
+.expert-pin-inner {
+    position: relative;
+    width: 100%;
+}
+
+/* The section is an ANCESTOR of the pinned element, so it must not clip or
+   transform — position:fixed pinning breaks inside either. Clipping happens
+   on .expert-display-area, which sits below the pin. */
+.expert-services-section.is-pin-active {
+    overflow: visible;
+    max-width: none;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.is-pin-active .expert-ambient-glow {
+    opacity: 0.28;
+}
+
+.is-pin-active .expert-glow-1 { left: 0; }
+.is-pin-active .expert-glow-2 { right: 0; }
+
+.is-pin-active .expert-pin-inner {
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(0.5rem, 1.6vh, 1.4rem);
+    padding: clamp(1.5rem, 4vh, 3rem) 0;
+}
+
+/* The header and control panel keep the old measured column width; only
+   the card track goes full-bleed. */
+.is-pin-active .expert-services-container {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 3.5vw, 3rem);
+    flex: 0 0 auto;
+}
+
+.is-pin-active .expert-services-header {
+    margin-bottom: clamp(1rem, 2.2vh, 1.8rem);
+    transform-origin: 50% 0;
+    will-change: transform, opacity;
+}
+
+.is-pin-active .expert-display-area {
+    flex: 0 1 auto;
+    overflow: hidden;           /* clips the travelling track */
+    padding: 0;
+}
+
+/* Transform-driven, not scroll-driven. position:relative so the shells'
+   offsetLeft is measured against the track itself. */
+.is-pin-active .expert-services-track.is-slider {
+    position: relative;
+    overflow: visible;
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    perspective: 1800px;
+    padding: 34px clamp(1rem, 3.5vw, 3rem) 40px;
+    will-change: transform;
+}
+
+.is-pin-active .expert-services-track.is-slider .expert-card-shell {
+    flex: 0 0 clamp(310px, 25vw, 400px);
+    min-width: 0;
+    will-change: transform, opacity;
+}
+
+/* Glass is expensive to composite while seventeen cards translate every
+   frame. The card gradient already resolves to near-opaque, so dropping
+   the backdrop blur costs almost nothing visually and buys back the
+   frame budget the pin needs. */
+.is-pin-active .expert-services-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(175deg, rgba(31, 41, 61, 0.96) 0%, rgba(15, 23, 42, 0.97) 60%, rgba(2, 6, 23, 0.99) 100%);
+}
+
+/* Arrows move inside the clip once the section is full-bleed. */
+.is-pin-active .expert-nav-prev { left: clamp(0.6rem, 2vw, 1.6rem); }
+.is-pin-active .expert-nav-next { right: clamp(0.6rem, 2vw, 1.6rem); }
+
+.is-pin-active .expert-services-dots {
+    flex: 0 0 auto;
+    margin: clamp(0.6rem, 1.6vh, 1.2rem) auto 0;
+}
+
+/* ---- Scroll hint --------------------------------------------------------
+   Only shown while the section holds the viewport, so the reader knows the
+   page has not stopped responding. */
+.expert-scroll-hint {
+    position: absolute;
+    bottom: clamp(0.75rem, 2.5vh, 1.6rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.42);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.expert-scroll-hint.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.expert-scroll-hint-line {
+    display: block;
+    width: 44px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #f97316);
+    animation: expertHintSweep 1.9s ease-in-out infinite;
+}
+
+@keyframes expertHintSweep {
+    0%, 100% { transform: translateX(-6px); opacity: 0.4; }
+    50%      { transform: translateX(6px);  opacity: 1; }
+}
+
+/* The hint is decorative; the pin itself is the affordance. */
+@media (max-width: 1024px) {
+    .expert-scroll-hint { display: none; }
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   Everything above is decoration. With motion off the section is a plain
+   scrolling grid — no pin, no depth, no sweep.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    .expert-services-section.is-pin-active {
+        max-width: 1400px;
+        overflow: hidden;
+        padding: clamp(4rem, 9vh, 7.5rem) clamp(1rem, 3.5vw, 3rem);
+    }
+
+    .is-pin-active .expert-pin-inner {
+        height: auto;
+        display: block;
+        padding: 0;
+    }
+
+    .is-pin-active .expert-display-area { overflow: visible; }
+
+    .is-pin-active .expert-services-track.is-slider {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        perspective: none;
+    }
+
+    .expert-card-shell { opacity: 1 !important; transform: none !important; }
+
+    .expert-scroll-hint,
+    .expert-scroll-hint-line { animation: none; }
+
+    .expert-progress-fill { transform: scaleX(1); }
+}
+
+/* --------------------------------------------------------------------------
+   PINNED MODE — fitting a card, a header and a control bar into one viewport
+   --------------------------------------------------------------------------
+   While pinned the section gets exactly 100vh and no more, so anything that
+   overflows is simply lost behind the clip. Card width is tied to viewport
+   HEIGHT as well as width (the 46vh term), which keeps a 16:9 media box plus
+   its body inside a short laptop screen instead of spilling past the fold.
+   -------------------------------------------------------------------------- */
+
+.is-pin-active .expert-services-track.is-slider .expert-card-shell {
+    flex: 0 0 clamp(300px, min(25vw, 46vh), 400px);
+}
+
+.is-pin-active .expert-services-main-title {
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+}
+
+.is-pin-active .expert-services-sub {
+    font-size: clamp(0.88rem, 1vw, 1rem);
+    margin-top: 0.85rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.is-pin-active .expert-services-eyebrow {
+    margin-bottom: 0.9rem;
+}
+
+.is-pin-active .expert-control-panel {
+    margin-bottom: 1rem;
+}
+
+/* The scrub bar already reports position continuously; seventeen dots on
+   top of it are redundant here and cost a row of vertical space the card
+   needs more. They come straight back in grid mode and on mobile. */
+.is-pin-active .expert-services-dots {
+    display: none;
+}
+
+/* Short screens: the subtitle is the first thing to go, then the eyebrow. */
+@media (max-height: 820px) {
+    .is-pin-active .expert-services-sub { display: none; }
+    .is-pin-active .expert-services-header { margin-bottom: 0.9rem; }
+}
+
+@media (max-height: 700px) {
+    .is-pin-active .expert-services-eyebrow { display: none; }
+    .is-pin-active .expert-services-main-title { font-size: clamp(1.6rem, 2.8vw, 2.2rem); }
+    .is-pin-active .expert-card-desc { -webkit-line-clamp: 2; }
+    .is-pin-active .expert-services-track.is-slider { padding-top: 22px; padding-bottom: 26px; }
+}
+
+/* ==========================================================================
+   EXPERT SERVICES — DESIGN SYSTEM ALIGNMENT
+   --------------------------------------------------------------------------
+   The section was built against Tailwind's default palette — orange-500
+   (#f97316), sky-400 (#38bdf8), slate-900 (15 23 42) — none of which are
+   Inker colours. Everything below moves it onto the same tokens, surface
+   recipe, type scale and easing as .hm-glass / .hm-feature-card, the cards
+   that sit directly above it on this page.
+
+   Brand:  --c-lime #eb670e   --c-violet #2a3582
+   Surface: --c-surface #0c0c10  --c-void #030304
+   Ink:    --c-ink #f4f4f6  --c-ink-dim 62%  --c-ink-faint 34%
+   Easing: --e-out
+   ========================================================================== */
+
+/* ---- Section atmosphere -------------------------------------------------- */
+.expert-glow-1 {
+    background: radial-gradient(circle, rgba(235, 103, 14, 0.34) 0%, transparent 70%);
+}
+
+/* was sky-400; the site's second accent is cobalt, not cyan */
+.expert-glow-2 {
+    background: radial-gradient(circle, rgba(42, 53, 130, 0.42) 0%, transparent 70%);
+}
+
+/* ---- Header -------------------------------------------------------------- */
+/* Matches .hm-pill: 9.5px, 0.3em tracking, lime on a lime wash. */
+.expert-services-eyebrow {
+    padding: 0.5rem 1.1rem;
+    background: rgba(235, 103, 14, 0.08);
+    border: 1px solid rgba(235, 103, 14, 0.3);
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--c-lime);
+}
+
+.expert-serial-badge {
+    color: var(--c-ink-faint);
+    letter-spacing: 0.22em;
+}
+
+/* .hm-features-title weights: 700, not 900. */
+.expert-services-main-title {
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    color: var(--c-ink);
+}
+
+/* The site's gradient is violet → lime at 100deg (.hm-features-title .grad).
+   Overrides the placeholder set in the cinematic layer above. */
+.expert-gradient-text .m-word-c {
+    background: linear-gradient(100deg, var(--c-violet), var(--c-lime));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: none;
+}
+
+.expert-services-sub {
+    color: var(--c-ink-dim);
+    max-width: var(--measure-tight, 46ch);
+}
+
+/* ---- Control panel ------------------------------------------------------- */
+.expert-cat-pill {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--c-ink-dim);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s var(--e-out);
+}
+
+.expert-cat-pill:hover {
+    background: rgba(235, 103, 14, 0.08);
+    border-color: rgba(235, 103, 14, 0.3);
+    color: var(--c-ink);
+}
+
+.expert-cat-pill.is-active {
+    background: var(--c-lime);
+    border-color: var(--c-lime);
+    color: #ffffff;
+    box-shadow: 0 6px 18px -4px rgba(235, 103, 14, 0.5);
+}
+
+.expert-cat-count {
+    background: rgba(0, 0, 0, 0.32);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.expert-cat-pill.is-active .expert-cat-count {
+    background: rgba(0, 0, 0, 0.25);
+    color: #ffffff;
+}
+
+/* JetBrains Mono ships 400/500/600 here — 700 was being synthesised. */
+.expert-counter-hud {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--c-ink-faint);
+    border-color: var(--c-line);
+}
+
+.expert-counter-current {
+    color: var(--c-lime);
+    font-size: 13px;
+}
+
+.expert-counter-sep { color: var(--c-ink-faint); }
+
+.expert-layout-btn { transition: all 0.25s var(--e-out); }
+.expert-layout-btn:hover { color: var(--c-ink); }
+.expert-layout-btn.is-active {
+    background: rgba(235, 103, 14, 0.14);
+    color: var(--c-lime);
+}
+
+/* Same violet → lime ramp as the section heading. */
+.expert-progress-fill {
+    background: linear-gradient(100deg, var(--c-violet), var(--c-lime));
+    box-shadow: 0 0 12px rgba(235, 103, 14, 0.45);
+}
+
+/* ---- Navigation ---------------------------------------------------------- */
+.expert-nav-btn {
+    background: rgba(12, 12, 16, 0.85);
+    border: 1px solid var(--c-line-strong);
+    color: var(--c-ink);
+    transition: all 0.3s var(--e-out);
+}
+
+.expert-nav-btn:hover:not(:disabled) {
+    background: var(--c-lime);
+    border-color: var(--c-lime);
+    box-shadow: 0 0 28px rgba(235, 103, 14, 0.5);
+}
+
+.expert-dot { transition: all 0.35s var(--e-out); }
+
+.expert-dot.is-active {
+    background: var(--c-lime);
+    box-shadow: 0 0 12px rgba(235, 103, 14, 0.6);
+}
+
+/* ==========================================================================
+   THE CARD — rebuilt on the .hm-glass surface recipe
+   ========================================================================== */
+
+.expert-services-card {
+    background:
+        linear-gradient(158deg,
+            rgba(255, 255, 255, 0.055) 0%,
+            rgba(255, 255, 255, 0.012) 55%,
+            rgba(255, 255, 255, 0.03) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 22px;
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+    transition:
+        border-color 0.6s var(--e-out),
+        box-shadow 0.6s var(--e-out);
+}
+
+.expert-services-card:hover {
+    border-color: rgba(235, 103, 14, 0.4);
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.7),
+        0 0 40px -8px rgba(235, 103, 14, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* The two layers that make .hm-glass read as glass, folded into one
+   pseudo-element because ::before is already the pointer spotlight:
+   a specular sweep off the top-left, and an accent bleed in the far
+   corner. The blurred offset circle of the original is approximated
+   with an in-box radial gradient — same read, no filter:blur, which
+   matters when seventeen of these translate every frame. */
+.expert-services-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+        radial-gradient(120% 60% at 20% -10%, rgba(255, 255, 255, 0.14), transparent 62%),
+        radial-gradient(62% 46% at 116% 126%, rgba(42, 53, 130, 0.3), transparent 70%);
+}
+
+/* Accent bleed follows the category, the way .hm-glass.accent-lime does. */
+.expert-services-card[data-accent='robotics']::after,
+.expert-services-card[data-accent='careers']::after {
+    background:
+        radial-gradient(120% 60% at 20% -10%, rgba(255, 255, 255, 0.14), transparent 62%),
+        radial-gradient(62% 46% at 116% 126%, rgba(235, 103, 14, 0.22), transparent 70%);
+}
+
+/* Pointer spotlight, retinted from orange-500 to brand orange. */
+.expert-services-card::before {
+    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(235, 103, 14, 0.16), transparent 60%);
+}
+
+.expert-card-corner {
+    border-color: rgba(235, 103, 14, 0.4);
+    transition: border-color 0.45s var(--e-out);
+}
+
+.expert-services-card:hover .expert-card-corner {
+    border-color: var(--c-lime);
+}
+
+/* ---- Card micro-type ------------------------------------------------------
+   The site's micro label is 9px at 0.22–0.24em, uppercase, ink-faint
+   (.hm-feature-badge, .hm-feature-foot). The card was running 0.68–0.72rem
+   at 0.06–0.08em, which read as small body copy rather than as a label. */
+.expert-card-serial {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--c-ink-faint);
+}
+
+.expert-card-badge {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    padding: 4px 8px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--c-line);
+    color: var(--c-ink-dim);
+}
+
+.expert-quick-view-btn {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: rgba(235, 103, 14, 0.1);
+    border: 1px solid rgba(235, 103, 14, 0.28);
+    color: var(--c-lime);
+    transition: all 0.25s var(--e-out);
+}
+
+.expert-quick-view-btn:hover {
+    background: var(--c-lime);
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(235, 103, 14, 0.5);
+    transform: none;          /* the card owns the transform; see JS tilt */
+}
+
+/* ---- Media ----------------------------------------------------------------
+   Concentric radius: a 22px outer with 16px of padding wants ~6–8px inside.
+   At 14px the inner curve visibly fought the outer one. */
+.expert-card-media-wrap {
+    border-radius: 8px;
+    background: var(--c-void);
+}
+
+.expert-card-media {
+    transition: transform 0.8s var(--e-out);
+}
+
+.expert-scanline-overlay { opacity: 0.28; }
+
+.expert-live-pill {
+    border-radius: 4px;
+    background: rgba(3, 3, 4, 0.72);
+    border: 1px solid var(--c-line-strong);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--c-ink);
+}
+
+/* Reuses the site's own live-status dot — same colour, same hm-pulse
+   keyframes already defined for .hm-dot above. It was a Tailwind green. */
+.expert-live-dot,
+.expert-pulse-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--c-lime);
+    box-shadow: 0 0 0 0 rgba(235, 103, 14, 0.6);
+    animation: hm-pulse 2.4s ease-out infinite;
+}
+
+.expert-play-circle {
+    background: var(--c-lime);
+    box-shadow: 0 0 22px rgba(235, 103, 14, 0.55);
+    transition: transform 0.3s var(--e-out);
+}
+
+.expert-media-play-hud {
+    background: rgba(3, 3, 4, 0.42);
+    transition: opacity 0.4s var(--e-out);
+}
+
+/* ---- Card body ------------------------------------------------------------
+   .hm-feature-card h3: 700, uppercase, 0.01em, lime on hover. */
+.expert-card-title {
+    font-size: clamp(1rem, 1.35vw, 1.18rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    line-height: 1.22;
+    color: var(--c-ink);
+    transition: color 0.45s var(--e-out);
+}
+
+.expert-services-card:hover .expert-card-title {
+    color: var(--c-lime);
+}
+
+.expert-card-desc {
+    font-size: 0.82rem;
+    line-height: 1.62;
+    color: var(--c-ink-faint);
+}
+
+.expert-hl-pill {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--c-line);
+    color: var(--c-ink-faint);
+    transition: color 0.45s var(--e-out), border-color 0.45s var(--e-out);
+}
+
+.expert-services-card:hover .expert-hl-pill {
+    color: var(--c-ink-dim);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ---- Card footer ----------------------------------------------------------
+   .hm-feature-foot's rule above the row, plus the .ink-social-pill button
+   language used everywhere else on the site: 999px, mono, 0.12em, fills
+   lime on hover. */
+.expert-card-actions {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 0.9rem;
+}
+
+.expert-card-cta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 15px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.85);
+    transition: all 0.25s var(--e-out);
+}
+
+.expert-card-cta:hover {
+    background: var(--c-lime);
+    border-color: var(--c-lime);
+    color: #ffffff;
+    box-shadow: 0 6px 18px -4px rgba(235, 103, 14, 0.5);
+    transform: none;          /* lift is on the card, not the button */
+}
+
+.expert-card-cta svg { transition: transform 0.5s var(--e-out); }
+.expert-card-cta:hover svg { transform: translateX(4px); }
+
+.expert-card-inquire {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-ink-faint);
+    border-radius: 999px;
+    transition: all 0.25s var(--e-out);
+}
+
+.expert-card-inquire:hover {
+    color: var(--c-ink);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Pinned mode drops the backdrop blur for frame budget; keep the same
+   surface reading by resolving the glass gradient over the page black. */
+.is-pin-active .expert-services-card {
+    background:
+        linear-gradient(158deg,
+            rgba(23, 23, 28, 0.99) 0%,
+            rgba(12, 12, 16, 0.99) 55%,
+            rgba(8, 8, 11, 0.99) 100%);
+}
+
+/* ---- Modal ---------------------------------------------------------------- */
+.expert-modal-backdrop { background: rgba(3, 3, 4, 0.82); }
+
+.expert-modal-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-line-strong);
+}
+
+.expert-modal-serial,
+.expert-modal-cat,
+.expert-modal-highlights-title {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+}
+
+.expert-modal-serial { color: var(--c-lime); }
+.expert-modal-cat,
+.expert-modal-highlights-title { color: var(--c-ink-faint); }
+
+.expert-modal-title {
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--c-ink);
+}
+
+.expert-modal-desc { color: var(--c-ink-dim); }
+
+.expert-modal-pill {
+    border-radius: 999px;
+    border: 1px solid var(--c-line);
+    color: var(--c-ink-dim);
+}
+
+.expert-modal-pill svg { color: var(--c-lime); }
+
+.expert-modal-btn-primary {
+    border-radius: 999px;
+    background: var(--c-lime);
+    border: 1px solid var(--c-lime);
+    letter-spacing: 0.08em;
+    transition: all 0.25s var(--e-out);
+}
+
+.expert-modal-btn-primary:hover {
+    box-shadow: 0 8px 24px -6px rgba(235, 103, 14, 0.55);
+}
+
+.expert-modal-btn-secondary {
+    border-radius: 999px;
+    border: 1px solid var(--c-line-strong);
+    color: var(--c-ink-dim);
+    transition: all 0.25s var(--e-out);
+}
+
+.expert-modal-btn-secondary:hover { color: var(--c-ink); }
+
+.expert-modal-close {
+    border: 1px solid var(--c-line-strong);
+    color: var(--c-ink-dim);
+    transition: all 0.25s var(--e-out);
+}
+
+.expert-modal-close:hover {
+    background: var(--c-lime);
+    border-color: var(--c-lime);
+    color: #ffffff;
+}
+
+/* ---- Final sweep: base-state shadows the block above missed ---------------- */
+.expert-modal-card {
+    box-shadow:
+        0 25px 60px -15px rgba(0, 0, 0, 0.9),
+        0 0 40px rgba(235, 103, 14, 0.18);
+}
+
+.expert-modal-btn-primary {
+    box-shadow: 0 4px 20px rgba(235, 103, 14, 0.35);
+}
+
+.expert-scroll-hint-line {
+    background: linear-gradient(90deg, transparent, var(--c-lime));
+}
+
+/* ==========================================================================
+   EXPERT SERVICES — LEGIBILITY CORRECTIONS
+   ========================================================================== */
+
+/* ---- Heading -------------------------------------------------------------
+   "SERVICES" is no longer character-split (see the note in the component),
+   so the gradient goes back on the element itself, where background-clip:text
+   has real text to clip against. Same violet → lime ramp as
+   .hm-features-title .grad. */
+.expert-gradient-text {
+    background: linear-gradient(100deg, var(--c-violet), var(--c-lime));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: none;
+}
+
+/* Overflow box for the whole-word rise. padding/margin pair gives the
+   descender room the clip would otherwise eat. */
+.expert-title-mask {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+}
+
+/* ---- Body copy contrast --------------------------------------------------
+   The alignment pass put the card description on --c-ink-faint to match
+   .hm-feature-card p. But those cards run clamp(1.6rem, 2.4vw, 2.3rem) of
+   padding and a 3-line paragraph in isolation; this one is 0.82rem in a
+   dense column under a video. Description and highlight pills move up to
+   --c-ink-dim (68%), which is what the site's own typography sheet calls
+   "body copy that doesn't strain at small sizes". */
+.expert-card-desc {
+    color: var(--c-ink-dim);
+}
+
+.expert-hl-pill {
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    color: var(--c-ink-dim);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.expert-services-card:hover .expert-hl-pill {
+    color: var(--c-ink);
+    border-color: rgba(235, 103, 14, 0.3);
+}
+
+/* 9px at 0.24em is a label, not a caption — it holds at that size only
+   because it is uppercase mono with real tracking. Where the text is a
+   genuine value the reader needs, it gets a point back. */
+.expert-card-serial {
+    font-size: 9.5px;
+    color: var(--c-ink-dim);
+}
+
+.expert-card-badge {
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: var(--c-ink-dim);
+}
+
+.expert-quick-view-btn { font-size: 9.5px; }
+
+.expert-card-cta,
+.expert-card-inquire {
+    font-size: 10.5px;
+}
+
+.expert-card-inquire { color: var(--c-ink-dim); }
+
+/* Card title had dropped to clamp(1rem, 1.35vw, 1.18rem) to match the
+   feature cards. Uppercase at that size in a narrow column reads cramped
+   next to the media box above it. */
+.expert-card-title {
+    font-size: clamp(1.02rem, 1.4vw, 1.24rem);
+    letter-spacing: 0.015em;
+}
+
+.expert-counter-hud { color: var(--c-ink-dim); }
+.expert-serial-badge { color: var(--c-ink-dim); }
+
+.expert-cat-pill { font-size: 11px; }

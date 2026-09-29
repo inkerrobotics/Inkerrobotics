@@ -1,0 +1,92 @@
+/* ==================================================================
+   ADMIN PANEL — dark theme
+   The panel is built almost entirely from inline styles, so this sheet
+   only has to catch the things inline styles don't reach: form control
+   internals, table chrome, placeholders and native widgets.
+   Accent here is violet rather than lime, because the existing markup
+   puts white text on the accent and violet is the one that stays legible.
+   ================================================================== */
+
+.admin-root { background: #05050A; min-height: 100vh; }
+
+/* The public site's halftone dust and cinematic chrome don't belong
+   over a CRUD panel. */
+.admin-root ~ .cine-grain,
+.admin-root ~ .cine-vignette { display: none; }
+
+.admin-root input,
+.admin-root select,
+.admin-root textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-radius: 5px;
+  font-family: inherit;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.admin-root input::placeholder,
+.admin-root textarea::placeholder { color: rgba(255, 255, 255, 0.30); }
+
+.admin-root input:focus,
+.admin-root select:focus,
+.admin-root textarea:focus {
+  outline: none;
+  border-color: #eb670e;
+  box-shadow: 0 0 0 3px rgba(235, 103, 14, 0.22);
+}
+
+/* Native dropdown lists render with the OS palette unless told otherwise */
+.admin-root select option { background: #0B0B10; color: #fff; }
+
+/* Date/time pickers and file buttons ship black glyphs by default */
+.admin-root input[type="date"],
+.admin-root input[type="datetime-local"],
+.admin-root input[type="time"] { color-scheme: dark; }
+.admin-root input[type="file"] { color: rgba(255, 255, 255, 0.6); }
+.admin-root input[type="file"]::file-selector-button {
+  background: rgba(235, 103, 14, 0.9);
+  color: #fff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 4px;
+  margin-right: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.admin-root input[type="checkbox"],
+.admin-root input[type="radio"] { accent-color: #eb670e; }
+
+.admin-root table { border-color: rgba(255, 255, 255, 0.10); }
+.admin-root th {
+  color: rgba(255, 255, 255, 0.45);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+.admin-root td { color: rgba(255, 255, 255, 0.82); }
+.admin-root tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+
+.admin-root a { color: inherit; }
+.admin-root hr { border: none; border-top: 1px solid rgba(255, 255, 255, 0.10); }
+.admin-root code, .admin-root pre {
+  background: rgba(255, 255, 255, 0.06);
+  color: #eb670e;
+  border-radius: 3px;
+}
+
+/* Scrollbars inside admin panes stay visible — you need them here. */
+.admin-root *::-webkit-scrollbar { width: 10px; height: 10px; display: block; }
+.admin-root *::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); }
+.admin-root *::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 5px;
+}
+.admin-root *::-webkit-scrollbar-thumb:hover { background: rgba(235, 103, 14, 0.6); }
+
+/* The halftone wash and hidden scrollbars are page furniture, not admin
+   furniture — switch them off once the panel is mounted. */
+body.is-admin::after { display: none; }
+body.is-admin { background: #05050A; }
+body.is-admin,
+body.is-admin html { scrollbar-width: auto; -ms-overflow-style: auto; }
+body.is-admin::-webkit-scrollbar { display: block; width: 10px; }
+body.is-admin::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+body.is-admin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.16); border-radius: 5px; }

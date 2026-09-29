@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: inker-robotics
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    region: singapore
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: NOTIFY_EMAIL
+        value: info@inkerrobotics.com
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://inkerrobotics.onrender.com
+      - key: NEXT_PUBLIC_API_URL
+        value: https://inkerrobotics.onrender.com
+      - key: FRONTEND_URL
+        value: https://inkerrobotics.onrender.com
+      - key: NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+        value: 6LdhWBctAAAAAOffK5BWiQPitSYCaI9_VK5d4tZO
+
+      # Set these in the Render dashboard — never commit real values
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: ADMIN_SECRET
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RECAPTCHA_SECRET_KEY
+        sync: false

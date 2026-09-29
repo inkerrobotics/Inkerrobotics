@@ -1,0 +1,2245 @@
+/* ==================================================================
+   INKER ADDITIONS
+   Small layer on top of the reference stylesheets — only the pieces
+   Inker's content needs that the reference didn't have a slot for.
+   ================================================================== */
+
+/* --- hero copy sitting over the pinned robot sequence -------------- */
+.hero-text-block {
+  position: absolute;
+  left: clamp(20px, 4vw, 64px);
+  bottom: clamp(48px, 9vh, 110px);
+  z-index: 30;
+  max-width: 17ch;
+  pointer-events: none;
+}
+.hero-text-block .cine-eyebrow { margin-bottom: 18px; }
+.hero-main-title {
+  font-weight: 800;
+  font-size: clamp(34px, 5vw, 86px);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin: 0;
+  text-shadow: 0 8px 60px rgba(0, 0, 0, 0.85);
+}
+.hero-btn-group {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  pointer-events: auto;
+}
+@media (max-width: 900px) {
+  .hero-text-block { max-width: none; right: clamp(20px, 4vw, 64px); }
+}
+
+/* --- the split beside the interactive hand ------------------------ */
+.hand-feature-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+  padding: clamp(24px, 4vw, 64px);
+}
+.hand-feature-left .cine-h2 { max-width: 15ch; }
+.hand-feature-left .cine-body { max-width: 46ch; }
+
+/* --- home sign-off ------------------------------------------------ */
+.hm-signoff {
+  padding: clamp(70px, 12vh, 150px) 0 clamp(50px, 8vh, 100px);
+  text-align: center;
+}
+
+/* --- solution page: stat + spec rows ------------------------------ */
+.ink-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 2.5rem;
+}
+.ink-spec {
+  background: #000;
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ink-spec b {
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #fff;
+}
+.ink-spec b i { font-style: normal; color: #eb670e; }
+.ink-spec small {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* --- bullet list used across the solution pages ------------------- */
+.ink-list { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 12px; }
+.ink-list li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.66);
+}
+.ink-list li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 9px;
+  width: 9px; height: 9px;
+  background: #eb670e;
+  transform: rotate(45deg);
+}
+
+/* --- careers: role rows ------------------------------------------- */
+.ink-roles { display: grid; gap: 14px; margin-top: 2.5rem; }
+.ink-role {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 26px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  transition: border-color 300ms cubic-bezier(.16,1,.3,1), background 300ms cubic-bezier(.16,1,.3,1);
+}
+.ink-role:hover {
+  border-color: rgba(235, 103, 14, 0.45);
+  background: rgba(255, 255, 255, 0.06);
+}
+.ink-role h4 {
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0;
+}
+.ink-role-meta {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 8px;
+}
+
+/* --- contact: form on the reference's glass ----------------------- */
+.ink-form { display: grid; gap: 18px; }
+.ink-field { display: flex; flex-direction: column; gap: 9px; }
+.ink-field label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+.ink-form input,
+.ink-form select,
+.ink-form textarea {
+  width: 100%;
+  padding: 15px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+.ink-form input::placeholder,
+.ink-form textarea::placeholder { color: rgba(255, 255, 255, 0.28); }
+.ink-form input:focus,
+.ink-form select:focus,
+.ink-form textarea:focus {
+  outline: none;
+  border-color: #eb670e;
+  box-shadow: 0 0 0 3px rgba(235, 103, 14, 0.18);
+}
+.ink-form select option { background: #0B0B10; color: #fff; }
+.ink-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 700px) { .ink-form-row { grid-template-columns: 1fr; } }
+
+.ink-submit {
+  justify-self: start;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 100px;
+  background: #eb670e;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 200ms cubic-bezier(.16,1,.3,1), box-shadow 200ms cubic-bezier(.16,1,.3,1);
+}
+.ink-submit:hover { transform: translateY(-2px); box-shadow: 0 16px 44px -14px rgba(235, 103, 14, 0.6); }
+.ink-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* --- contact detail rail ------------------------------------------ */
+.ink-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+}
+@media (max-width: 980px) { .ink-contact-grid { grid-template-columns: 1fr; } }
+
+
+
+.ink-detail { 
+  padding: 22px 0; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10); 
+  transition: border-color 0.3s ease;
+}
+.ink-detail:hover {
+  border-bottom-color: rgba(235, 103, 14, 0.25);
+}
+.ink-detail dt {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-lime, #eb670e);
+  margin-bottom: 8px;
+}
+.ink-detail dd { 
+  margin: 0; 
+  font-size: 17px; 
+  color: #ffffff; 
+  line-height: 1.5;
+}
+.ink-detail dd a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease, transform 0.2s ease;
+  display: inline-block;
+}
+.ink-detail dd a:hover {
+  color: var(--c-lime, #eb670e);
+}
+.ink-social-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.ink-social-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 15px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ink-social-pill:hover {
+  color: #ffffff !important;
+  background: var(--c-lime, #eb670e);
+  border-color: var(--c-lime, #eb670e);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px -4px rgba(235, 103, 14, 0.5);
+}
+
+/* --- gallery grid ------------------------------------------------- */
+.ink-gal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+.ink-gal-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
+  background: #08080c;
+}
+.ink-gal-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 700ms cubic-bezier(.16,1,.3,1);
+  filter: none !important;
+}
+.ink-gal-item:hover img { transform: scale(1.06); filter: none !important; }
+.ink-gal-cap {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 40px 18px 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.ink-gal-item:hover .ink-gal-cap { opacity: 1; }
+
+/* --- lightbox ------------------------------------------------------ */
+.ink-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background: rgba(0, 0, 0, 0.94);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 5vw;
+}
+.ink-lightbox img { max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: 10px; }
+.ink-lightbox-close {
+  position: absolute;
+  top: 24px; right: 28px;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* ==================================================================
+   PRESS BOARD — the gallery's second collage
+   Newspaper cuttings pinned to a board. Deliberately a different
+   object to the hero collage: paper-toned, tilted, taped down, and
+   staggered in three depth layers that drift at their own rates.
+   ================================================================== */
+
+.cg-press {
+  position: relative;
+  padding: clamp(6rem, 14vh, 11rem) var(--gutter, clamp(1.25rem, 5vw, 5.5rem));
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* faint newsprint grid behind the board */
+.cg-press::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 40%, #000 25%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 25%, transparent 78%);
+  pointer-events: none;
+}
+
+.cg-press-head {
+  position: relative;
+  max-width: 62ch;
+  margin: 0 auto clamp(3rem, 7vh, 5.5rem);
+  text-align: center;
+  display: grid;
+  gap: 1.1rem;
+  justify-items: center;
+}
+.cg-press-rule {
+  width: min(340px, 60%);
+  height: 1px;
+  background: rgba(255, 255, 255, 0.10);
+  overflow: hidden;
+  margin-top: 0.6rem;
+}
+.cg-press-rule i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, var(--c-lime, #C6FF33), transparent);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* --- the board -------------------------------------------------- */
+.cg-press-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 5vw, 4.5rem) clamp(2rem, 6vw, 6rem);
+  max-width: 1280px;
+  margin: 0 auto;
+  align-items: start;
+}
+/* stagger the columns so the pile never reads as a table */
+.cg-press-board > .cg-clip:nth-child(odd)  { margin-top: clamp(0rem, 4vh, 3.5rem); }
+.cg-press-board > .cg-clip:nth-child(4n)   { margin-top: clamp(0rem, 7vh, 6rem); }
+
+/* --- a single cutting -------------------------------------------- */
+.cg-clip {
+  position: relative;
+  display: grid;
+  gap: 1.25rem;
+  cursor: pointer;
+  will-change: transform, filter;
+  transition: filter 0.6s var(--e-out, cubic-bezier(.16,1,.3,1));
+}
+.cg-clip.z-1 { z-index: 3; }
+.cg-clip.z-2 { z-index: 2; }
+.cg-clip.z-3 { z-index: 1; }
+
+.cg-clip-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #0c0c10;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+  aspect-ratio: 4 / 3;
+}
+.cg-clip.z-1 .cg-clip-media { aspect-ratio: 5 / 4; }
+.cg-clip.z-3 .cg-clip-media { aspect-ratio: 3 / 2; }
+
+.cg-clip-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: none !important;
+  transition: transform 0.85s var(--e-out, cubic-bezier(.16,1,.3,1));
+}
+.cg-clip:hover .cg-clip-media img {
+  filter: none !important;
+  transform: scale(1.035);
+}
+
+/* a strip of tape holding the cutting to the board */
+.cg-clip-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 92px;
+  height: 26px;
+  transform: translateX(-50%) rotate(-2.5deg);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0.07)
+  );
+  border-left: 1px dashed rgba(255, 255, 255, 0.16);
+  border-right: 1px dashed rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  pointer-events: none;
+}
+.cg-clip:nth-child(even) .cg-clip-tape { transform: translateX(-50%) rotate(3deg); }
+
+@media (max-width: 860px) {
+  .cg-press-board { grid-template-columns: 1fr; gap: 3rem; }
+  .cg-press-board > .cg-clip:nth-child(odd),
+  .cg-press-board > .cg-clip:nth-child(4n) { margin-top: 0; }
+  .cg-clip-headline, .cg-clip.z-1 .cg-clip-headline { max-width: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cg-clip { transform: none !important; filter: none !important; }
+  .cg-press-rule i { transform: scaleX(1); }
+}
+
+/* ==================================================================
+   NEWSPRINT — the clipping copy set as an actual cutting
+   Warm paper stock against the black board, Didone headline, hairline
+   rules, a dateline, a drop cap and two justified columns. The paper
+   panel is deliberately light: a real cutting is ink on newsprint, and
+   the contrast against the dark page is what sells it.
+   ================================================================== */
+
+.cg-clip-copy {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(1.6rem, 2.6vw, 2.6rem) clamp(1.5rem, 2.4vw, 2.4rem) clamp(1.4rem, 2vw, 2rem);
+  border-radius: 2px;
+  color: #14120e;
+  /* newsprint stock: warm, slightly uneven, never pure white */
+  background:
+    radial-gradient(120% 80% at 12% 0%, rgba(255, 252, 244, 0.9), transparent 60%),
+    linear-gradient(176deg, #f2ece0 0%, #e9e2d3 48%, #e3dbc9 100%);
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.55),
+    inset 0 0 60px rgba(120, 100, 60, 0.10);
+  font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+}
+
+/* halftone screen + fibre — the texture that reads as cheap paper */
+.cg-clip-copy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background-image:
+    radial-gradient(rgba(20, 18, 14, 0.16) 0.5px, transparent 0.6px),
+    repeating-linear-gradient(90deg, rgba(120, 100, 60, 0.05) 0 1px, transparent 1px 3px);
+  background-size: 3px 3px, 3px 3px;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* a soft vertical crease, as though the page was folded once */
+.cg-clip-copy::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 38%;
+  width: 26px;
+  z-index: -1;
+  background: linear-gradient(90deg, transparent, rgba(90, 76, 44, 0.13), transparent);
+  pointer-events: none;
+}
+
+/* --- masthead ----------------------------------------------------- */
+.cg-clip-masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.cg-clip-paper {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(0.95rem, 1.5vw, 1.3rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #14120e;
+}
+.cg-clip-kind {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6a5f4a;
+  white-space: nowrap;
+}
+
+.cg-clip-hairline {
+  height: 3px;
+  margin: 0.75rem 0 0.9rem;
+  border-top: 1.5px solid #14120e;
+  border-bottom: 0.5px solid #14120e;
+}
+.cg-clip-hairline.thin {
+  height: 0;
+  border-bottom: none;
+  border-top: 0.5px solid rgba(20, 18, 14, 0.45);
+  margin: 0.85rem 0 0.9rem;
+}
+
+/* --- headline ----------------------------------------------------- */
+.cg-clip-headline {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-weight: 900;
+  font-size: clamp(1.35rem, 2.4vw, 2.05rem);
+  line-height: 1.05;
+  letter-spacing: -0.012em;
+  color: #14120e;
+  text-wrap: balance;
+}
+.cg-clip.z-1 .cg-clip-headline { font-size: clamp(1.6rem, 3vw, 2.6rem); }
+.cg-clip.z-3 .cg-clip-headline { font-size: clamp(1.2rem, 2vw, 1.7rem); }
+
+.cg-clip-subhead {
+  margin: 0.6rem 0 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(0.82rem, 1.05vw, 0.98rem);
+  line-height: 1.35;
+  color: #453d2e;
+  text-wrap: pretty;
+}
+
+/* --- lede with drop cap ------------------------------------------- */
+.cg-clip-lede {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.62;
+  color: #221e17;
+  text-align: justify;
+  hyphens: auto;
+}
+.cg-clip-lede::first-letter {
+  float: left;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 3.05em;
+  line-height: 0.78;
+  padding: 0.06em 0.1em 0 0;
+  color: #14120e;
+}
+.cg-clip-dateline {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  color: #14120e;
+}
+
+/* --- justified columns -------------------------------------------- */
+.cg-clip-cols {
+  margin-top: 0.85rem;
+  columns: 2;
+  column-gap: 1.35rem;
+  column-rule: 0.5px solid rgba(20, 18, 14, 0.28);
+  font-size: 0.76rem;
+  line-height: 1.58;
+  color: #2c2619;
+  text-align: justify;
+  hyphens: auto;
+}
+.cg-clip-cols p { margin: 0 0 0.7rem; break-inside: avoid-column; }
+.cg-clip-cols p:last-child { margin-bottom: 0; }
+
+.cg-clip-jump {
+  display: inline-block;
+  margin-top: 0.9rem;
+  padding-top: 0.6rem;
+  border-top: 0.5px solid rgba(20, 18, 14, 0.3);
+  width: 100%;
+  font-style: italic;
+  font-size: 0.68rem;
+  color: #6a5f4a;
+  transition: color 0.4s cubic-bezier(.16, 1, .3, 1);
+}
+.cg-clip:hover .cg-clip-jump { color: #14120e; }
+
+/* the sheet lifts off the board on hover */
+.cg-clip-copy { transition: box-shadow 0.55s cubic-bezier(.16, 1, .3, 1); }
+.cg-clip:hover .cg-clip-copy {
+  box-shadow:
+    0 34px 80px rgba(0, 0, 0, 0.68),
+    0 0 0 1px rgba(235, 103, 14, 0.35),
+    inset 0 0 60px rgba(120, 100, 60, 0.10);
+}
+
+/* back layers print lighter, as though further down the pile */
+.cg-clip.z-3 .cg-clip-copy { filter: contrast(0.94) brightness(0.97); }
+
+@media (max-width: 620px) {
+  .cg-clip-cols { columns: 1; column-rule: none; }
+  .cg-clip-copy::after { display: none; }
+}
+
+/* ==================================================================
+   TYPOGRAPHY — CONTRAST, MEASURE AND ALIGNMENT
+   Loaded last, so these win over the reference sheets.
+
+   Two problems this fixes site-wide:
+
+   1. CONTRAST. The reference set --c-ink-faint to 34% white. On a pure
+      black ground that computes to a 2.9:1 contrast ratio — below the
+      4.5:1 WCAG AA floor — and it is applied to 22 different rules:
+      every eyebrow, tab, caption, scroll hint and slide number on the
+      site. Raising the token repairs all of them at once.
+
+   2. ALIGNMENT. Container widths had drifted across six values
+      (1000/1200/1240/1280/1400/1500px) and prose measure across five
+      (42/44/46/62ch), so section edges did not line up down the page.
+      Both are normalised to tokens below.
+   ================================================================== */
+
+:root {
+  /* 52% white on black ≈ 5.7:1 — comfortably AA, still clearly secondary */
+  --c-ink-faint: rgba(244, 244, 246, 0.52);
+  /* 68% ≈ 8.9:1 — body copy that doesn't strain at small sizes */
+  --c-ink-dim: rgba(244, 244, 246, 0.68);
+
+  /* one shell width for every section edge on the site */
+  --shell: 1400px;
+  /* comfortable line lengths: 62–68 characters reads best */
+  --measure: 66ch;
+  --measure-tight: 46ch;
+}
+
+/* --- 1. Optical line breaking ------------------------------------
+   `balance` evens out the lines of a heading so you never get a single
+   orphaned word on the last line; `pretty` does the lighter version for
+   body copy. This is the largest single improvement to how aligned the
+   page *looks*, because ragged heading edges read as misalignment. */
+h1, h2, h3, h4,
+.cine-display, .cine-h2, .cine-h3,
+.sv-title, .sv-hero-title, .cg-hero-title,
+.hero-main-title, .hm-panel-title, .hm-features-title,
+.ink-role h4, .cg-clip-headline {
+  text-wrap: balance;
+}
+
+p, .cine-body, .sv-copy p, .ink-list li, .cg-clip-dek {
+  text-wrap: pretty;
+}
+
+/* --- 2. Consistent measure --------------------------------------- */
+.cine-body,
+.sv-copy .cine-body,
+.sv-voices-copy .cine-body { max-width: var(--measure); }
+
+.cg-mosaic-head,
+.cg-press-head { max-width: var(--measure-tight); margin-inline: auto; }
+
+.cg-mosaic-head .cine-body,
+.cg-press-head .cine-body { max-width: none; }
+
+/* --- 3. Consistent shell width ------------------------------------
+   The press board previously sat at 1280px while the rail and hero
+   above it sat at 1400px, so its left edge stepped inward by 60px. */
+.cg-press-board { max-width: var(--shell); }
+
+/* --- 4. Prose blocks read left, not inherited-centre --------------- */
+.sv-copy,
+.sv-voices-copy,
+.ink-role,
+.ink-detail,
+.ink-field { text-align: left; }
+
+/* Centred heads centre their *block*, not just their glyphs, so the
+   optical centre matches the section's centre. */
+.cg-press-head,
+.cg-mosaic-head,
+.hm-signoff { margin-inline: auto; }
+
+/* --- 5. Vertical rhythm ------------------------------------------- */
+.sv-copy > * + * { margin-top: 1.15rem; }
+.sv-copy .sv-divider + * { margin-top: 1.5rem; }
+.cine-eyebrow + h1,
+.cine-eyebrow + h2,
+.cine-eyebrow + .sv-title,
+.cine-eyebrow + .cine-h2 { margin-top: 0.85rem; }
+
+/* --- 6. Baseline alignment in flex rows ---------------------------
+   `center` looked right until a role title wrapped to two lines, at
+   which point the Apply button floated off the first line. Top-align
+   and let the button sit on its own baseline. */
+.ink-role { align-items: flex-start; }
+.ink-role > *:last-child { margin-top: 0.35rem; }
+
+.ink-specs { align-items: stretch; }
+.ink-spec { justify-content: flex-end; }
+
+/* --- 7. Small-caps legibility -------------------------------------
+   Wide letter-spacing at 10–11px needs a touch more weight to hold
+   together, and the trailing letter-space must not push the text off
+   its right edge. */
+.cine-eyebrow,
+.ink-role-meta,
+.ink-detail dt,
+.ink-field label,
+.ink-spec small,
+.cg-clip-kind {
+  font-weight: 600;
+  text-indent: 0.02em;
+}
+.cine-eyebrow { letter-spacing: 0.28em; }
+
+/* --- 8. Remaining low-contrast literals --------------------------- */
+.statement-line { color: rgba(255, 255, 255, 0.46); }   /* was 0.30 — unreadable */
+.ink-form input::placeholder,
+.ink-form textarea::placeholder,
+.admin-root input::placeholder,
+.admin-root textarea::placeholder { color: rgba(255, 255, 255, 0.48); }
+.ink-list li { color: rgba(255, 255, 255, 0.74); }
+.ink-role-meta,
+.ink-detail dt,
+.ink-field label { color: rgba(255, 255, 255, 0.58); }
+.ink-spec small { color: rgba(255, 255, 255, 0.6); }
+.ink-gal-cap { color: rgba(255, 255, 255, 0.92); }
+
+/* --- 9. Never ship invisible text ---------------------------------
+   lib/motion empties an element and rebuilds it as word spans. If the
+   script fails, the copy is gone. This restores it when JS is absent
+   and guarantees the split spans are always painted. */
+.m-word, .m-char { opacity: 1; }
+.no-js [data-anim] { opacity: 1 !important; transform: none !important; }
+
+/* --- 10. Long unbroken strings never blow out a column ------------- */
+.cg-clip-dek, .cine-body, .ink-list li, p { overflow-wrap: break-word; }
+
+/* AutoImg wraps its <img> in a <picture> to offer the WebP twin. The
+   wrapper must not participate in layout, or every rule that sizes the
+   image directly would suddenly be addressing a different box. */
+picture { display: contents; }
+
+/* ==================================================================
+   SPLIT-TEXT ALIGNMENT
+   lib/motion rebuilds headings out of per-character spans so they can
+   be animated. Three things about that were shattering the type:
+
+   1. Every character was an inline-block appended straight to the
+      heading, and an inline-block is a legal line-break opportunity —
+      so "ROBOTICS" could wrap as "ROBOT / ICS". splitChars now groups
+      characters into word wrappers; this makes those wrappers atomic.
+
+   2. .m-char and .m-word carried a permanent `will-change`, which
+      promotes every glyph to its own compositor layer. Layerised text
+      loses subpixel antialiasing and each glyph rounds its position
+      independently — the letters look thin and slightly out of line.
+      GSAP now sets will-change only for the duration of the tween.
+
+   3. Kerning and ligatures are computed per text run, and every glyph
+      being its own run destroyed both. Optical sizing and kerning are
+      re-enabled on the wrapper so spacing matches the unsplit text.
+   ================================================================== */
+
+/* atomic word box — characters inside can never be split across lines */
+.m-word-c {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Let GSAP own promotion; idle text stays on the main layer where it
+   gets subpixel antialiasing and lands on exact pixel positions. */
+.m-char,
+.m-word { will-change: auto; }
+
+/* Keep glyph metrics identical to the unsplit heading. */
+.m-word-c,
+.m-word-mask {
+  font-kerning: normal;
+  font-variant-ligatures: none;
+  font-feature-settings: 'kern' 1;
+}
+
+/* Split headings must not inherit justification — justified text
+   distributes space between inline-blocks and visibly pulls the
+   characters apart. */
+[data-anim="chars"],
+[data-anim="words"] { text-align: inherit; text-justify: none; }
+[data-anim="chars"] { text-wrap: wrap; }
+
+/* Descenders: the word mask clips at the baseline box, so g/y/p/j were
+   being shaved. The reference allowed for this on .m-word-mask; the
+   character wrapper needs the same slack. */
+.m-word-c {
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* Trailing letter-spacing pushes the last glyph of a word past its box,
+   which reads as a gap before the following space. Pull it back. */
+.m-word-c > .m-char:last-child { margin-right: -0.04em; }
+
+/* ==================================================================
+   ABOUT — the sections the original page carried
+   Overview, mission/vision, the seven-phase journey, the leadership
+   portraits and the impact strip, dressed in the reference language.
+   ================================================================== */
+
+.ink-about-section {
+  position: relative;
+  padding: clamp(5rem, 12vh, 9rem) var(--gutter, clamp(1.25rem, 5vw, 5.5rem));
+  overflow: hidden;
+  isolation: isolate;
+}
+.ink-about-inner { max-width: var(--shell, 1400px); margin: 0 auto; }
+
+.ink-about-head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: end;
+  margin-bottom: clamp(2.5rem, 6vh, 4.5rem);
+}
+@media (max-width: 900px) { .ink-about-head { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+/* --- overview split ---------------------------------------------- */
+.ink-overview {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+@media (max-width: 900px) { .ink-overview { grid-template-columns: 1fr; } }
+.ink-lede {
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  line-height: 1.55;
+  color: #f4f4f6;
+  margin: 0 0 1.4rem;
+  max-width: var(--measure, 66ch);
+}
+
+/* --- mission / vision -------------------------------------------- */
+.ink-mv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+@media (max-width: 860px) { .ink-mv-grid { grid-template-columns: 1fr; } }
+
+.ink-mv {
+  padding: clamp(1.75rem, 3vw, 3rem);
+  border-radius: 22px;
+  display: grid;
+  gap: 1.1rem;
+  align-content: start;
+}
+.ink-mv-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--c-ink-faint);
+}
+.ink-mv-statement {
+  font-size: clamp(1.7rem, 3.4vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: #fff;
+  text-wrap: balance;
+}
+.ink-mv-statement .accent { color: var(--c-lime, #eb670e); }
+.ink-mv p {
+  font-size: 0.98rem;
+  line-height: 1.62;
+  color: var(--c-ink-dim);
+  margin: 0;
+  max-width: 46ch;
+}
+
+/* --- journey timeline --------------------------------------------- */
+.ink-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 clamp(1.5rem, 3vw, 2.75rem);
+  position: relative;
+  display: grid;
+  gap: clamp(1.75rem, 3.5vh, 3rem);
+}
+.ink-timeline::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.4rem; bottom: 0.4rem;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    rgba(235, 103, 14, 0.7),
+    rgba(255, 255, 255, 0.12) 45%,
+    transparent
+  );
+}
+.ink-tl-item { position: relative; }
+.ink-tl-dot {
+  position: absolute;
+  left: calc(clamp(1.5rem, 3vw, 2.75rem) * -1);
+  top: 0.55rem;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--c-lime, #eb670e);
+  transform: translateX(-4px);
+  box-shadow: 0 0 0 4px rgba(235, 103, 14, 0.18);
+}
+.ink-tl-item:nth-child(n + 5) .ink-tl-dot {
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.06);
+}
+.ink-tl-phase {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-lime, #eb670e);
+  margin-bottom: 0.6rem;
+}
+.ink-tl-title {
+  margin: 0 0 0.55rem;
+  font-size: clamp(1.05rem, 1.8vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-transform: uppercase;
+}
+.ink-tl-desc {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--c-ink-dim);
+  max-width: 62ch;
+}
+
+/* --- leadership ---------------------------------------------------- */
+.ink-leaders {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  max-width: 680px;
+  margin: 0 auto;
+}
+@media (max-width: 640px) {
+  .ink-leaders {
+    gap: 2.5rem;
+  }
+}
+
+/* the brush stroke sat behind the portraits on the original page */
+.ink-leader-stroke {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: min(130%, 750px);
+  transform: translate(-50%, -50%);
+  opacity: 0.16;
+  filter: hue-rotate(48deg) saturate(1.6);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ink-leader {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+  text-align: center;
+  width: min(100%, 280px);
+}
+.ink-leader-photo {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(42, 53, 130, 0.14), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+.ink-leader-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom;
+  display: block;
+  transition: transform 0.7s cubic-bezier(.16, 1, .3, 1);
+}
+.ink-leader:hover .ink-leader-photo img { transform: scale(1.03); }
+.ink-leader:hover .ink-leader-photo { border-color: rgba(235, 103, 14, 0.4); }
+
+.ink-leader-body { display: grid; gap: 0.55rem; justify-items: center; }
+.ink-leader-role {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-lime, #eb670e);
+}
+.ink-leader-body h4 {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.ink-leader-linkedin {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--c-ink-faint);
+  padding: 0.5rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  transition: color 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+}
+.ink-leader-linkedin:hover {
+  color: #fff;
+  background: var(--c-lime, #eb670e);
+  border-color: var(--c-lime, #eb670e);
+}
+
+/* --- impact strip --------------------------------------------------- */
+.ink-impact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.ink-impact .stat {
+  background: #000;
+  padding: clamp(1.4rem, 2.4vw, 2.2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.ink-impact .stat-num {
+  display: flex;
+  align-items: baseline;
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: #fff;
+}
+.ink-impact .stat-num .plus { color: var(--c-lime, #eb670e); margin-left: 2px; }
+.ink-impact .stat-label {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+}
+
+.ink-dive-actions {
+  position: relative;
+  z-index: 4;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* ==================================================================
+   HERO WORDMARK — "INKER ROBOTICS" behind the copy
+   The frame sequence is opaque (its corner pixel is #020202 at full
+   alpha), so a wordmark placed behind the canvas would simply never be
+   seen. It sits above the canvas instead and is drawn as an outline
+   rather than a fill, so the robot reads straight through the counters
+   of the letters and the type still behaves like background.
+   ================================================================== */
+
+.hero-wordmark {
+  position: absolute;
+  inset: 0;
+  z-index: 10;                /* canvas is 0, .hero-text-block is 30 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.02em;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.hero-wordmark-line {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(3.5rem, 15.5vw, 15rem);
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  /* outline only — no fill, so the robot shows through */
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2.5px rgba(255, 255, 255, 0.85);
+  will-change: transform;
+}
+
+/* the second line takes the creative orange, at a whisper */
+.hero-wordmark-line.accent {
+  -webkit-text-stroke: 2.5px rgba(235, 103, 14, 0.9);
+}
+
+/* Fade the wordmark out top and bottom so it dissolves into the scene
+   instead of ending on a hard edge. */
+.hero-wordmark {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 76%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 18%,
+    #000 76%,
+    transparent 100%
+  );
+}
+
+/* On narrow screens the copy block goes full width and would collide
+   with the wordmark, so lift it and cut it back. */
+@media (max-width: 900px) {
+  .hero-wordmark { justify-content: flex-start; padding-top: 22vh; }
+  .hero-wordmark-line { font-size: clamp(2.6rem, 17vw, 7rem); }
+  .hero-wordmark-line { -webkit-text-stroke-width: 1px; }
+}
+
+/* A stroke this thin can shimmer while the sequence scrubs; hold it
+   steady when the user has asked for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-wordmark-line { will-change: auto; }
+}
+
+/* ==================================================================
+   HERO — LEGIBILITY PASS
+   As first built the headline ran to six lines and overflowed the
+   sticky 100vh frame (the last line was cut in half by the viewport
+   edge), and the wordmark was centred underneath it so the two fought
+   for exactly the same space. Three corrections:
+
+     · the copy gets a wider measure and a smaller size, so it settles
+       to three or four lines inside the frame,
+     · the copy sits on a scrim, so white type never has to survive on
+       top of a photographed metal part,
+     · the wordmark moves up and out of the copy's quadrant.
+   ================================================================== */
+
+/* --- 1. copy block fits the frame --------------------------------- */
+.hero-text-block {
+  max-width: min(24ch, 52vw);
+  bottom: clamp(40px, 7vh, 88px);
+  /* never let the copy grow taller than the frame it sits in */
+  max-height: calc(100vh - 180px);
+}
+
+.hero-main-title {
+  font-size: clamp(26px, 3.5vw, 62px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  /* a heavier, tighter shadow reads as a halo rather than a smear */
+  text-shadow:
+    0 2px 18px rgba(0, 0, 0, 0.95),
+    0 8px 60px rgba(0, 0, 0, 0.8);
+}
+
+/* --- 2. scrim so the type always has something to sit on ---------- */
+.hero-sticky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;                 /* above wordmark (10), below copy (30) */
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.88) 0%,
+      rgba(0, 0, 0, 0.55) 26%,
+      transparent 58%
+    ),
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.3) 34%,
+      transparent 62%
+    );
+}
+
+/* --- 3. wordmark out of the copy's way ---------------------------- */
+.hero-wordmark {
+  justify-content: flex-start;
+  padding-top: clamp(80px, 13vh, 150px);
+  /* pulled right so it occupies the empty upper-right of the frame */
+  padding-left: 22%;
+}
+.hero-wordmark-line {
+  font-size: clamp(2.6rem, 11vw, 11rem);
+  -webkit-text-stroke-width: 1.25px;
+}
+.hero-wordmark-line          { -webkit-text-stroke-color: rgba(255, 255, 255, 0.26); }
+.hero-wordmark-line.accent   { -webkit-text-stroke-color: rgba(235, 103, 14, 0.40); }
+
+/* fade the wordmark out toward the bottom-left, where the copy lives */
+.hero-wordmark {
+  mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 62%, transparent 92%),
+    linear-gradient(to right, transparent 0%, #000 26%);
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 62%, transparent 92%),
+    linear-gradient(to right, transparent 0%, #000 26%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* --- 4. narrow screens: copy takes the frame, wordmark recedes ----- */
+@media (max-width: 900px) {
+  .hero-text-block {
+    max-width: none;
+    right: clamp(20px, 4vw, 64px);
+    bottom: clamp(32px, 6vh, 64px);
+  }
+  .hero-main-title { font-size: clamp(24px, 6.4vw, 40px); }
+  .hero-wordmark {
+    padding-left: 0;
+    padding-top: 16vh;
+    align-items: center;
+  }
+  .hero-wordmark-line {
+    font-size: clamp(2.2rem, 13vw, 5rem);
+    -webkit-text-stroke-width: 1px;
+  }
+}
+
+/* very short viewports (landscape phones) — drop the wordmark entirely
+   rather than let it collide with the copy */
+@media (max-height: 560px) {
+  .hero-wordmark { display: none; }
+  .hero-main-title { font-size: clamp(22px, 3.2vw, 36px); }
+}
+
+/* ==================================================================
+   HERO WORDMARK — BEHIND THE ROBOT, CENTRED
+   Supersedes the two earlier passes.
+
+   The frame sequence has an opaque ground (its corner pixel is #020202
+   at full alpha), so simply lowering the z-index would bury the type
+   completely. Instead the canvas is composited with `lighten`: per
+   channel it keeps whichever is brighter, so the frame's near-black
+   ground loses to the wordmark stroke and disappears, while the lit
+   parts of the robot beat the stroke and stay solid.
+
+   Net effect: the type reads through the dark areas of the scene and is
+   genuinely occluded by the machine itself.
+   ================================================================== */
+
+/* the visual layer owns the blend, and isolates it from the page */
+.hero-visual-wrap {
+  isolation: isolate;
+}
+
+/* dark ground drops out; the robot stays */
+.hero-visual-wrap canvas {
+  mix-blend-mode: lighten;
+}
+
+/* --- the wordmark, dead centre ------------------------------------ */
+.hero-wordmark {
+  position: absolute;
+  inset: 0;
+  z-index: 0;                  /* inside the visual wrap, under the canvas */
+  display: grid;
+  place-content: center;       /* true optical centre, both axes */
+  justify-items: center;
+  gap: 0.01em;
+  padding: 0;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+
+  /* the earlier corner masks pulled it off-centre — clear them */
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.hero-wordmark-line {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 13.5vw, 13rem);
+  line-height: 0.86;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+
+  /* Brighter than before on purpose: it is only ever seen through the
+     dark parts of the frame, so it needs the headroom to register. */
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2.5px rgba(255, 255, 255, 0.85);
+}
+.hero-wordmark-line.accent {
+  -webkit-text-stroke: 2.5px rgba(235, 103, 14, 0.9);
+}
+
+/* --- scrim must not flatten the centre ---------------------------- */
+/* Pull the darkening back to the bottom-left, where the copy sits, so
+   the middle of the frame stays clear for the wordmark. */
+.hero-sticky::after {
+  background:
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.86) 0%,
+      rgba(0, 0, 0, 0.42) 20%,
+      transparent 44%
+    ),
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.72) 0%,
+      rgba(0, 0, 0, 0.2) 26%,
+      transparent 48%
+    );
+}
+
+/* --- responsive ---------------------------------------------------- */
+@media (max-width: 900px) {
+  .hero-wordmark { padding: 0; place-content: center; }
+  .hero-wordmark-line {
+    font-size: clamp(2.4rem, 16vw, 6rem);
+    -webkit-text-stroke-width: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-wordmark-line {
+    font-size: clamp(1.8rem, 12vw, 3.8rem);
+    -webkit-text-stroke-width: 1.6px;
+  }
+  .hero-text-block {
+    left: 16px;
+    right: 16px;
+    bottom: 24px;
+    max-height: calc(100dvh - 120px);
+  }
+  .hero-main-title {
+    font-size: clamp(18px, 5.2vw, 26px);
+    line-height: 1.06;
+  }
+  .hero-btn-group {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cine-btn {
+    padding: 0.75rem 1.3rem;
+    font-size: 0.68rem;
+    gap: 0.6rem;
+  }
+}
+
+@media (max-height: 560px) {
+  .hero-wordmark { display: grid; }
+  .hero-wordmark-line { font-size: clamp(2rem, 9vh, 4rem); }
+}
+
+/* Blend modes are unreliable in forced-colours mode; fall back to a
+   plain, slightly dimmer overlay rather than losing the robot. */
+@media (forced-colors: active) {
+  .hero-visual-wrap canvas { mix-blend-mode: normal; }
+  .hero-wordmark { z-index: 10; }
+  .hero-wordmark-line { -webkit-text-stroke-color: rgba(255, 255, 255, 0.3); }
+}
+
+/* ==================================================================
+   PRESS LOGOS — "as featured in"
+   Logos come from the Brands API (/admin/brands). Any publication
+   without an uploaded logo falls back to its name set as a wordmark,
+   so the rail is never empty and never shows a broken image.
+   ================================================================== */
+
+.press-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.75rem, 4vw, 4rem);
+}
+
+.press-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(26px, 3vw, 40px);
+  transition: opacity 0.45s cubic-bezier(.16, 1, .3, 1),
+              filter 0.45s cubic-bezier(.16, 1, .3, 1);
+}
+
+/* Mastheads arrive in every colour and on every background. Knocking
+   them back to white keeps the rail coherent; colour returns on hover. */
+.press-logo img {
+  height: 100%;
+  width: auto;
+  max-width: clamp(110px, 14vw, 190px);
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+  opacity: 0.62;
+  transition: opacity 0.45s cubic-bezier(.16, 1, .3, 1),
+              filter 0.45s cubic-bezier(.16, 1, .3, 1),
+              transform 0.45s cubic-bezier(.16, 1, .3, 1);
+}
+.press-logo:hover img {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+/* the no-logo-yet state: the name, set as a mark */
+.press-logo-text {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.85rem, 1.25vw, 1.15rem);
+  letter-spacing: -0.015em;
+  color: rgba(255, 255, 255, 0.62);
+  white-space: nowrap;
+  transition: color 0.45s cubic-bezier(.16, 1, .3, 1);
+}
+.press-logo-text:hover { color: #fff; }
+
+@media (max-width: 640px) {
+  .press-logos { gap: 1.5rem 2rem; }
+  .press-logo { height: 24px; }
+}
+
+/* --- press rail: colour logos ------------------------------------
+   The first pass knocked every logo to a pure white silhouette with
+   brightness(0) invert(1). That works for flat wordmarks but destroys
+   a logo like Flowers TV, whose mark is three gradient loops — as a
+   silhouette it reads as a blob. Desaturating instead keeps the shape
+   and shading legible while still unifying the row, and full colour
+   returns on hover. */
+.press-logo img {
+  filter: grayscale(1) brightness(1.45) contrast(0.95);
+  opacity: 0.72;
+}
+.press-logo:hover img {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Stacked logos — a mark sitting above a wordmark — are roughly square,
+   so at a shared row height they read much smaller than a wide wordmark.
+   Give them extra height so every logo carries similar visual weight. */
+.press-logo img[src*="flowers"],
+.press-logo img[src*="asianet"] {
+  height: 150%;
+  max-width: none;
+  width: auto;
+}
+
+/* The Hindu is a crest over a wordmark — taller than a plain wordmark
+   but wider than the square marks, so it sits between the two. */
+.press-logo img[src*="the-hindu"] {
+  height: 118%;
+  max-width: none;
+  width: auto;
+}
+
+/* The asset carries both colours — crest white, wordmark in the brand
+   blue — and the filter decides which one you see.
+
+   At rest the blue is desaturated to white so the whole logo reads as a
+   single mark, in step with the rest of the rail. The brightness figure
+   is not arbitrary: greyscaling #3898E0 lands at luminance ~137, so it
+   needs roughly 1.9x to reach 255. The crest is already white and simply
+   clamps there, so it is unaffected.
+
+   On hover the filter drops and the blue comes through. */
+.press-logo img[src*="the-hindu"] {
+  filter: grayscale(1) brightness(1.9);
+  opacity: 0.72;
+}
+.press-logo:hover img[src*="the-hindu"] {
+  filter: none;
+  opacity: 1;
+}
+
+/* ==================================================================
+   AMBIENT FIELD — site-wide background animation
+   One fixed layer, mounted once in AppShell, sitting behind every
+   page. All the section wrappers are transparent, so this reads
+   through the entire site instead of needing per-section effects.
+
+   Performance rules this obeys, given the site was just optimised:
+     · only `transform` and `opacity` are animated — both run on the
+       compositor, so nothing here triggers layout or paint,
+     · the soft edges come from radial-gradients, not `filter: blur()`,
+       which would cost a full-screen blur pass every frame,
+     · the whole layer is switched off for prefers-reduced-motion.
+   ================================================================== */
+
+.ambient-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: #000;
+}
+
+/* --- drifting colour ---------------------------------------------- */
+.af-blob {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.af-blob-violet {
+  width: 78vmax; height: 78vmax;
+  top: -28vmax; left: -22vmax;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(42, 53, 130, 0.22) 0%,
+    rgba(42, 53, 130, 0.09) 34%,
+    transparent 66%);
+  animation: afDriftA 34s ease-in-out infinite alternate;
+}
+
+.af-blob-lime {
+  width: 56vmax; height: 56vmax;
+  right: -18vmax; top: 24vmax;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(235, 103, 14, 0.12) 0%,
+    rgba(235, 103, 14, 0.04) 36%,
+    transparent 68%);
+  animation: afDriftB 46s ease-in-out infinite alternate;
+}
+
+.af-blob-deep {
+  width: 64vmax; height: 64vmax;
+  left: 28vmax; bottom: -30vmax;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(42, 53, 130, 0.18) 0%,
+    rgba(42, 53, 130, 0.06) 40%,
+    transparent 70%);
+  animation: afDriftC 58s ease-in-out infinite alternate;
+}
+
+/* Long, mismatched durations on purpose — 34s, 46s and 58s share no
+   common multiple, so the three never resynchronise into a visible
+   loop. */
+@keyframes afDriftA {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(12vw, 8vh, 0) scale(1.18); }
+}
+@keyframes afDriftB {
+  from { transform: translate3d(0, 0, 0) scale(1.12); }
+  to   { transform: translate3d(-14vw, -10vh, 0) scale(1); }
+}
+@keyframes afDriftC {
+  from { transform: translate3d(0, 0, 0) scale(1.05); }
+  to   { transform: translate3d(-8vw, -12vh, 0) scale(1.22); }
+}
+
+/* --- engineering grid, panning slowly ------------------------------ */
+.af-grid {
+  position: absolute;
+  /* oversized so it can translate a full cell without exposing an edge */
+  top: -60px; left: -60px;
+  width: calc(100% + 120px);
+  height: calc(100% + 120px);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 60px 60px;
+  /* fade it out at the edges so it never ends on a hard line */
+  mask-image: radial-gradient(ellipse at 50% 40%, #000 12%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 40%, #000 12%, transparent 76%);
+  will-change: transform;
+  /* translating by exactly one cell makes the loop seamless */
+  animation: afGrid 24s linear infinite;
+}
+@keyframes afGrid {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(60px, 60px, 0); }
+}
+
+/* --- a single slow sweep of light ---------------------------------- */
+.af-scan {
+  position: absolute;
+  left: -50%;
+  top: -40%;
+  width: 200%;
+  height: 60%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(235, 103, 14, 0.035) 45%,
+    rgba(42, 53, 130, 0.05) 55%,
+    transparent
+  );
+  transform: rotate(-14deg);
+  will-change: transform, opacity;
+  animation: afScan 19s ease-in-out infinite;
+}
+@keyframes afScan {
+  0%       { transform: translate3d(0, -30vh, 0) rotate(-14deg); opacity: 0; }
+  18%, 62% { opacity: 1; }
+  100%     { transform: translate3d(0, 150vh, 0) rotate(-14deg); opacity: 0; }
+}
+
+/* --- the hero owns its own visual, so keep the field out of it ----- */
+.hero-visual-wrap { position: absolute; }
+
+/* --- respect the user's setting ----------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .af-blob,
+  .af-grid,
+  .af-scan { animation: none; }
+  .af-scan { opacity: 0; }
+}
+
+/* The admin panel gets a flat ground — ambient motion behind a data
+   table is a distraction, not atmosphere. */
+body.is-admin .ambient-field { display: none; }
+
+/* ==================================================================
+   RESPONSIVE — touch and small viewports
+   ================================================================== */
+
+/* --- gallery rail: swipeable strip instead of a pinned scrub ------- */
+@media (max-width: 1000px) {
+  .cg-rail,
+  .cg-rail-sticky { height: auto; }
+
+  .cg-rail-track {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-inline: var(--gutter, 1.25rem);
+    /* the desktop version is driven by transform; make sure a stale
+       one can't leave the strip offscreen */
+    transform: none !important;
+  }
+  .cg-rail-track > .cg-slide {
+    flex: 0 0 min(78vw, 340px);
+    scroll-snap-align: center;
+    transform: none !important;
+  }
+  /* the scrub bar means nothing once the strip scrolls natively */
+  .cg-rail-progress { display: none; }
+}
+
+/* --- gallery hero collage: fewer, larger tiles on a phone ---------- */
+@media (max-width: 760px) {
+  /* 27 tiles at phone width are postage stamps and 27 image requests.
+     Dropping the two furthest depth bands keeps the composition while
+     roughly halving both. */
+  .cg-collage-item.depth-3,
+  .cg-collage-item.depth-4 { display: none; }
+  .cg-collage-item { width: 26% !important; }
+}
+
+/* --- press rail --------------------------------------------------- */
+@media (max-width: 520px) {
+  .press-logos { gap: 1.25rem 1.75rem; }
+  .press-logo { height: 22px; }
+  .press-logo img[src*="flowers"],
+  .press-logo img[src*="asianet"] { height: 168%; }
+  .press-logo-text { font-size: 0.8rem; }
+}
+
+/* --- newspaper clippings ------------------------------------------ */
+@media (max-width: 520px) {
+  .cg-clip-copy { padding: 1.15rem 1rem 1rem; }
+  .cg-clip-headline,
+  .cg-clip.z-1 .cg-clip-headline { font-size: clamp(1.15rem, 6vw, 1.5rem); }
+  .cg-clip-lede::first-letter { font-size: 2.6em; }
+}
+
+/* --- solution page: the pinned showcase is already gated in JS,
+       so make sure the stacked fallback actually stacks ------------- */
+@media (max-width: 1000px) {
+  .sv-showcase { height: auto; }
+  .sv-stage { display: grid; gap: 1.5rem; }
+  .sv-panels, .sv-visuals { position: relative; }
+  .sv-panel:not(.active) { display: none; }
+  .sv-visual { position: relative; opacity: 1; transform: none; }
+  .sv-visual:not(.active) { display: none; }
+}
+
+/* --- ambient field: cheaper on small screens ---------------------- */
+@media (max-width: 760px) {
+  /* one fewer compositor layer, and the sweep is barely visible at
+     phone width anyway */
+  .af-scan { display: none; }
+  .af-grid { background-size: 44px 44px; }
+}
+
+/* --- last-resort guard against sideways scroll -------------------- */
+html, body { overflow-x: clip; }
+@supports not (overflow-x: clip) {
+  html, body { overflow-x: hidden; }
+}
+
+/* --- touch devices have no hover, so never hide anything behind it - */
+@media (hover: none) {
+  .ink-gal-cap { opacity: 1; }
+  .press-logo img { opacity: 0.85; }
+  .cg-clip-more { color: rgba(235, 103, 14, 0.9); }
+}
+
+/* ==================================================================
+   MENU OVERLAY — fit nine links, not six
+   The reference menu was built for six items and sizes each link off
+   viewport *width* alone: clamp(40px, 7vw, 90px) plus 5vh of padding,
+   about 137px a row. Nine rows plus the 80px top and bottom bars needs
+   ~1390px of height, inside a `height: 100vh` box with no overflow —
+   so on any normal laptop the last few links were unreachable.
+
+   Two fixes: size the rows against viewport *height* as well as width
+   so they always fit, and let the list scroll if they somehow still
+   don't. The second is the guarantee — the first is what makes it look
+   deliberate rather than cramped.
+   ================================================================== */
+
+.menu-overlay {
+  /* dvh tracks mobile browser chrome as it hides and shows; vh does not */
+  height: 100dvh;
+}
+@supports not (height: 100dvh) {
+  .menu-overlay { height: 100vh; }
+}
+
+.menu-links-container {
+  /* was `justify-content: center`, which centres overflow out of reach
+     in both directions. Start at the top and let it scroll. */
+  justify-content: flex-start;
+  padding-top: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.menu-links-container::-webkit-scrollbar { display: none; }
+
+.menu-link {
+  /* The vh term is what makes nine fit: at a 950px-tall window this
+     resolves to ~49px a row rather than 90px, so the list lands around
+     700px and clears the chrome with room to spare. */
+  font-size: clamp(20px, min(5.6vw, 5.2vh), 72px);
+  line-height: 1.05;
+  padding: min(1.7vh, 15px) 0;
+  letter-spacing: -0.03em;
+  flex-shrink: 0;
+}
+
+/* keep the bars from being squeezed by a long list */
+.menu-top-bar,
+.menu-bottom-bar { flex-shrink: 0; }
+
+/* Short and wide — laptops in particular, where height is the scarce
+   axis and the width-based clamp is at its most wrong. */
+@media (max-height: 800px) {
+  .menu-link {
+    font-size: clamp(18px, min(5vw, 4.8vh), 54px);
+    padding: min(1.3vh, 11px) 0;
+  }
+  .menu-bottom-bar { height: 64px; }
+}
+
+@media (max-height: 600px) {
+  .menu-link { font-size: clamp(16px, 4.4vh, 34px); padding: 8px 0; }
+  .menu-bottom-bar { display: none; }
+}
+
+/* Phones: narrow enough that width is the binding constraint again */
+@media (max-width: 600px) {
+  .menu-link { font-size: clamp(20px, min(8vw, 5vh), 40px); letter-spacing: -0.02em; }
+  .menu-bottom-bar { height: 64px; }
+  .menu-social { padding: 0 20px; }
+}
+
+/* ==================================================================
+   SOLUTION HERO — SCHEMATIC TREATMENT
+   Used where the hero art is the vector unit drawing rather than a
+   photograph. The schematic is line art on transparency, so the usual
+   `object-fit: cover` crop and grayscale wash would both work against
+   it — it wants room, not cropping, and it is already on-palette.
+   ================================================================== */
+
+.sv-hero-visual.is-schematic .sv-hero-media {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(42, 53, 130, 0.16), transparent 62%),
+    linear-gradient(180deg, #0a0a0f 0%, #050507 100%);
+  border: 1px solid rgba(235, 103, 14, 0.16);
+  border-radius: 14px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* contain, not cover — cropping a schematic cuts off its annotations */
+.sv-hero-visual.is-schematic .sv-hero-media img {
+  object-fit: contain;
+  height: 100%;
+  padding: clamp(10px, 2vw, 26px);
+  filter: none;
+}
+.sv-hero-visual.is-schematic .sv-hero-media:hover img { filter: none; }
+
+/* faint engineering grid behind the unit */
+.sv-hero-visual.is-schematic .sv-hero-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(235, 103, 14, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(235, 103, 14, 0.05) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: radial-gradient(ellipse at 50% 45%, #000 20%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 20%, transparent 78%);
+  pointer-events: none;
+}
+
+/* --- the scan sweep ------------------------------------------------ */
+.sv-hero-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 22%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(235, 103, 14, 0.05) 40%,
+    rgba(235, 103, 14, 0.22) 50%,
+    rgba(235, 103, 14, 0.05) 60%,
+    transparent
+  );
+  box-shadow: 0 0 40px rgba(235, 103, 14, 0.16);
+  will-change: transform;
+  animation: svScan 4.6s cubic-bezier(0.55, 0, 0.45, 1) infinite;
+}
+@keyframes svScan {
+  0%        { transform: translateY(-30%); opacity: 0; }
+  12%, 78%  { opacity: 1; }
+  100%      { transform: translateY(460%); opacity: 0; }
+}
+
+/* --- telemetry chip ------------------------------------------------ */
+.sv-hero-hud {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid rgba(235, 103, 14, 0.22);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.62);
+}
+.sv-hero-hud b { font-weight: 600; }
+.sv-hero-hud i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #eb670e;
+  box-shadow: 0 0 8px rgba(235, 103, 14, 0.9);
+  animation: svPulse 2s ease-in-out infinite;
+}
+@keyframes svPulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50%      { opacity: 1;    transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sv-hero-scan { animation: none; opacity: 0; }
+  .sv-hero-hud i { animation: none; }
+}
+
+@media (max-width: 700px) {
+  .sv-hero-visual.is-schematic .sv-hero-media { aspect-ratio: 1 / 1; }
+  .sv-hero-hud { font-size: 8px; padding: 6px 10px; }
+}
+
+/* ==================================================================
+   SOLUTION HERO — WEBGL TREATMENT
+   The shader draws its own plane over the DOM image, so the DOM copy
+   only needs to be measurable, not pretty. Keep it in place (that is
+   what the layer measures and what shows if WebGL is unavailable) and
+   let the GL layer sit above it.
+   ================================================================== */
+.sv-hero-visual.is-webgl .sv-hero-media {
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0a0a0f;
+  isolation: isolate;
+}
+.sv-hero-visual.is-webgl .sv-hero-media img {
+  /* The plane above carries the visual; this stays as the fallback and
+     as the element the shader measures. */
+  filter: grayscale(0.25) brightness(0.9) contrast(1.1);
+}
+/* the GL canvas is fixed full-viewport and positions planes itself */
+.cg-webgl { pointer-events: none; }
+
+/* ==================================================================
+   HOME STATEMENT — editorial voice
+   This line was Inter 400 with `font-style: italic`, which browsers
+   satisfy by slanting the upright cut. A synthesised oblique has none
+   of the drawn forms of a real italic, which is what made it read as
+   generic. Playfair Display is already loaded for the press clippings
+   and ships a true italic, so switching costs no extra request.
+
+   Setting it in sentence case as well: a Didone italic in all-caps
+   loses its ascenders and descenders — the very thing that makes it
+   worth using.
+   ================================================================== */
+
+.statement-section h2 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: clamp(28px, 4.4vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  max-width: 22ch;
+  margin: 0 auto;
+  color: #ffffff;
+}
+
+.statement-section h2 span {
+  color: #ffffff;
+  font-style: normal;
+  -webkit-text-fill-color: #ffffff;
+  background: none;
+}
+
+.statement-section h2 span.accent,
+.statement-section h2 .accent span {
+  color: var(--c-lime, #eb670e) !important;
+  -webkit-text-fill-color: var(--c-lime, #eb670e) !important;
+  background: none !important;
+}
+
+@media (max-width: 700px) {
+  .statement-section h2 { max-width: none; font-size: clamp(24px, 6.5vw, 38px); }
+}
+
+/* ==================================================================
+   SPLIT HOST
+   lib/motion now appends the split spans inside a `.m-split` wrapper
+   instead of replacing the element's children, so React's nodes are
+   never detached. `display: contents` removes the wrapper from layout
+   entirely — the word and character spans participate in the heading's
+   own text flow exactly as they did before, so alignment, balancing
+   and line breaking are unchanged.
+   ================================================================== */
+.m-split { display: contents; }
+
+/* The original text is blanked, not removed, so it occupies no space —
+   but belt and braces for anything that renders an empty text node with
+   leading. */
+[data-split='true'],
+[data-split-chars='true'] { text-indent: 0; }
+
+/* ==================================================================
+   PIN HOST
+   A plain block wrapper around every ScrollTrigger-pinned section.
+   ScrollTrigger's `pin: true` inserts a `.pin-spacer` and moves the
+   pinned element inside it — reparenting a node React tracks. Isolating
+   that inside a wrapper whose child list React never changes keeps
+   React's parent/child relationships intact.
+
+   It must stay a normal block box: `display: contents` would remove it
+   from layout and ScrollTrigger would measure the wrong element.
+   ================================================================== */
+.pin-host {
+  position: relative;
+  width: 100%;
+}
+
+/* ==================================================================
+   TRUSTED BY — client / institution rail
+   (components/PartnerLogos.tsx)
+
+   Shares .press-logos and .press-logo with the mastheads rail above it,
+   so layout, hover and the reveal come free. Everything below is the
+   per-logo tuning that a mixed set of real brand assets always needs.
+
+   Each asset was cut out of its white (or yellow) plate and saved with
+   a transparent background, matching asianet.png. That solves the white
+   rectangles, but not contrast: the rail's resting filter is
+   `grayscale(1) brightness(1.45)`, and brightness is a multiply — it
+   lifts a mid-tone logo to white and leaves a black one black. So each
+   logo gets a factor that lands its 75th-percentile luminance near 226,
+   and the two black-ink marks are inverted first.
+   ================================================================== */
+
+.partners-divider {
+  width: min(320px, 46%);
+  height: 1px;
+  margin: clamp(2.2rem, 5vh, 3.4rem) auto clamp(1.6rem, 3.5vh, 2.4rem);
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.16), transparent);
+}
+
+/* ---- Black-ink marks -------------------------------------------
+   Sobha's dot matrix and the MSME wordmark are solid black. No
+   brightness value can raise 0, so the tone is flipped before the
+   rail's own grayscale runs. Colour still returns on hover, and
+   because these two are monochrome, hover shows them as they are. */
+.partner-rail .press-logo img[src*="sobha"],
+.partner-rail .press-logo img[src*="msme"] {
+  filter: invert(1) grayscale(1) contrast(0.95);
+  opacity: 0.78;
+}
+
+.partner-rail .press-logo:hover img[src*="sobha"],
+.partner-rail .press-logo:hover img[src*="msme"] {
+  filter: invert(1);
+  opacity: 1;
+}
+
+/* ---- Already light on transparent -------------------------------
+   LPU, 90+ and RSET arrived built for dark grounds — white strokes on
+   nothing. The default 1.45x would clip them into a flat blob, so they
+   run at 1x. */
+.partner-rail .press-logo img[src*="90plus"],
+.partner-rail .press-logo img[src*="rset"],
+.partner-rail .press-logo img[src*="gems"] {
+  filter: grayscale(1) brightness(1.05) contrast(0.95);
+}
+
+/* LPU measured light only because the white ring lettering dominates its
+   75th percentile; the orange rays that carry the mark sit far lower and
+   were greying out. Tuned by eye against the rays, letting the ring clip. */
+.partner-rail .press-logo img[src*="lpu"] {
+  filter: grayscale(1) brightness(1.25) contrast(0.95);
+}
+
+/* ---- Mid-tone brand colours -------------------------------------
+   Measured per logo rather than guessed: the factor is 226 divided by
+   that logo's 75th-percentile grey. Deep navy needs far more lift than
+   Cyberdome's reds. */
+.partner-rail .press-logo img[src*="manorama"]      { filter: grayscale(1) brightness(1.64) contrast(0.95); }
+.partner-rail .press-logo img[src*="devamatha"]     { filter: grayscale(1) brightness(1.71) contrast(0.95); }
+.partner-rail .press-logo img[src*="spc"]           { filter: grayscale(1) brightness(1.73) contrast(0.95); }
+.partner-rail .press-logo img[src*="federal-bank"]  { filter: grayscale(1) brightness(1.33) contrast(0.95); }
+.partner-rail .press-logo img[src*="mashreq"]       { filter: grayscale(1) brightness(1.33) contrast(0.95); }
+.partner-rail .press-logo img[src*="cyberdome"]     { filter: grayscale(1) brightness(1.13) contrast(0.95); }
+.partner-rail .press-logo img[src*="reach"]         { filter: grayscale(1) brightness(1.12) contrast(0.95); }
+
+/* Manorama also sits in the mastheads rail above, where it is the only
+   logo pointing at /images/Partners — same asset, same lift. */
+.press-logo img[src*="Partners/manorama"] {
+  filter: grayscale(1) brightness(1.64) contrast(0.95);
+  opacity: 0.72;
+}
+
+/* ---- Optical weight ---------------------------------------------
+   A shared row height flatters a wide wordmark and starves a square
+   badge: Manorama is 5.9:1 and Sobha is 0.7:1, so at the same height
+   Sobha carries a fraction of the visual mass. Squarer marks get extra
+   height until every logo reads at a similar weight — the same
+   correction the mastheads rail already makes for Flowers and Asianet. */
+.partner-rail .press-logo img[src*="sobha"],
+.partner-rail .press-logo img[src*="rset"],
+.partner-rail .press-logo img[src*="devamatha"],
+.partner-rail .press-logo img[src*="spc"],
+.partner-rail .press-logo img[src*="lpu"],
+.partner-rail .press-logo img[src*="90plus"],
+.partner-rail .press-logo img[src*="gems"] {
+  height: 168%;
+  max-width: none;
+  width: auto;
+}
+
+.partner-rail .press-logo img[src*="reach"],
+.partner-rail .press-logo img[src*="federal-bank"] {
+  height: 126%;
+  max-width: none;
+  width: auto;
+}
+
+/* Wide wordmarks are the ones the shared max-width is for; without the
+   raise, Manorama and MSME cap out and shrink below the row height. */
+.partner-rail .press-logo img[src*="manorama"],
+.partner-rail .press-logo img[src*="cyberdome"],
+.partner-rail .press-logo img[src*="mashreq"],
+.partner-rail .press-logo img[src*="msme"] {
+  max-width: clamp(140px, 18vw, 240px);
+}
+
+/* Twelve logos need a denser rail than six mastheads. */
+.partner-rail {
+  gap: clamp(1.4rem, 3vw, 3rem) clamp(1.6rem, 3.4vw, 3.4rem);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+  .partner-rail { gap: 1.2rem 1.6rem; }
+  .partner-rail .press-logo { height: 22px; }
+}
+
+/* ---- Hover: colour, but not at any cost -------------------------
+   MUST stay last in this block. Two separate problems are solved here.
+
+   SPECIFICITY. The base rail restores colour with `.press-logo:hover
+   img` at (0,2,1), but every per-logo rule above is (0,3,1) and
+   outranks it. Without a rule at matching specificity a partner logo
+   would stay grey under the cursor while the mastheads beside it lit
+   up.
+
+   LUMINANCE. The mastheads rail hovers to `filter: none`, which works
+   there because Asianet is red and Flowers is a bright gradient. It
+   does not work here. These are corporate marks in navy, maroon and
+   deep blue, and on a black page their true colours are DARKER than
+   the brightened grey they replace — measured across the set, seven of
+   thirteen lost luminance on hover, Sobha worst at 254 down to 46. The
+   logo receded into the background exactly when the reader pointed at
+   it, which reads as the hover doing nothing at all.
+
+   So hover drops the grayscale and keeps a lift: enough to bring each
+   logo's 75th-percentile luminance to about 205 in full colour. Hue
+   comes back, brightness does not fall. Logos that are already light
+   (LPU, RSET, 90+, GEMS) get 1x and simply un-grey. */
+.partner-rail .press-logo:hover img {
+  filter: saturate(1.12) brightness(1.15);
+  opacity: 1;
+}
+
+.partner-rail .press-logo:hover img[src*="devamatha"]    { filter: saturate(1.12) brightness(1.56); }
+.partner-rail .press-logo:hover img[src*="spc"]          { filter: saturate(1.12) brightness(1.57); }
+.partner-rail .press-logo:hover img[src*="manorama"]     { filter: saturate(1.12) brightness(1.49); }
+.partner-rail .press-logo:hover img[src*="federal-bank"] { filter: saturate(1.12) brightness(1.21); }
+.partner-rail .press-logo:hover img[src*="mashreq"]      { filter: saturate(1.12) brightness(1.21); }
+.partner-rail .press-logo:hover img[src*="cyberdome"]    { filter: saturate(1.15) brightness(1.02); }
+.partner-rail .press-logo:hover img[src*="reach"]        { filter: saturate(1.15) brightness(1.02); }
+
+/* Already light on transparent — nothing to lift, just un-grey. */
+.partner-rail .press-logo:hover img[src*="lpu"],
+.partner-rail .press-logo:hover img[src*="rset"],
+.partner-rail .press-logo:hover img[src*="90plus"],
+.partner-rail .press-logo:hover img[src*="gems"] {
+  filter: saturate(1.12);
+}
+
+/* Manorama in the mastheads rail is the same asset and the same
+   problem; that rail has no .partner-rail to hang the fix on. */
+.press-logo:hover img[src*="Partners/manorama"] {
+  filter: saturate(1.12) brightness(1.49);
+  opacity: 1;
+}

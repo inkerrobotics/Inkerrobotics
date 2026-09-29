@@ -1,0 +1,71 @@
+import JsonLd from '@/components/JsonLd';
+
+export const metadata = {
+  title: "Robotic Solutions Built for Real-World Impact",
+  description: "Custom robotics, automation systems, robotic kiosks, humanoid robots, and entertainment robotics by Inker Robotics. Featured deployments: Tholpava Kooth automation, Federal Bank kiosk, RoboMaker, Robotic Kunjiraman, and Inker Alton humanoid.",
+  alternates: { canonical: "/robotics" },
+  openGraph: {
+    title: "Robotic Solutions Built for Real-World Impact",
+    description: "Custom robotics, automation systems, robotic kiosks, humanoid robots, and entertainment robotics by Inker Robotics. Featured deployments: Tholpava Kooth automation, Federal Bank kiosk, RoboMaker, Robotic Kunjiraman, and Inker Alton humanoid.",
+    url: "/robotics",
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Robotic Solutions Built for Real-World Impact",
+    description: "Custom robotics, automation systems, robotic kiosks, humanoid robots, and entertainment robotics by Inker Robotics. Featured deployments: Tholpava Kooth automation, Federal Bank kiosk, RoboMaker, Robotic Kunjiraman, and Inker Alton humanoid."
+  }
+};
+
+const jsonLd: object[] = [{"@context":"https://schema.org","@type":"OfferCatalog","name":"Robotic Solutions Built for Real-World Impact","provider":{"@id":"https://inkerrobotics.com#organization"},"itemListElement":[{"@type":"Offer","position":1,"itemOffered":{"@type":"Service","name":"Custom Robotics","description":"Tailor-made robotic systems designed for specific business, institutional, or experiential requirements.","provider":{"@id":"https://inkerrobotics.com#organization"}}},{"@type":"Offer","position":2,"itemOffered":{"@type":"Service","name":"Robotic Automation","description":"Robotic automation for repetitive, manual, or process-driven tasks.","provider":{"@id":"https://inkerrobotics.com#organization"}}},{"@type":"Offer","position":3,"itemOffered":{"@type":"Service","name":"Robotic Kiosks","description":"Interactive robotic kiosk systems for customer, employee, or visitor engagement.","provider":{"@id":"https://inkerrobotics.com#organization"}}},{"@type":"Offer","position":4,"itemOffered":{"@type":"Service","name":"Educational Robotics","description":"Learning platforms and robotics kits for mechanical, electronics, and coding concepts.","provider":{"@id":"https://inkerrobotics.com#organization"}}},{"@type":"Offer","position":5,"itemOffered":{"@type":"Service","name":"Entertainment Robotics","description":"Robotic systems for events, shows, media, exhibitions, and engagement experiences.","provider":{"@id":"https://inkerrobotics.com#organization"}}}]},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://inkerrobotics.com/"},{"@type":"ListItem","position":2,"name":"Robotic Solutions Built for Real-World Impact","item":"https://inkerrobotics.com/robotics"}]}];
+import SolutionPage from '@/components/SolutionPage';
+
+const SHOWCASE = [
+    { title: 'Inker Alton', image: '/images/Robotics/Alton.png', description: 'A humanoid robot developed entirely by Inker Robotics, showcasing capability across robotics engineering, mechanical design, electronics, control systems and human-machine interaction.', bullets: ['Full-body humanoid articulation', 'Voice and touch interaction', 'Built and maintained in-house'] },
+    { title: 'Robotic Kiosk', image: '/images/Robotics/Kiosk.png', description: 'A robotic kiosk deployed for Federal Bank  automating customer interaction at the branch counter and handling routine enquiries without a queue.', bullets: ['Deployed in a live banking environment', 'Automated customer enquiry handling', 'Branded, branch-ready enclosure'] },
+    { title: 'Tholpava Kooth automation', image: '/images/Robotics/Puppetry.webp', description: 'Kerala’s traditional shadow puppetry, automated. A robotic system performs Tholpava Kooth — preserving a centuries-old art form through mechanical precision.', bullets: ['Cultural heritage automation', 'Synchronised multi-puppet control', 'Covered by regional press'] },
+    { title: 'Robotic Kunjiraman', image: '/images/Robotics/Humanoids.png', description: 'A character robot built for Flowers TV, performing live on air as part of the channel’s programming.', bullets: ['Built for live broadcast', 'Expressive character movement', 'On-air reliability'] },
+    { title: 'Serving robots & RoboDog', image: '/images/Robotics/Serving Robots.png', description: 'Service robotics for hospitality and events  autonomous serving robots and quadruped platforms for engagement and demonstration.', bullets: ['Autonomous navigation', 'Hospitality and event deployment', 'Available as a service'] }
+];
+
+const SPECS = [
+    { value: '6', suffix: '+', label: 'Robotic deployments' },
+    { value: '2020', suffix: '', label: 'Building since' },
+    { value: '200', suffix: '+', label: 'Technology expos' },
+    { value: '5', suffix: '+', label: 'Robot platforms' }
+];
+
+export default function Page() {
+  return (
+    <>
+      {jsonLd.map((d, i) => <JsonLd key={i} data={d} />)}
+      <SolutionPage
+        ghost='ROBOTICS'
+        eyebrow='Robotics'
+        title='MACHINES BUILT FOR THE REAL WORLD'
+        heroImage='/images/Robotics/Alton-cutout.png'
+        heroWebgl
+        heroStat={{ value: '6', suffix: '+', label: <>Robotic<br />deployments</> }}
+        tabs={['DEPLOYMENTS', 'ROBOT AS A SERVICE']}
+        aboutEyebrow='About the practice'
+        aboutTitle='ENGINEERED END TO END'
+        aboutBody='Mechanical design, electronics, control systems and human-machine interaction — all built in-house. Inker’s robots do not live in a lab: they serve customers at bank counters, perform on national television, and carry Kerala’s oldest art form on their shoulders.'
+        aboutImage='/images/Robotics/Robotics.png'
+        showcaseTitle='OUR ROBOTS'
+        showcase={SHOWCASE}
+        specs={SPECS}
+        limitlessTitle='ROBOT AS A SERVICE  DEPLOY WITHOUT THE CAPEX'
+        limitlessTags={['RaaS', 'Automation', 'Humanoids']}
+        limitlessImage='/images/Robotics/RoboDog.png'
+        articleTitle='Rent the robot, keep the outcome'
+        articleBody='Not every brand needs to own a robot. Inker offers its platforms as a service for events, activations, exhibitions and pilot deployments  you get the machine, the operator and the support, without the capital expense.'
+      voices={[
+        { quote: 'The robotic kiosk changed how our branch handles routine customer enquiries.', name: 'Federal Bank', role: 'Banking deployment' },
+        { quote: 'Robotic Kunjiraman performed live on air and audiences loved it.', name: 'Flowers TV', role: 'Broadcast partner' }
+      ]}
+        diveTitle='BUILD YOUR ROBOT'
+        diveImage='/images/Robotics/Humanoids.png'
+      />
+    </>
+  );
+}
