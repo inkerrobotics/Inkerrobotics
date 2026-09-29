@@ -85,16 +85,41 @@ export default function RobotSequenceCanvas() {
 
       if (img && img.complete && img.naturalWidth > 0) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
-        const x = canvas.width / 2 - (img.naturalWidth / 2) * scale;
-        const y = canvas.height / 2 - (img.naturalHeight / 2) * scale;
-        ctx.drawImage(img, x, y, img.naturalWidth * scale, img.naturalHeight * scale);
+
+        // Responsive scaling: adapt dynamically to landscape, tablet, and portrait windows
+        const aspect = canvas.width / canvas.height;
+        let scale: number;
+        if (aspect < 0.9) {
+          // Portrait / narrow window: keep robot prominent and properly contained
+          scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight) * 1.35;
+        } else {
+          // Landscape / desktop window: cover mode to fill hero banner
+          scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
+        }
+
+        const w = img.naturalWidth * scale;
+        const h = img.naturalHeight * scale;
+        const x = (canvas.width - w) / 2;
+        const y = (canvas.height - h) / 2;
+
+        ctx.drawImage(img, x, y, w, h);
       }
     };
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const parent = canvas.parentElement;
+      const width = parent ? parent.clientWidth : window.innerWidth;
+      const height = parent ? parent.clientHeight : window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      const bufferWidth = Math.floor(width * dpr);
+      const bufferHeight = Math.floor(height * dpr);
+
+      if (canvas.width !== bufferWidth || canvas.height !== bufferHeight) {
+        canvas.width = bufferWidth;
+        canvas.height = bufferHeight;
+      }
+
       drawFrame(currentFrameRef.current);
     };
 
@@ -205,22 +230,33 @@ export default function RobotSequenceCanvas() {
       if (!rafId) rafId = requestAnimationFrame(flush);
     };
 
-    /* Resizing reallocates the backing store, which is expensive; wait
-       for the drag to settle rather than doing it on every pixel. */
-    let resizeTimer = 0;
+    /* Resize handling: smoothly recalculate on every frame of the resize
+       via requestAnimationFrame and ResizeObserver so the banner adjusts
+       instantly and cleanly without distortion or lag. */
+    let resizeRaf = 0;
     const handleResize = () => {
-      window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(resizeCanvas, 120);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(() => {
+        resizeCanvas();
+        handleScroll();
+      });
     };
 
-    window.addEventListener('resize', handleResize);
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && canvas.parentElement) {
+      resizeObserver = new ResizeObserver(handleResize);
+      resizeObserver.observe(canvas.parentElement);
+    }
+
+    window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
     return () => {
       cancelled = true;
       if (rafId) cancelAnimationFrame(rafId);
-      window.clearTimeout(resizeTimer);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      if (resizeObserver) resizeObserver.disconnect();
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
