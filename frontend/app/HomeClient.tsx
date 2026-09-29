@@ -135,10 +135,6 @@ export default function HomeClient() {
             <h1 className="hero-main-title">
               BUILDING THE FUTURE WITH ROBOTICS, AI &amp; INTELLIGENT EXPERIENCES
             </h1>
-            <div className="hero-btn-group">
-              <Link className="cine-btn" href="/robotics"><span className="dot" />Explore solutions</Link>
-              <Link className="cine-btn" href="/contact">Talk to us</Link>
-            </div>
           </div>
         </div>
       </div>
