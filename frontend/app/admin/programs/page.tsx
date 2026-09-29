@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 interface Program { id: string; title: string; tag: string; status: string; audience: string; duration: string; mode: string; startDate: string; fee: string; certificate: string; outcome: string; order: number; isActive: boolean; }
 const empty = (): Partial<Program> => ({ title: '', tag: 'Internship', status: 'live', audience: '', duration: '', mode: 'Hybrid', startDate: '', fee: '', certificate: 'Yes', outcome: '', order: 0, isActive: true });
 

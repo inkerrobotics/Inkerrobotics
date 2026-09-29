@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 interface Asset { id: string; name: string; url: string; mimeType: string; size: number; createdAt: string; }
 

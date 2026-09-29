@@ -186,7 +186,7 @@ export default function ChatBot() {
 
     setIsSubmittingLead(true);
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
       await fetch(`${API_URL}/api/inquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

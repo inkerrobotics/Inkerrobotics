@@ -6,7 +6,7 @@ import JsonLd from '@/components/JsonLd';
 
 const jsonLd: object[] = [{"@context":"https://schema.org","@type":"ContactPage","url":"https://inkerrobotics.com/contact","name":"Contact Inker Robotics — Lets Build the Future Together","description":"Get in touch with Inker Robotics for robotics solutions, AI systems, RoboPark partnerships, EduTech programs, careers, and collaborations. Response within 24 hours.","about":{"@id":"https://inkerrobotics.com#organization"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://inkerrobotics.com/"},{"@type":"ListItem","position":2,"name":"Contact Inker Robotics — Lets Build the Future Together","item":"https://inkerrobotics.com/contact"}]}];
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 
 declare global {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 interface PressItem { id: string; publication: string; headline: string; date: string; kind: string; isVideo: boolean; imageUrl?: string; linkUrl?: string; page: string; order: number; }
 const empty = (): Partial<PressItem> => ({ publication: '', headline: '', date: '', kind: 'Newspaper Feature', isVideo: false, imageUrl: '', linkUrl: '', page: 'home', order: 0 });
 
