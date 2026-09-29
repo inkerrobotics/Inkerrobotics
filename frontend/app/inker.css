@@ -9,6 +9,8 @@
   position: absolute;
   left: clamp(20px, 4vw, 64px);
   bottom: clamp(48px, 9vh, 110px);
+  top: auto;
+  transform: none;
   z-index: 30;
   max-width: 17ch;
   pointer-events: none;

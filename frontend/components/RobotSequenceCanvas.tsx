@@ -86,16 +86,9 @@ export default function RobotSequenceCanvas() {
       if (img && img.complete && img.naturalWidth > 0) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Responsive scaling: adapt dynamically to landscape, tablet, and portrait windows
-        const aspect = canvas.width / canvas.height;
-        let scale: number;
-        if (aspect < 0.9) {
-          // Portrait / narrow window: keep robot prominent and properly contained
-          scale = Math.min(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight) * 1.35;
-        } else {
-          // Landscape / desktop window: cover mode to fill hero banner
-          scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
-        }
+        // Seamless cover scaling: fills the entire hero canvas from edge to edge
+        // (both width and height) so there is zero gap below the navbar in small/mobile views.
+        const scale = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
 
         const w = img.naturalWidth * scale;
         const h = img.naturalHeight * scale;
