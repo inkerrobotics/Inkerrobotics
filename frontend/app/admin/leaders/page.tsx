@@ -44,40 +44,47 @@ export default function LeadersPage() {
   );
 
   return (
-    <div style={{ padding: '40px' }}>
+    <div style={{ padding: '40px 48px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#FFFFFF', margin: 0 }}>Team / Leadership</h1>
-        <button onClick={() => setEditing(empty())} style={btnPrimary}>+ Add Member</button>
+        <div>
+          <div style={{ fontSize: '11px', letterSpacing: '0.18em', color: '#eb670e', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px' }}>
+            People & Culture
+          </div>
+          <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#FFFFFF', margin: 0, letterSpacing: '-0.02em' }}>
+            Team & Leadership
+          </h1>
+        </div>
+        <button onClick={() => setEditing(empty())} style={btnPrimary}>+ Add Team Member</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
         {leaders.map(l => (
           <div key={l.id} style={card}>
-            <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-              <div style={{ width: '52px', height: '52px', borderRadius: '50%', background: 'rgba(255,255,255,0.03)', flexShrink: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {l.imageUrl ? <img src={l.imageUrl} alt={l.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '22px' }}>👤</span>}
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+              <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', flexShrink: 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {l.imageUrl ? <img src={l.imageUrl} alt={l.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <span style={{ fontSize: '24px' }}>👤</span>}
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 700, color: '#FFFFFF', fontSize: '15px' }}>{l.name}</div>
-                <div style={{ color: '#7D39EB', fontSize: '12px', fontWeight: 600, marginTop: '2px' }}>{l.role}</div>
-                {l.bio && <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)', margin: '8px 0 0', lineHeight: 1.5 }}>{l.bio}</p>}
+                <div style={{ fontWeight: 700, color: '#FFFFFF', fontSize: '16px' }}>{l.name}</div>
+                <div style={{ color: '#eb670e', fontSize: '12.5px', fontWeight: 600, marginTop: '2px' }}>{l.role}</div>
+                {l.bio && <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.60)', margin: '8px 0 0', lineHeight: 1.5 }}>{l.bio}</p>}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '8px', marginTop: '16px', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '18px', paddingTop: '14px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
               <button onClick={() => setEditing(l)} style={btnSm}>Edit</button>
-              <button onClick={() => remove(l.id)} style={{ ...btnSm, color: '#FF5B6E', borderColor: 'rgba(255,91,110,0.3)' }}>Delete</button>
+              <button onClick={() => remove(l.id)} style={{ ...btnSm, color: '#ff4d4f', borderColor: 'rgba(255,77,79,0.35)' }}>Delete</button>
             </div>
           </div>
         ))}
-        {leaders.length === 0 && <div style={{ color: 'rgba(255,255,255,0.55)', gridColumn: '1/-1', padding: '40px', textAlign: 'center' }}>No team members yet — add one above.</div>}
+        {leaders.length === 0 && <div style={{ color: 'rgba(255,255,255,0.50)', gridColumn: '1/-1', padding: '40px', textAlign: 'center' }}>No team members yet — add one above.</div>}
       </div>
 
       {/* Modal */}
       {editing && (
         <div style={overlay}>
           <div style={modal}>
-            <h2 style={{ margin: '0 0 24px', fontSize: '18px', color: '#FFFFFF' }}>{editing.id ? 'Edit' : 'Add'} Team Member</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <h2 style={{ margin: '0 0 24px', fontSize: '20px', fontWeight: 800, color: '#FFFFFF' }}>{editing.id ? 'Edit' : 'Add'} Team Member</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {field('Name *', 'name')}
               {field('Role / Title *', 'role')}
               <div>
@@ -88,8 +95,8 @@ export default function LeadersPage() {
               {field('Photo URL (from Media Library)', 'imageUrl')}
               {field('Display Order', 'order', 'number')}
             </div>
-            <div style={{ display: 'flex', gap: '10px', marginTop: '24px' }}>
-              <button onClick={save} disabled={saving} style={btnPrimary}>{saving ? 'Saving…' : 'Save'}</button>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '28px' }}>
+              <button onClick={save} disabled={saving} style={btnPrimary}>{saving ? 'Saving…' : 'Save Member'}</button>
               <button onClick={() => setEditing(null)} style={btnGhost}>Cancel</button>
             </div>
           </div>
@@ -99,11 +106,11 @@ export default function LeadersPage() {
   );
 }
 
-const lbl: React.CSSProperties = { display: 'block', fontSize: '11px', color: 'rgba(255,255,255,0.55)', letterSpacing: '0.07em', fontWeight: 600, marginBottom: '5px' };
-const inp: React.CSSProperties = { width: '100%', padding: '9px 12px', border: '1px solid rgba(255,255,255,0.10)', borderRadius: '4px', fontSize: '14px', color: '#FFFFFF', boxSizing: 'border-box', background: 'rgba(255,255,255,0.04)' };
-const card: React.CSSProperties = { background: 'rgba(255,255,255,0.04)', borderRadius: '7px', padding: '20px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' };
-const btnPrimary: React.CSSProperties = { background: '#7D39EB', color: 'rgba(255,255,255,0.04)', border: 'none', borderRadius: '4px', padding: '10px 20px', fontSize: '13.5px', fontWeight: 600, cursor: 'pointer' };
-const btnGhost: React.CSSProperties = { background: 'rgba(255,255,255,0.04)', color: 'rgba(255,255,255,0.55)', border: '1px solid rgba(255,255,255,0.10)', borderRadius: '4px', padding: '10px 20px', fontSize: '13.5px', cursor: 'pointer' };
-const btnSm: React.CSSProperties = { background: 'rgba(255,255,255,0.04)', color: '#9B63F2', border: '1px solid rgba(255,255,255,0.10)', borderRadius: '4px', padding: '6px 14px', fontSize: '12px', cursor: 'pointer' };
-const overlay: React.CSSProperties = { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 };
-const modal: React.CSSProperties = { background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '36px', width: '100%', maxWidth: '520px', maxHeight: '90vh', overflowY: 'auto' };
+const lbl: React.CSSProperties = { display: 'block', fontSize: '11px', color: 'rgba(255,255,255,0.65)', letterSpacing: '0.08em', fontWeight: 700, marginBottom: '6px', textTransform: 'uppercase' };
+const inp: React.CSSProperties = { width: '100%', padding: '10px 14px', border: '1px solid rgba(255,255,255,0.14)', borderRadius: '6px', fontSize: '14px', color: '#FFFFFF', boxSizing: 'border-box', background: 'rgba(255,255,255,0.04)', outline: 'none' };
+const card: React.CSSProperties = { background: 'rgba(15, 18, 28, 0.70)', backdropFilter: 'blur(10px)', borderRadius: '10px', padding: '24px', border: '1px solid rgba(255, 255, 255, 0.08)', boxShadow: '0 4px 20px rgba(0,0,0,0.3)' };
+const btnPrimary: React.CSSProperties = { background: 'linear-gradient(135deg, #eb670e 0%, #ff7315 100%)', color: '#FFFFFF', border: 'none', borderRadius: '6px', padding: '11px 22px', fontSize: '13.5px', fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 14px rgba(235, 103, 14, 0.35)' };
+const btnGhost: React.CSSProperties = { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '6px', padding: '11px 20px', fontSize: '13.5px', cursor: 'pointer', fontWeight: 600 };
+const btnSm: React.CSSProperties = { background: 'rgba(255,255,255,0.04)', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.14)', borderRadius: '5px', padding: '6px 14px', fontSize: '12px', cursor: 'pointer', fontWeight: 600 };
+const overlay: React.CSSProperties = { position: 'fixed', inset: 0, background: 'rgba(2, 3, 6, 0.80)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '20px' };
+const modal: React.CSSProperties = { background: '#0D101C', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '12px', padding: '36px', width: '100%', maxWidth: '520px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 50px rgba(0,0,0,0.7), 0 0 30px rgba(235,103,14,0.1)' };

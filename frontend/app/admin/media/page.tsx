@@ -51,14 +51,36 @@ export default function MediaPage() {
   };
 
   return (
-    <div style={{ padding: '40px' }}>
+    <div style={{ padding: '40px 48px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#FFFFFF', margin: '0 0 4px' }}>Media Library</h1>
-          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px', margin: 0 }}>{assets.length} file{assets.length !== 1 ? 's' : ''} — click any image to copy its URL</p>
+          <div style={{ fontSize: '11px', letterSpacing: '0.18em', color: '#eb670e', fontWeight: 700, textTransform: 'uppercase', marginBottom: '6px' }}>
+            Assets Storage
+          </div>
+          <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#FFFFFF', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
+            Media Library
+          </h1>
+          <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px', margin: 0 }}>
+            {assets.length} file{assets.length !== 1 ? 's' : ''} stored — click any file to copy its direct URL
+          </p>
         </div>
-        <button onClick={() => inputRef.current?.click()} disabled={uploading} style={{ background: '#7D39EB', color: 'rgba(255,255,255,0.04)', border: 'none', borderRadius: '5px', padding: '10px 20px', fontSize: '14px', fontWeight: 600, cursor: 'pointer' }}>
-          {uploading ? 'Uploading…' : '+ Upload Images'}
+        <button
+          onClick={() => inputRef.current?.click()}
+          disabled={uploading}
+          style={{
+            background: 'linear-gradient(135deg, #eb670e 0%, #ff7315 100%)',
+            color: '#FFFFFF',
+            border: 'none',
+            borderRadius: '6px',
+            padding: '11px 22px',
+            fontSize: '13.5px',
+            fontWeight: 700,
+            cursor: uploading ? 'not-allowed' : 'pointer',
+            boxShadow: '0 4px 14px rgba(235, 103, 14, 0.35)',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          {uploading ? 'Uploading…' : '+ Upload Media'}
         </button>
         <input ref={inputRef} type="file" multiple accept="image/*,video/*" style={{ display: 'none' }} onChange={e => upload(e.target.files)} />
       </div>
@@ -69,36 +91,75 @@ export default function MediaPage() {
         onDragLeave={() => setDrag(false)}
         onDrop={e => { e.preventDefault(); setDrag(false); upload(e.dataTransfer.files); }}
         onClick={() => inputRef.current?.click()}
-        style={{ border: `2px dashed ${drag ? '#7D39EB' : 'rgba(255,255,255,0.14)'}`, borderRadius: '8px', padding: '32px', textAlign: 'center', marginBottom: '32px', cursor: 'pointer', background: drag ? 'rgba(125,57,235,0.04)' : 'rgba(255,255,255,0.04)', transition: 'all 150ms' }}
+        style={{
+          border: `2px dashed ${drag ? '#eb670e' : 'rgba(255,255,255,0.12)'}`,
+          borderRadius: '10px',
+          padding: '36px',
+          textAlign: 'center',
+          marginBottom: '36px',
+          cursor: 'pointer',
+          background: drag ? 'rgba(235, 103, 14, 0.08)' : 'rgba(15, 18, 28, 0.50)',
+          backdropFilter: 'blur(8px)',
+          transition: 'all 0.2s ease',
+        }}
       >
-        <div style={{ fontSize: '32px', marginBottom: '8px' }}>📁</div>
-        <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px' }}>Drag & drop images here, or click to browse</div>
-        <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: '12px', marginTop: '4px' }}>JPG, PNG, WebP, SVG, MP4 — max 10 MB each</div>
+        <div style={{ fontSize: '36px', marginBottom: '10px' }}>📁</div>
+        <div style={{ color: '#FFFFFF', fontSize: '14.5px', fontWeight: 600 }}>Drag & drop images or videos here, or click to browse</div>
+        <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '12px', marginTop: '4px' }}>PNG, JPG, WebP, SVG, MP4 — up to 10 MB per file</div>
       </div>
 
       {/* Grid */}
       {assets.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '60px', color: 'rgba(255,255,255,0.55)' }}>No files uploaded yet.</div>
+        <div style={{ textAlign: 'center', padding: '60px', color: 'rgba(255,255,255,0.45)' }}>No files uploaded yet.</div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '16px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '20px' }}>
           {assets.map(a => (
-            <div key={a.id} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: '6px', overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.07)', position: 'relative', border: copied === a.url ? '2px solid #7D39EB' : '2px solid transparent' }}>
-              <div style={{ height: '130px', background: 'rgba(255,255,255,0.03)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden' }} onClick={() => copy(a.url)}>
+            <div
+              key={a.id}
+              style={{
+                background: 'rgba(15, 18, 28, 0.70)',
+                backdropFilter: 'blur(10px)',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                border: copied === a.url ? '2px solid #eb670e' : '1px solid rgba(255,255,255,0.08)',
+                boxShadow: copied === a.url ? '0 0 20px rgba(235, 103, 14, 0.3)' : '0 4px 16px rgba(0,0,0,0.3)',
+                position: 'relative',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <div
+                style={{ height: '140px', background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', overflow: 'hidden', position: 'relative' }}
+                onClick={() => copy(a.url)}
+              >
                 {a.mimeType.startsWith('image') ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={a.url} alt={a.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 ) : (
-                  <span style={{ fontSize: '32px' }}>🎬</span>
+                  <span style={{ fontSize: '36px' }}>🎬</span>
                 )}
                 {copied === a.url && (
-                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.04)', fontSize: '13px', fontWeight: 600 }}>✓ URL Copied!</div>
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    background: 'rgba(4, 5, 8, 0.85)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: '#eb670e', fontSize: '13px', fontWeight: 700,
+                  }}>
+                    ✓ URL Copied!
+                  </div>
                 )}
               </div>
-              <div style={{ padding: '10px 12px' }}>
-                <div style={{ fontSize: '12px', color: '#FFFFFF', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.name}</div>
-                <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.38)', marginTop: '2px' }}>{fmt(a.size)}</div>
+              <div style={{ padding: '12px 14px' }}>
+                <div style={{ fontSize: '12.5px', color: '#FFFFFF', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.name}</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
+                  <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)' }}>{fmt(a.size)}</span>
+                  <button
+                    onClick={() => remove(a.id)}
+                    style={{ background: 'none', border: 'none', color: '#ff4d4f', fontSize: '11.5px', cursor: 'pointer', padding: 0, fontWeight: 500 }}
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-              <button onClick={() => remove(a.id)} style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(255,91,110,0.9)', border: 'none', borderRadius: '3px', color: 'rgba(255,255,255,0.04)', fontSize: '11px', padding: '3px 7px', cursor: 'pointer' }}>✕</button>
             </div>
           ))}
         </div>
