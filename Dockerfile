@@ -37,7 +37,7 @@ WORKDIR /app
 RUN apk add --no-cache openssl
 
 ENV NODE_ENV=production \
-    PORT=10000 \
+    PORT=3000 \
     ADMIN_SECRET=inker-admin-2026 \
     FRONTEND_URL=https://inkerrobotics.onrender.com \
     NOTIFY_EMAIL=info@inkerrobotics.com \
@@ -62,5 +62,5 @@ COPY --from=frontend-builder /app/frontend/public            ./frontend/public
 # Node.js process manager — avoids all shell/CRLF issues
 COPY launcher.js ./
 
-EXPOSE 10000
+EXPOSE 3000
 CMD ["node", "launcher.js"]

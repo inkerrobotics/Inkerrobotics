@@ -11,10 +11,10 @@ function start(name, cmd, args, cwd, env) {
   return proc;
 }
 
-// 1. Frontend listens on Render's public routing port (10000) on 0.0.0.0
-// This ensures Render's edge router immediately latches onto port 10000 as the public web service!
+// 1. Frontend listens on port 3000 (standard Next.js port) on 0.0.0.0
+// Render detects EXPOSE 3000 and routes all public internet traffic here!
 const rawPort = process.env.PORT;
-const frontendPort = (!rawPort || rawPort === '4000') ? '10000' : rawPort;
+const frontendPort = (!rawPort || rawPort === '4000') ? '3000' : rawPort;
 
 console.log(`[launcher] Launching frontend on public port ${frontendPort}...`);
 start('frontend', 'node', ['server.js'], '/app/frontend', {
