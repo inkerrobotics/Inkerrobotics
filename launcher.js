@@ -11,14 +11,20 @@ function start(name, cmd, args, cwd, env) {
   return proc;
 }
 
-// Backend always on port 4000 (internal) — override Render's PORT
-start('backend', 'node', ['dist/index.js'], '/app/backend', { PORT: '4000' });
+// Backend always on port 4000 (internal) — Next.js rewrites forward to this port
+const BACKEND_PORT = '4000';
+start('backend', 'node', ['dist/index.js'], '/app/backend', { PORT: BACKEND_PORT });
 
-// Frontend on Render's PORT (10000 in prod) so Render can route traffic correctly
+// Frontend on Render's public PORT (typically 10000)
+// If PORT is missing or mistakenly set to 4000, default to 10000 to prevent EADDRINUSE crash
+const rawPort = process.env.PORT;
+const frontendPort = (!rawPort || rawPort === BACKEND_PORT) ? '10000' : rawPort;
+
 setTimeout(() => {
-  const frontendPort = process.env.PORT || '3000';
+  console.log(`[launcher] Launching frontend on port ${frontendPort}...`);
   start('frontend', 'node', ['server.js'], '/app/frontend', {
     PORT: frontendPort,
     HOSTNAME: '0.0.0.0',
   });
 }, 4000);
+

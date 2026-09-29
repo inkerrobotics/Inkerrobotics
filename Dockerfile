@@ -1,5 +1,5 @@
 # ── Stage 1: Build backend ────────────────────────────────────────
-FROM node:18-alpine AS backend-builder
+FROM node:20-alpine AS backend-builder
 WORKDIR /app/backend
 
 COPY backend/package*.json ./
@@ -11,7 +11,7 @@ RUN npm run build
 
 
 # ── Stage 2: Build frontend ───────────────────────────────────────
-FROM node:18-alpine AS frontend-builder
+FROM node:20-alpine AS frontend-builder
 WORKDIR /app/frontend
 
 COPY frontend/package*.json ./
@@ -31,13 +31,13 @@ RUN npm run build
 
 
 # ── Stage 3: Final lean image ─────────────────────────────────────
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 RUN apk add --no-cache openssl
 
 ENV NODE_ENV=production \
-    PORT=4000 \
+    PORT=10000 \
     ADMIN_SECRET=inker-admin-2026 \
     FRONTEND_URL=https://inkerrobotics.onrender.com \
     NOTIFY_EMAIL=info@inkerrobotics.com \
@@ -62,5 +62,5 @@ COPY --from=frontend-builder /app/frontend/public            ./frontend/public
 # Node.js process manager — avoids all shell/CRLF issues
 COPY launcher.js ./
 
-EXPOSE 3000
+EXPOSE 10000
 CMD ["node", "launcher.js"]
