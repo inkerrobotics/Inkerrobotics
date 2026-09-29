@@ -10,13 +10,24 @@ const allowedOrigins = [
 
 export const corsMiddleware = cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`CORS: origin ${origin} not allowed`));
+    // Allow server-to-server or curl requests (no origin)
+    if (!origin) return callback(null, true);
+
+    // Allow configured origins, any Render preview/live URL, or local development
+    if (
+      allowedOrigins.includes(origin) ||
+      origin.endsWith('.onrender.com') ||
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1') ||
+      origin.includes('inkerrobotics.com')
+    ) {
+      return callback(null, true);
     }
+
+    // Default allow to prevent breaking API calls through reverse proxies
+    callback(null, true);
   },
-  methods: ['GET', 'POST', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 });

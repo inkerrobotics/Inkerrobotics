@@ -19,8 +19,8 @@ RUN npm ci
 
 COPY frontend/ ./
 
-# Both services run in the same container — backend is on localhost:4000
-ARG NEXT_PUBLIC_API_URL=https://inkerrobotics.onrender.com
+# Both services run in the same container — backend is on 127.0.0.1:4000
+ARG NEXT_PUBLIC_API_URL=""
 ARG NEXT_PUBLIC_SITE_URL=https://inkerrobotics.com
 ARG NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6LdhWBctAAAAAOffK5BWiQPitSYCaI9_VK5d4tZO
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL

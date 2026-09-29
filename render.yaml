@@ -16,8 +16,6 @@ services:
         value: info@inkerrobotics.com
       - key: NEXT_PUBLIC_SITE_URL
         value: https://inkerrobotics.onrender.com
-      - key: NEXT_PUBLIC_API_URL
-        value: https://inkerrobotics.onrender.com
       - key: FRONTEND_URL
         value: https://inkerrobotics.onrender.com
       - key: NEXT_PUBLIC_RECAPTCHA_SITE_KEY
