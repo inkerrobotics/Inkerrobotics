@@ -24,7 +24,26 @@ const SHOWCASE = [
     { title: 'Digital Lucky Draw', image: '/images/Al Solutions/Luckydraw.png', description: 'A WhatsApp-based digital lucky draw that captures customer data at the moment of engagement and feeds it straight into your campaign analytics.', bullets: ['WhatsApp-first entry flow', 'Automatic customer data capture', 'Live campaign analytics'] },
     { title: 'AI-Based Physical Spin Wheel', image: '/images/Al Solutions/Phygital.png', description: 'A phygital spin wheel that brings the excitement of a physical activation together with digital tracking, so every spin is a measurable interaction.', bullets: ['Physical hardware, digital tracking', 'Instant reward fulfilment', 'Built for events and retail floors'] },
     { title: 'Robotic Photo Booth', image: '/images/Al Solutions/Photobooth.png', description: 'An interactive robotic system for brand activations, events and exhibitions — memorable photo experiences, social sharing and customer data capture in one unit.', bullets: ['Branded photo experiences', 'Social media integration', 'Data capture at the point of delight'] },
-    { title: 'WhatsApp-first CMS', image: '/images/Home/AI-Based Customer Management.png', description: 'Customer management systems built around WhatsApp for restaurants, hospitals, hotels and service businesses — automating enquiries, bookings, feedback and service workflows.', bullets: ['Automated enquiry and booking flows', 'Feedback and service workflows', 'Built for hospitality and healthcare'] }
+    { title: 'WhatsApp-first CMS', image: '/images/Al Solutions/WhatsApp-CMS.png', description: 'Customer management systems built around WhatsApp for restaurants, hospitals, hotels and service businesses — automating enquiries, bookings, feedback and service workflows.', bullets: ['Automated enquiry and booking flows', 'Feedback and service workflows', 'Built for hospitality and healthcare'] }
+];
+
+const WORK = [
+    {
+        client: 'Elanadu',
+        category: 'Lucky Draw · Analytics',
+        title: 'WhatsApp lucky draw and campaign analytics platform',
+        image: '/images/Al Solutions/Work-Elanadu.png',
+        description: 'A complete promotional contest platform for Elanadu — customers enter through WhatsApp with their purchase, and the company runs contests, participants, live lucky draws and winners from a single admin dashboard, with analytics showing engagement by district and the top products driving entries.',
+        highlights: ['Contest and participant management', 'Live lucky draw with winner records', 'District-wise and product-wise analytics']
+    },
+    {
+        client: 'Feast & Fest',
+        category: 'Catering · Event Management',
+        title: 'Luxury catering and event management website',
+        image: '/images/Al Solutions/Work-FeastAndFest.png',
+        description: 'A premium website for Feast & Fest, a catering and event management company — showcasing their services, menus and gallery, and turning visitors into enquiries through quote requests and one-tap WhatsApp and call buttons.',
+        highlights: ['Services, menu and gallery showcase', 'Get-a-quote enquiry flow', 'WhatsApp and call integration']
+    }
 ];
 
 const SPECS = [
@@ -42,23 +61,26 @@ export default function Page() {
         ghost='AI'
         eyebrow='AI Solutions'
         title='ENGAGEMENT THAT ACTUALLY CONVERTS'
-        heroImage='/images/Al Solutions/Luckydraw.png'
+        heroImage='/images/Al Solutions/AI-Hero.png'
+        heroWebgl
         heroStat={{ value: '25', suffix: '+', label: <>AI solutions<br />delivered</> }}
         tabs={['ENGAGEMENT', 'MANAGEMENT']}
         aboutEyebrow='About the practice'
         aboutTitle='CAPTURE, ENGAGE, ANALYSE'
         aboutBody='Inker builds AI-powered systems that turn footfall into data and data into repeat business — digital lucky draws, physical spin wheels, robotic photo booths and WhatsApp-first customer management for restaurants, hospitals, hotels and retail.'
-        aboutImage='/images/Al Solutions/Phygital.png'
+        aboutImage='/images/Al Solutions/AI-About.png'
         showcaseTitle='OUR SOLUTIONS'
         showcase={SHOWCASE}
         specs={SPECS}
+        workTitle='DELIVERED FOR OUR CLIENTS'
+        work={WORK}
         limitlessTitle='FROM FOOTFALL TO FOLLOW-UP, AUTOMATICALLY'
         limitlessTags={['Analytics', 'WhatsApp', 'Phygital']}
-        limitlessImage='/images/Home/AI-Based Customer Engagement.png'
+        limitlessImage='/images/Al Solutions/Customer-Analytics.png'
         articleTitle='Every interaction becomes a data point'
         articleBody='Engagement is only half the job. Inker’s systems capture who engaged, what they chose and when — then hand your team a segmented list and a campaign dashboard instead of a pile of paper slips.'
         diveTitle='AUTOMATE YOUR ENGAGEMENT'
-        diveImage='/images/Al Solutions/Photobooth.png'
+        diveImage='/images/Al Solutions/AI-Dive.png'
       />
     </>
   );

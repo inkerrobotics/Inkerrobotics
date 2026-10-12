@@ -35,6 +35,15 @@ export interface Spec {
   label: string;
 }
 
+export interface Work {
+  client: string;
+  category: string;
+  title: string;
+  description: string;
+  image: string;
+  highlights?: string[];
+}
+
 export interface Voice {
   quote: string;
   name: string;
@@ -62,6 +71,9 @@ export interface SolutionPageProps {
   limitlessImage: string;
   articleTitle: string;
   articleBody: string;
+  /** Delivered client projects, shown as case-study cards after the showcase. */
+  work?: Work[];
+  workTitle?: string;
   voices?: Voice[];
   diveTitle: string;
   diveImage: string;
@@ -342,6 +354,49 @@ export default function SolutionPage(p: SolutionPageProps) {
           </div>
         </section>
       </div>
+
+      {/* ── 3b · OUR WORK ── */}
+      {p.work && p.work.length > 0 && (
+        <section className="sv-section">
+          <div className="cg-depth" aria-hidden="true">
+            <span className="cg-ghost-type" data-parallax="0.26" data-parallax-x="0.2" data-parallax-trigger="self">
+              WORK
+            </span>
+            <span className="cg-rule cg-rule-b" data-parallax="0.38" data-parallax-trigger="self" />
+          </div>
+
+          <div className="sv-inner">
+            <div className="sv-work-head">
+              <p className="cine-eyebrow" data-anim="fade-up">Our work</p>
+              <h2 className="sv-title" data-anim="words">{p.workTitle ?? 'DELIVERED FOR OUR CLIENTS'}</h2>
+            </div>
+
+            <div className="sv-work">
+              {p.work.map((w, i) => (
+                <article className="sv-work-card hm-glass" key={w.client} data-anim="fade-up" data-anim-delay={String(i * 0.12)}>
+                  <div className="sv-work-media">
+                    <AutoImg src={w.image} alt={`${w.client} — ${w.title}`} />
+                  </div>
+                  <div className="sv-work-body">
+                    <div className="sv-work-meta">
+                      <span className="sv-work-index">{(i + 1).toString().padStart(2, '0')}</span>
+                      <span className="sv-work-cat">{w.category}</span>
+                    </div>
+                    <h3>{w.client}</h3>
+                    <p className="sv-work-sub">{w.title}</p>
+                    <p>{w.description}</p>
+                    {w.highlights && (
+                      <ul className="ink-list">
+                        {w.highlights.map((h) => <li key={h}>{h}</li>)}
+                      </ul>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── 4 · LIMITLESS ── */}
       <section className="sv-section">
