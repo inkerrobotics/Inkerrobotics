@@ -5,6 +5,7 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import dynamic from 'next/dynamic';
 import AutoImg from '@/components/AutoImg';
+import PageMotion from '@/components/PageMotion';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -412,6 +413,7 @@ export default function SolutionPage(p: SolutionPageProps) {
 
   return (
     <main ref={mainRef} className="sv-page">
+      <PageMotion mode="text" />
       {p.heroWebgl && <WebGLImages />}
       {staticTop}
 

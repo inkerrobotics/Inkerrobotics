@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { prefersReducedMotion } from '@/lib/smoothScroll';
-import { EASE } from '@/lib/motion';
+import { EASE, initMotion } from '@/lib/motion';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -19,7 +19,88 @@ if (typeof window !== 'undefined') {
  * uses. It never touches elements that carry `data-anim`, which lib/motion
  * already owns, so nothing is animated twice.
  */
-export default function PageMotion() {
+/* Blocks that already have their own choreography. Text inside them is
+   left alone so nothing animates twice. */
+const OWNED = [
+  '[data-anim]', '.reveal', '.cg-depth', '[aria-hidden="true"]', '[data-magnetic]',
+  'nav', 'footer', 'form', 'select', 'button',
+  '.sv-panel', '.sv-stat', '.sv-hero-rail', '.sv-tags', '.sv-quote', '.sv-work-card',
+  '.ink-specs', '.ink-impact', '.ink-roles', '.ink-detail', '.ink-list', '.ink-social-links',
+  '.ink-tl-item', '.ink-contact-grid > .sv-article',
+].join(',');
+
+const TEXT = 'h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figcaption, small, a.sv-link';
+
+/**
+ * Gives every remaining piece of text on the page a reveal.
+ *
+ * Plain-text headings are handed to lib/motion as `data-anim="words"` so
+ * they get the same masked word rise as the rest of the site. Everything
+ * else (paragraphs, list items, labels, links, headings that contain
+ * markup such as accent spans or line breaks) rises and un-blurs as a
+ * whole, in batches, so a block of copy cascades instead of popping in.
+ */
+function animateAllText(main: HTMLElement) {
+  const picked: HTMLElement[] = [];
+  main.querySelectorAll<HTMLElement>(TEXT).forEach((el) => {
+    if (el.dataset.motionText === '1') return;
+    if (!(el.textContent ?? '').trim()) return;
+    if (el.closest(OWNED)) return;
+    if (picked.some((p) => p.contains(el))) return;
+    picked.push(el);
+  });
+
+  const generic: HTMLElement[] = [];
+  let splitAny = false;
+  picked.forEach((el) => {
+    el.dataset.motionText = '1';
+    /* Word-splitting rewrites the heading's children, so it is only used
+       where React will not re-render the heading: not inside the pinned
+       showcase, whose parent re-renders on every scroll step. */
+    const plainHeading = /^H[1-6]$/.test(el.tagName) && el.children.length === 0
+      && (el.textContent ?? '').trim().length <= 120 && !el.closest('.pin-host');
+    if (plainHeading) {
+      el.dataset.anim = 'words';
+      el.dataset.animStagger = '0.05';
+      splitAny = true;
+    } else {
+      generic.push(el);
+    }
+  });
+
+  if (splitAny) initMotion(main);
+
+  if (generic.length) {
+    const hidden = { y: 30, opacity: 0, filter: 'blur(5px)' };
+    gsap.set(generic, hidden);
+    ScrollTrigger.batch(generic, {
+      start: 'top 92%',
+      onEnter: (batch) => gsap.to(batch, {
+        y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.9, ease: EASE.out,
+        stagger: 0.08, overwrite: true,
+      }),
+      onLeaveBack: (batch) => gsap.to(batch, { ...hidden, duration: 0.4, overwrite: true }),
+    });
+  }
+
+  /* Safety net: anything on screen that is still hidden a few seconds in
+     (a trigger measured before a late image resize, say) is shown. */
+  const safety = window.setTimeout(() => {
+    generic.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0 && getComputedStyle(el).opacity === '0') {
+        gsap.to(el, { y: 0, opacity: 1, filter: 'blur(0px)', duration: 0.6, ease: EASE.out });
+      }
+    });
+  }, 3000);
+
+  return () => {
+    window.clearTimeout(safety);
+    picked.forEach((el) => { delete el.dataset.motionText; });
+  };
+}
+
+export default function PageMotion({ mode = 'full' }: { mode?: 'full' | 'text' }) {
   const probe = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -27,6 +108,13 @@ export default function PageMotion() {
     if (!main || prefersReducedMotion()) return;
 
     const cleanups: Array<() => void> = [];
+
+    if (mode === 'text') {
+      let releaseText = () => {};
+      const ctxText = gsap.context(() => { releaseText = animateAllText(main); }, main);
+      const tt = window.setTimeout(() => ScrollTrigger.refresh(), 400);
+      return () => { window.clearTimeout(tt); releaseText(); ctxText.revert(); };
+    }
     const q = <T extends Element = HTMLElement>(sel: string) =>
       Array.from(main.querySelectorAll<T>(sel)).filter((el) => !(el as unknown as HTMLElement).dataset?.anim);
     const reveal = (trigger: Element, start = 'top 86%') => ({
@@ -131,6 +219,8 @@ export default function PageMotion() {
           scrollTrigger: { trigger: img.closest('.sv-dive') ?? img, start: 'top bottom', end: 'bottom top', scrub: 1.2 },
         });
       });
+      /* Finally, every piece of text not covered above. */
+      cleanups.push(animateAllText(main));
     }, main);
 
     /* Gentle 3D tilt on glass cards, desktop pointers only. */
@@ -164,7 +254,7 @@ export default function PageMotion() {
       cleanups.forEach((fn) => fn());
       ctx.revert();
     };
-  }, []);
+  }, [mode]);
 
   return <span ref={probe} hidden aria-hidden="true" />;
 }
