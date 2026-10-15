@@ -43,6 +43,22 @@ const WORK = [
         image: '/images/Al Solutions/Work-FeastAndFest.png',
         description: 'A premium website for Feast & Fest, a catering and event management company — showcasing their services, menus and gallery, and turning visitors into enquiries through quote requests and one-tap WhatsApp and call buttons.',
         highlights: ['Services, menu and gallery showcase', 'Get-a-quote enquiry flow', 'WhatsApp and call integration']
+    },
+    {
+        client: 'Cohera',
+        category: 'Task Automation · WhatsApp',
+        title: 'Cohera Task Automation — WhatsApp reminder and follow-up engine',
+        image: '/images/Al Solutions/Work-Cohera.png',
+        description: 'An automated task-chasing system for Cohera — suppliers get WhatsApp reminders on every open task, reply with a quick button tap or a free-text reason, and the admin dashboard logs each answer with how long it took and whether the task was already overdue.',
+        highlights: ['Automated WhatsApp reminders and follow-ups', 'One-tap status updates from suppliers', 'Reasons-for-delay log with overdue tracking']
+    },
+    {
+        client: 'Event Pro',
+        category: 'Events · WhatsApp · Analytics',
+        title: 'Event registration, reminder and QR check-in platform',
+        image: '/images/Al Solutions/Work-EventPro.png',
+        description: 'A WhatsApp-driven event platform that runs several events at the same time — attendees pre-register through a WhatsApp link, receive automated reminders, and check in at the venue by scanning a QR code, while organisers track registrations, check-ins, spot admissions and attendance rate per event or across all events from one dashboard.',
+        highlights: ['WhatsApp pre-registration and automated reminders', 'Venue QR check-in and spot admissions', 'Live analytics across multiple concurrent events']
     }
 ];
 
