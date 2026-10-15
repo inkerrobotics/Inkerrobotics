@@ -255,8 +255,11 @@ export default function Page() {
         <section className="sv-dive">
           <div className="sv-brackets" aria-hidden="true"><i /><i /><i /><i /></div>
           <div className="sv-dive-media" aria-hidden="true">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/Robotics/Alton.png" alt="" />
+            <picture>
+              <source srcSet="/eye.webp" type="image/webp" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/eye.png" alt="" />
+            </picture>
           </div>
           <h2 className="sv-dive-title" data-anim="chars" data-anim-stagger="0.03">ENGINEER THE FUTURE</h2>
         </section>
