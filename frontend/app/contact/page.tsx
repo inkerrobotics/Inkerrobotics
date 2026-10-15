@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Script from 'next/script';
 import JsonLd from '@/components/JsonLd';
+import PageMotion from '@/components/PageMotion';
 
 const jsonLd: object[] = [{"@context":"https://schema.org","@type":"ContactPage","url":"https://inkerrobotics.com/contact","name":"Contact Inker Robotics — Lets Build the Future Together","description":"Get in touch with Inker Robotics for robotics solutions, AI systems, RoboPark partnerships, EduTech programs, careers, and collaborations. Response within 24 hours.","about":{"@id":"https://inkerrobotics.com#organization"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://inkerrobotics.com/"},{"@type":"ListItem","position":2,"name":"Contact Inker Robotics — Lets Build the Future Together","item":"https://inkerrobotics.com/contact"}]}];
 
@@ -79,6 +80,7 @@ export default function Page() {
       )}
 
       <main className="sv-page">
+        <PageMotion />
         {/* ── HERO ── */}
         <section className="sv-hero" style={{ minHeight: '72vh' }}>
           <div className="sv-brackets" aria-hidden="true"><i /><i /><i /><i /></div>
@@ -114,9 +116,9 @@ export default function Page() {
             <div className="ink-contact-grid">
               {/* details rail */}
               <div>
-                <h2 className="sv-title">REACH US</h2>
+                <h2 className="sv-title" data-anim="words">REACH US</h2>
                 <div className="sv-divider" />
-                <p className="cine-body" style={{ marginTop: '1.2rem', marginBottom: '1.8rem', color: 'rgba(255,255,255,0.65)', maxWidth: '42ch' }}>
+                <p className="cine-body" data-anim="fade-up" data-anim-delay="0.1" style={{ marginTop: '1.2rem', marginBottom: '1.8rem', color: 'rgba(255,255,255,0.65)', maxWidth: '42ch' }}>
                   Tell us what you&apos;re building, exploring, or need help with. The right team will reach out within 24 hours.
                 </p>
 

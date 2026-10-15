@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import dynamic from 'next/dynamic';
@@ -87,6 +87,36 @@ function Brackets() {
   );
 }
 
+/**
+ * Counts the first text node of `el` up from zero to the number it holds.
+ *
+ * Only the text node's `data` is touched, never the node itself, for the
+ * same reason lib/motion blanks text in place: React keeps references to
+ * these nodes and throws if they are swapped out. The original string is
+ * restored on completion so formatting such as "1,200" survives.
+ */
+function countUp(el: Element | null, vars: gsap.TweenVars = {}) {
+  if (!el) return;
+  const node = Array.from(el.childNodes).find(
+    (n) => n.nodeType === Node.TEXT_NODE && (n.textContent ?? '').trim()
+  ) as Text | undefined;
+  if (!node) return;
+  const original = node.data;
+  const target = parseFloat(original.replace(/,/g, ''));
+  if (!Number.isFinite(target) || target <= 0) return;
+  const decimals = (original.split('.')[1] ?? '').length;
+  const counter = { v: 0 };
+  gsap.to(counter, {
+    v: target,
+    duration: 1.6,
+    ease: 'power3.out',
+    ...vars,
+    onStart: () => { node.data = (0).toFixed(decimals); },
+    onUpdate: () => { node.data = counter.v.toFixed(decimals); },
+    onComplete: () => { node.data = original; },
+  });
+}
+
 function initials(name: string) {
   return name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
 }
@@ -139,6 +169,60 @@ export default function SolutionPage(p: SolutionPageProps) {
     });
 
     gsap.from('.sv-stat', { y: 40, opacity: 0, duration: 1, ease: EASE.out, delay: 0.5 });
+    countUp(mainRef.current?.querySelector('.sv-stat b') ?? null, { delay: 0.65, duration: 1.8 });
+
+    /* Hero rail: tabs and scroll hint arrive after the title has landed. */
+    gsap.from('.sv-hero-rail > *', {
+      y: 24, opacity: 0, duration: 0.9, ease: EASE.out, stagger: 0.12, delay: 0.9,
+    });
+
+    /* Spec figures count up the first time they scroll into view. */
+    gsap.utils.toArray<HTMLElement>('.ink-spec b').forEach((b, i) => {
+      countUp(b, {
+        delay: i * 0.12,
+        scrollTrigger: { trigger: b, start: 'top 88%', toggleActions: 'play none none none' },
+      });
+    });
+
+    /* Client work cards: the card rises, the screenshot wipes open from
+       the bottom, then the copy follows line by line. The image itself is
+       left alone because its CSS hover zoom transitions `transform`. */
+    gsap.utils.toArray<HTMLElement>('.sv-work-card').forEach((card) => {
+      const media = card.querySelector('.sv-work-media');
+      const bits = card.querySelectorAll('.sv-work-meta, h3, .sv-work-body > p, .sv-work-body li');
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: card, start: 'top 86%', toggleActions: 'play none none reverse' },
+      });
+      tl.from(card, { y: 80, opacity: 0, duration: 1.05, ease: EASE.out });
+      if (media) {
+        tl.fromTo(media,
+          { clipPath: 'inset(100% 0% 0% 0%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'expo.out' }, 0.12);
+      }
+      if (bits.length) tl.from(bits, { y: 22, opacity: 0, duration: 0.7, ease: EASE.out, stagger: 0.06 }, 0.4);
+    });
+
+    /* Gentle 3D tilt on the work cards, desktop pointers only. */
+    const tiltCleanups: Array<() => void> = [];
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      gsap.utils.toArray<HTMLElement>('.sv-work-card').forEach((card) => {
+        gsap.set(card, { transformPerspective: 1000 });
+        const rx = gsap.quickTo(card, 'rotationX', { duration: 0.6, ease: 'power3.out' });
+        const ry = gsap.quickTo(card, 'rotationY', { duration: 0.6, ease: 'power3.out' });
+        const onMove = (e: MouseEvent) => {
+          const r = card.getBoundingClientRect();
+          ry(((e.clientX - r.left) / r.width - 0.5) * 6);
+          rx(-((e.clientY - r.top) / r.height - 0.5) * 6);
+        };
+        const onLeave = () => { rx(0); ry(0); };
+        card.addEventListener('mousemove', onMove);
+        card.addEventListener('mouseleave', onLeave);
+        tiltCleanups.push(() => {
+          card.removeEventListener('mousemove', onMove);
+          card.removeEventListener('mouseleave', onLeave);
+        });
+      });
+    }
 
     const showcase = showcaseRef.current;
     if (showcase && window.matchMedia('(min-width: 1001px)').matches) {
@@ -176,11 +260,54 @@ export default function SolutionPage(p: SolutionPageProps) {
         scrollTrigger: { trigger: '.sv-dive', start: 'top bottom', end: 'bottom top', scrub: 1.2 } }
     );
 
+    /* The closing title grows into place as the banner scrolls up. */
+    gsap.fromTo('.sv-dive-title',
+      { scale: 0.82 },
+      { scale: 1, ease: 'none',
+        scrollTrigger: { trigger: '.sv-dive', start: 'top bottom', end: 'center center', scrub: 1 } }
+    );
+
     return () => {
       stRef.current = null;
+      tiltCleanups.forEach((fn) => fn());
       cleanup();
     };
   }, { scope: mainRef });
+
+  /* Showcase transitions. CSS already cross-fades the panels; on top of
+     that the incoming copy staggers up line by line and the incoming
+     visual wipes open in the direction of travel, so scrolling down
+     reveals from the right and scrolling back up reveals from the left. */
+  const prevActive = useRef(0);
+  const firstShowcase = useRef(true);
+  useEffect(() => {
+    const prev = prevActive.current;
+    prevActive.current = active;
+    if (firstShowcase.current) { firstShowcase.current = false; return; }
+    if (prefersReducedMotion()) return;
+    const root = mainRef.current;
+    if (!root) return;
+    const panel = root.querySelectorAll<HTMLElement>('.sv-panel')[active];
+    const visual = root.querySelectorAll<HTMLElement>('.sv-visual')[active];
+    const forward = active >= prev;
+
+    const ctx = gsap.context(() => {
+      if (panel) {
+        gsap.fromTo(panel.querySelectorAll('.sv-panel-index, h3, p, li'),
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.75, ease: EASE.out, stagger: 0.07, delay: 0.08 });
+      }
+      if (visual) {
+        gsap.set(visual, { zIndex: 2 });
+        gsap.fromTo(visual,
+          { clipPath: forward ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.1, ease: 'expo.out' });
+        const img = visual.querySelector('img');
+        if (img) gsap.fromTo(img, { scale: 1.18 }, { scale: 1, duration: 1.5, ease: EASE.out });
+      }
+    }, root);
+    return () => ctx.revert();
+  }, [active]);
 
   /* The hero and the "about" block are static, but `active` updates on
      every scroll tick of the pinned showcase. The hero title is split
@@ -373,7 +500,7 @@ export default function SolutionPage(p: SolutionPageProps) {
 
             <div className="sv-work">
               {p.work.map((w, i) => (
-                <article className="sv-work-card hm-glass" key={w.client} data-anim="fade-up" data-anim-delay={String(i * 0.12)}>
+                <article className="sv-work-card hm-glass" key={w.client}>
                   <div className="sv-work-media">
                     <AutoImg src={w.image} alt={`${w.client} — ${w.title}`} />
                   </div>

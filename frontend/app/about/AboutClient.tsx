@@ -8,6 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
 import AutoImg from '@/components/AutoImg';
 import { Counter } from '@/components/Counter';
+import PageMotion from '@/components/PageMotion';
 import { useSmoothScroll, prefersReducedMotion } from '@/lib/smoothScroll';
 import { initMotion, EASE } from '@/lib/motion';
 
@@ -135,6 +136,7 @@ export default function AboutClient() {
 
   return (
     <main ref={mainRef}>
+      <PageMotion />
       {/* ── HERO ── */}
       <section className="about-v2-hero">
         <div className="about-v2-breadcrumb reveal reveal-fade">

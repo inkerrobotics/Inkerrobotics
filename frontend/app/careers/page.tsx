@@ -1,4 +1,5 @@
 import JsonLd from '@/components/JsonLd';
+import PageMotion from '@/components/PageMotion';
 
 export const metadata = {
   title: "Careers at Inker Robotics — Build the Future",
@@ -38,6 +39,7 @@ export default function Page() {
       {jsonLd.map((d, i) => <JsonLd key={i} data={d} />)}
 
       <main className="sv-page">
+        <PageMotion />
         {/* ── HERO ── */}
         <section className="sv-hero" style={{ minHeight: '72vh' }}>
           <div className="sv-brackets" aria-hidden="true"><i /><i /><i /><i /></div>
@@ -78,7 +80,7 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="ink-roles" data-anim="stagger">
+            <div className="ink-roles">
               {PERKS.map(([title, desc]) => (
                 <div className="ink-role" key={title} style={{ display: 'block' }}>
                   <h4>{title}</h4>
