@@ -43,7 +43,7 @@ export default function Page() {
         ghost='ROBOTICS'
         eyebrow='Robotics'
         title='MACHINES BUILT FOR THE REAL WORLD'
-        heroImage='/images/Robotics/Alton-cutout.png'
+        heroImage='/images/Robotics/Robotics-Hero.png'
         heroWebgl
         heroStat={{ value: '6', suffix: '+', label: <>Robotic<br />deployments</> }}
         tabs={['DEPLOYMENTS', 'ROBOT AS A SERVICE']}
