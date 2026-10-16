@@ -136,15 +136,15 @@ export default function PostScrollTypography() {
         <div className="hm-metrics sleek-text-item">
           <div className="hm-metric">
             <div className="hm-metric-label">Deployments</div>
-            <div className="hm-metric-value">6+</div>
+            <div className="hm-metric-value">25+</div>
           </div>
           <div className="hm-metric">
             <div className="hm-metric-label">AI systems</div>
-            <div className="hm-metric-value lime">25+</div>
+            <div className="hm-metric-value lime">100+</div>
           </div>
           <div className="hm-metric">
             <div className="hm-metric-label">Students</div>
-            <div className="hm-metric-value violet">200K+</div>
+            <div className="hm-metric-value violet">500K+</div>
           </div>
         </div>
 
@@ -154,7 +154,7 @@ export default function PostScrollTypography() {
             Kerala, India
           </span>
           <i className="sep" />
-          <span className="lime">Since 2020</span>
+          <span className="lime">Since 2018</span>
           <i className="sep" />
           <span className="violet">Engineer the future</span>
         </div>

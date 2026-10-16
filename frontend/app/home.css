@@ -221,6 +221,12 @@
     margin: clamp(5rem, 12vh, 10rem) 0;
     padding: 0 var(--gutter);
     overflow: hidden;
+    /* Clip sideways only. The headline drifts upward on scroll (see
+       KineticShiftTypography) and its tall caps rise past the section's
+       top edge; clipping vertically shaved the top off "ROBOTIC".
+       Browsers without overflow: clip keep the hidden fallback above. */
+    overflow-x: clip;
+    overflow-y: visible;
     isolation: isolate;
 }
 
