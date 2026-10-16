@@ -29,8 +29,8 @@ const SHOWCASE = [
 ];
 
 const SPECS = [
-    { value: '6', suffix: '+', label: 'Robotic deployments' },
-    { value: '2020', suffix: '', label: 'Building since' },
+    { value: '15', suffix: '+', label: 'Robotic deployments' },
+    { value: '2018', suffix: '', label: 'Building since' },
     { value: '200', suffix: '+', label: 'Technology expos' },
     { value: '5', suffix: '+', label: 'Robot platforms' }
 ];
@@ -45,8 +45,9 @@ export default function Page() {
         title='MACHINES BUILT FOR THE REAL WORLD'
         heroImage='/images/Robotics/Robotics-Hero.png'
         heroWebgl
-        heroStat={{ value: '6', suffix: '+', label: <>Robotic<br />deployments</> }}
+        heroStat={{ value: '15', suffix: '+', label: <>Robotic<br />deployments</> }}
         tabs={['DEPLOYMENTS', 'ROBOT AS A SERVICE']}
+        heroContact={false}
         aboutEyebrow='About the practice'
         aboutTitle='ENGINEERED END TO END'
         aboutBody='Mechanical design, electronics, control systems and human-machine interaction — all built in-house. Inker’s robots do not live in a lab: they serve customers at bank counters, perform on national television, and carry Kerala’s oldest art form on their shoulders.'

@@ -378,7 +378,10 @@ body::after {
     display: block;
     background: linear-gradient(to bottom, #08080b 0%, #030304 100%);
     border-top: 1px solid rgba(235, 103, 14, 0.55);
-    transform: translateY(101%);
+    /* Rest fully below the viewport. At 101% the orange top border and
+       the 30px leading-edge glow (::before) still showed as an orange
+       light along the bottom of every page. */
+    transform: translateY(calc(100% + 40px));
     transition: transform 0.72s cubic-bezier(0.76, 0, 0.24, 1);
     will-change: transform;
 }

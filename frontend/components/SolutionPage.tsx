@@ -60,6 +60,11 @@ export interface SolutionPageProps {
   heroWebgl?: boolean;
   heroStat: { value: string; suffix?: string; label: ReactNode };
   tabs: string[];
+  /** Section each hero tab scrolls to, by element id. Defaults to the
+      showcase for the first tab and the limitless block for the second. */
+  tabTargets?: string[];
+  /** Show the "Talk to us" button in the hero. Defaults to true. */
+  heroContact?: boolean;
   aboutEyebrow: string;
   aboutTitle: string;
   aboutBody: string;
@@ -336,7 +341,9 @@ export default function SolutionPage(p: SolutionPageProps) {
             <p className="cine-eyebrow" data-anim="fade-up">{p.eyebrow}</p>
             <h1 className="sv-hero-title" data-anim="chars" data-anim-stagger="0.035">{p.title}</h1>
             <div className="sv-hero-actions" data-anim="fade-up" data-anim-delay="0.25">
-              <Link className="cine-btn" href="/contact" data-magnetic="0.3"><span className="dot" />Talk to us</Link>
+              {p.heroContact !== false && (
+                <Link className="cine-btn" href="/contact" data-magnetic="0.3"><span className="dot" />Talk to us</Link>
+              )}
               <Link className="cine-btn" href="/gallery" data-magnetic="0.3">See it in action</Link>
             </div>
           </div>
@@ -356,7 +363,22 @@ export default function SolutionPage(p: SolutionPageProps) {
         <div className="sv-hero-rail">
           <div className="sv-tabs">
             {p.tabs.map((t, i) => (
-              <button key={t} className={`sv-tab ${i === 0 ? 'active' : ''}`}>
+              <button
+                key={t}
+                type="button"
+                className={`sv-tab ${i === 0 ? 'active' : ''}`}
+                onClick={(e) => {
+                  const btn = e.currentTarget;
+                  btn.parentElement?.querySelectorAll('.sv-tab').forEach((b) => b.classList.remove('active'));
+                  btn.classList.add('active');
+                  const id = p.tabTargets?.[i] ?? (i === 0 ? 'sv-showcase' : 'sv-limitless');
+                  const el = document.getElementById(id);
+                  if (!el) return;
+                  const lenis = getLenis();
+                  if (lenis) lenis.scrollTo(el, { offset: -40, duration: 1.2 });
+                  else el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+              >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="14" height="14">
                   <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
                 </svg>
@@ -407,7 +429,7 @@ export default function SolutionPage(p: SolutionPageProps) {
       </>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [p.ghost, p.eyebrow, p.title, p.heroImage, p.heroWebgl, p.tabs,
+    [p.ghost, p.eyebrow, p.title, p.heroImage, p.heroWebgl, p.tabs, p.tabTargets, p.heroContact,
      p.aboutEyebrow, p.aboutTitle, p.aboutBody, p.aboutImage, p.specs]
   );
 
@@ -428,7 +450,7 @@ export default function SolutionPage(p: SolutionPageProps) {
           created *inside* a div whose child list React never changes.
           React keeps managing the contents of the section; it just never
           has to move the section itself. */}
-      <div className="pin-host">
+      <div className="pin-host" id="sv-showcase">
         {/* ── 3 · SHOWCASE (pinned) ── */}
         <section className="sv-showcase" ref={showcaseRef}>
           <Brackets />
@@ -528,7 +550,7 @@ export default function SolutionPage(p: SolutionPageProps) {
       )}
 
       {/* ── 4 · LIMITLESS ── */}
-      <section className="sv-section">
+      <section className="sv-section" id="sv-limitless">
         <div className="cg-depth" aria-hidden="true">
           <span className="cg-mark cg-mark-b" data-parallax="0.52" data-parallax-rotate="26" data-parallax-trigger="self" />
           <span className="cg-rule cg-rule-c" data-parallax="0.38" data-parallax-trigger="self" />

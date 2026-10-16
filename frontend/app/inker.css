@@ -1992,8 +1992,13 @@ html, body { overflow-x: clip; }
      as the element the shader measures. */
   filter: grayscale(0.25) brightness(0.9) contrast(1.1);
 }
-/* the GL canvas is fixed full-viewport and positions planes itself */
-.cg-webgl { pointer-events: none; }
+/* the GL canvas is fixed full-viewport and positions planes itself.
+   Everything inside it must ignore the pointer too: the three.js canvas
+   and its wrapper divs set `pointer-events: auto` inline, which let the
+   full-screen layer swallow every click on the page underneath — the
+   hero tabs and buttons looked dead because of it. */
+.cg-webgl,
+.cg-webgl * { pointer-events: none !important; }
 
 /* ==================================================================
    HOME STATEMENT — editorial voice
