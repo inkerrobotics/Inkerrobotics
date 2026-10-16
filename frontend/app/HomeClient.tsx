@@ -139,13 +139,14 @@ export default function HomeClient() {
         </div>
       </div>
 
+      {/* Expert Services comes straight after the hero robot sequence. */}
+      <ExpertServices />
+
       <PostScrollTypography />
 
       <KineticShiftTypography />
 
       <GlassFeatureCards />
-
-      <ExpertServices />
 
       <div className="content-flow relative z-10 bg-white/5 backdrop-blur-sm" style={{ paddingTop: 'clamp(32px, 8vh, 120px)' }}>
         <div id="vision" className="hand-feature-section">
