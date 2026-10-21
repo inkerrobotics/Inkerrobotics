@@ -459,13 +459,10 @@ export default function ExpertServices() {
     card.style.setProperty('--mouse-x', `${x}px`);
     card.style.setProperty('--mouse-y', `${y}px`);
 
+    // Clean style: a flat lift, no 3D tilt. --mouse-x/y still drive the glow.
     gsap.to(card, {
-      rotateX: ((y - rect.height / 2) / (rect.height / 2)) * -6,
-      rotateY: ((x - rect.width / 2) / (rect.width / 2)) * 6,
-      transformPerspective: 900,
-      scale: 1.015,
-      y: -8,
-      duration: 0.3,
+      y: -6,
+      duration: 0.35,
       ease: 'power2.out',
       overwrite: 'auto',
     });
@@ -473,11 +470,8 @@ export default function ExpertServices() {
 
   const handleCardMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     gsap.to(e.currentTarget, {
-      rotateX: 0,
-      rotateY: 0,
-      scale: 1,
       y: 0,
-      duration: 0.6,
+      duration: 0.5,
       ease: EASE.out,
       overwrite: 'auto',
     });
@@ -734,46 +728,29 @@ export default function ExpertServices() {
 
         horizontalRef.current = horizontal;
 
-        /* Per-card depth, measured against the horizontal tween rather
-           than the page. `containerAnimation` is what makes a
-           ScrollTrigger read an element's position inside a
-           horizontally-moving container — without it every card would
-           report the same position, because none of them move
-           vertically. */
+        /* Clean sideways scroll: the cards stay flat and fully visible.
+           The only per-card motion is a gentle parallax of the video
+           INSIDE its frame, measured against the horizontal tween via
+           `containerAnimation` (the cards never move vertically, so a
+           page-based trigger would read the same position for all). */
         shells.forEach((shell) => {
+          const media = shell.querySelector<HTMLElement>('.expert-card-media');
+          if (!media) return;
           gsap.fromTo(
-            shell,
-            { scale: 0.82, rotateY: 14, opacity: 0.25, z: -220 },
+            media,
+            { xPercent: -6 },
             {
-              scale: 1,
-              rotateY: 0,
-              opacity: 1,
-              z: 0,
-              ease: 'power2.out',
+              xPercent: 6,
+              ease: 'none',
               scrollTrigger: {
                 trigger: shell,
                 containerAnimation: horizontal,
-                start: 'left 98%',
-                end: 'left 58%',
+                start: 'left right',
+                end: 'right left',
                 scrub: true,
               },
             }
           );
-
-          gsap.to(shell, {
-            scale: 0.84,
-            rotateY: -14,
-            opacity: 0.28,
-            z: -200,
-            ease: 'power2.in',
-            scrollTrigger: {
-              trigger: shell,
-              containerAnimation: horizontal,
-              start: 'right 42%',
-              end: 'right 2%',
-              scrub: true,
-            },
-          });
         });
 
         /* The heading loosens its grip as the cards take over, so the
@@ -811,18 +788,15 @@ export default function ExpertServices() {
         start: 'top 88%',
         onEnter: (batch) =>
           gsap.from(batch, {
-            y: 64,
+            y: 40,
             opacity: 0,
-            scale: 0.94,
-            rotateX: 10,
-            transformPerspective: 1000,
-            duration: 0.9,
+            duration: 0.8,
             ease: EASE.out,
-            stagger: 0.08,
+            stagger: 0.07,
             overwrite: true,
           }),
         onEnterBack: (batch) =>
-          gsap.to(batch, { y: 0, opacity: 1, scale: 1, rotateX: 0, duration: 0.5, ease: EASE.out, overwrite: true }),
+          gsap.to(batch, { y: 0, opacity: 1, duration: 0.5, ease: EASE.out, overwrite: true }),
       });
 
       return () => window.clearTimeout(safety);
@@ -853,12 +827,11 @@ export default function ExpertServices() {
 
       gsap.fromTo(
         '.expert-card-shell',
-        { opacity: 0, y: 34, scale: 0.95 },
+        { opacity: 0, y: 24 },
         {
           opacity: 1,
           y: 0,
-          scale: 1,
-          duration: 0.55,
+          duration: 0.5,
           stagger: 0.035,
           ease: EASE.out,
           onComplete: () => ScrollTrigger.refresh(),

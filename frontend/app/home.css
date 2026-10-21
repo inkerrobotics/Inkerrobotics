@@ -2408,3 +2408,21 @@
 .expert-serial-badge { color: var(--c-ink-dim); }
 
 .expert-cat-pill { font-size: 11px; }
+
+/* ---- Clean sideways scroll (replaces the 3D depth/tilt style) ----------
+   Cards stay flat and fully opaque while the track glides. The video is a
+   little wider than its frame so the in-frame parallax never shows an edge;
+   its CSS transition is off in pin mode because the scrub drives it. */
+.is-pin-active .expert-services-track.is-slider { perspective: none; }
+.is-pin-active .expert-services-track.is-slider .expert-card-shell {
+    transform-style: flat;
+    will-change: auto;
+}
+.is-pin-active .expert-card-media {
+    width: 114%;
+    max-width: none;
+    margin-left: -7%;
+    transition: none;
+    will-change: transform;
+}
+.expert-card-shell { transform-style: flat; }
