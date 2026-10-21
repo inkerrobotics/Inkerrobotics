@@ -13,6 +13,7 @@ const LINKS: [string, string][] = [
   ['AI SOLUTIONS', '/ai-solutions'],
   ['ROBOPARKS', '/roboparks'],
   ['EDUTECH', '/edutech'],
+  ['INDUSTRIAL VISIT', '/industrial-visit'],
   ['ABOUT', '/about'],
   ['GALLERY', '/gallery'],
   ['CAREERS', '/careers'],

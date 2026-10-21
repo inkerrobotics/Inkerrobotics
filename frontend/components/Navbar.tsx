@@ -47,6 +47,17 @@ export default function Navbar() {
             <span>HOME</span>
           </Link>
 
+          <Link
+            href="/industrial-visit"
+            className={`nav-home-btn nav-iv-btn ${pathname.startsWith('/industrial-visit') ? 'active' : ''}`}
+            title="Plan an Industrial Visit"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: 6 }} aria-hidden="true">
+              <path d="M3 21h18M5 21V10l5 3V10l5 3V6l4 2v13" />
+            </svg>
+            <span>INDUSTRIAL VISIT</span>
+          </Link>
+
           <Link href="/contact" className="nav-btn">
             TALK TO US
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: 8 }}>
