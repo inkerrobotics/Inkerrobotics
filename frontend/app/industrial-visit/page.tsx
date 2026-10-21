@@ -159,15 +159,15 @@ export default function Page() {
           <div className="sv-inner sv-split">
             <div className="sv-media" data-wipe="left">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/Roboparks/RoboPark.webp" alt="Students at the Inker Robotics RoboPark" data-parallax="0.1" />
+              <img src="/images/Robotics/Humanoids.webp" alt="Robots at Inker Robotics, Thrissur" data-parallax="0.1" />
             </div>
             <div className="sv-copy">
               <p className="cine-eyebrow" data-anim="fade-up">What a visit is</p>
               <h2 className="sv-title" data-anim="words">NOT A FACTORY TOUR</h2>
               <div className="sv-divider" />
               <p className="cine-body" data-anim="fade-up" data-anim-delay="0.1">
-                Inker Robotics runs India&rsquo;s first RoboPark, is an Arduino Education Partner,
-                and has reached over 2.5 lakh learners. An Industrial Visit here puts students in
+                Inker Robotics is an Arduino Education Partner and has reached over 2.5 lakh
+                learners. An Industrial Visit here puts students in
                 front of working robots, AI systems and prototyping tools — and then puts the
                 hardware in their hands.
               </p>
