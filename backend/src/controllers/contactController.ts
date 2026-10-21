@@ -4,6 +4,18 @@ import { prisma } from '../lib/prisma';
 import { sendInquiryNotification } from '../lib/mail';
 import { verifyRecaptcha } from '../lib/recaptcha';
 
+import { appendFile } from 'fs/promises';
+import path from 'path';
+
+/* Failures are also written to backend/inquiry-errors.log (ignored by git
+   via *.log) so the reason can be read without the terminal. */
+function logFailure(step: string, err: unknown) {
+  const msg = err instanceof Error ? `${err.message}${err.stack ? `\n${err.stack.split('\n').slice(1, 4).join('\n')}` : ''}` : String(err);
+  const line = `[${new Date().toISOString()}] ${step} FAILED: ${msg}\n`;
+  console.error(line.trim());
+  appendFile(path.join(process.cwd(), 'inquiry-errors.log'), line).catch(() => {});
+}
+
 type InquiryData = {
   name: string;
   organization?: string;
@@ -28,14 +40,14 @@ async function saveAndNotify(data: InquiryData): Promise<{ ok: boolean; id?: str
     const inquiry = await prisma.inquiry.create({ data });
     id = inquiry.id;
   } catch (err) {
-    console.error(`[inquiry:${data.inquiryType}] Database save FAILED:`, err instanceof Error ? err.message : err);
+    logFailure(`[inquiry:${data.inquiryType}] Database save`, err);
   }
 
   try {
     await sendInquiryNotification(data);
     mailed = true;
   } catch (err) {
-    console.error(`[inquiry:${data.inquiryType}] Email to ${process.env.NOTIFY_EMAIL ?? 'info@inkerrobotics.com'} FAILED:`, err instanceof Error ? err.message : err);
+    logFailure(`[inquiry:${data.inquiryType}] Email to ${process.env.NOTIFY_EMAIL ?? 'info@inkerrobotics.com'}`, err);
   }
 
   return { ok: Boolean(id) || mailed, id };
