@@ -2309,5 +2309,16 @@ html, body { overflow-x: clip; }
 }
 .iv-consent { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.5; color: rgba(255, 255, 255, 0.8); cursor: pointer; }
 .ink-form .iv-consent input { width: 20px; height: 20px; min-width: 20px; padding: 0; margin-top: 2px; accent-color: #eb670e; }
-/* Industrial Visit shortcut in the top bar; on phones it lives in the menu overlay instead. */
-@media (max-width: 700px) { .nav-iv-btn { display: none !important; } }
+/* Industrial Visit shortcut in the top bar — kept visible on phones.
+   To make room for three buttons, HOME collapses to its icon and the
+   IV label shortens to "VISIT" on the narrowest screens. */
+.nav-iv-btn .nav-iv-short { display: none; }
+@media (max-width: 480px) {
+  .nav-home-btn:not(.nav-iv-btn) span { display: none; }
+  .nav-home-btn:not(.nav-iv-btn) svg { margin-right: 0 !important; }
+  .nav-iv-btn svg { display: none; }
+}
+@media (max-width: 380px) {
+  .nav-iv-btn .nav-iv-full { display: none; }
+  .nav-iv-btn .nav-iv-short { display: inline; }
+}
