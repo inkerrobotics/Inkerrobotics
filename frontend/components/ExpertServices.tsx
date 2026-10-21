@@ -176,7 +176,7 @@ const SERVICES: ServiceCard[] = [
       'Join us for an enriching industrial visit to gain practical insights and experience industry best practices firsthand.',
     image: 'https://inkerrobotics.com/wp-content/uploads/revslider/video-media/Untitled-video-Made-with-Clipchamp-10_64_layer.jpeg',
     video: 'https://inkerrobotics.com/wp-content/uploads/2024/06/Untitled-video-Made-with-Clipchamp-10.mp4',
-    link: '/contact',
+    link: '/industrial-visit',
     linkText: 'Plan a Visit',
     highlights: ['Live Facility Walkthrough', 'Robotic Assembly Lines', 'Interactive Q&A'],
   },

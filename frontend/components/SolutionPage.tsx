@@ -174,7 +174,9 @@ export default function SolutionPage(p: SolutionPageProps) {
       scrollTrigger: { trigger: '.sv-hero', start: 'top top', end: 'bottom top', scrub: true },
     });
 
-    gsap.from('.sv-stat', { y: 40, opacity: 0, duration: 1, ease: EASE.out, delay: 0.5 });
+    if (mainRef.current?.querySelector('.sv-stat')) {
+      gsap.from('.sv-stat', { y: 40, opacity: 0, duration: 1, ease: EASE.out, delay: 0.5 });
+    }
     countUp(mainRef.current?.querySelector('.sv-stat b') ?? null, { delay: 0.65, duration: 1.8 });
 
     /* Hero rail: tabs and scroll hint arrive after the title has landed. */
@@ -353,10 +355,15 @@ export default function SolutionPage(p: SolutionPageProps) {
               <AutoImg src={p.heroImage} alt={p.title} />
             </div>
 
-            <div className="sv-stat hm-glass accent-lime">
-              <b>{p.heroStat.value}<span>{p.heroStat.suffix ?? '+'}</span></b>
-              <small>{p.heroStat.label}</small>
-            </div>
+            {/* The overhanging stat badge is skipped on WebGL heroes: the
+                shader layer is painted above the whole hero, so the badge
+                ended up underneath the image plane, dimmed and unreadable. */}
+            {!p.heroWebgl && (
+              <div className="sv-stat hm-glass accent-lime">
+                <b>{p.heroStat.value}<span>{p.heroStat.suffix ?? '+'}</span></b>
+                <small>{p.heroStat.label}</small>
+              </div>
+            )}
           </div>
         </div>
 

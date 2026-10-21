@@ -10,6 +10,7 @@ const routes: { url: string; priority: number; freq: ChangeFreq }[] = [
   { url: '/ai-solutions', priority: 0.9, freq: 'monthly' },
   { url: '/roboparks', priority: 0.9, freq: 'monthly' },
   { url: '/edutech', priority: 0.9, freq: 'weekly' },
+  { url: '/industrial-visit', priority: 0.8, freq: 'monthly' },
   { url: '/about', priority: 0.7, freq: 'monthly' },
   { url: '/careers', priority: 0.7, freq: 'weekly' },
   { url: '/contact', priority: 0.6, freq: 'yearly' }

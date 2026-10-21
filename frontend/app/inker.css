@@ -2250,3 +2250,62 @@ html, body { overflow-x: clip; }
   filter: saturate(1.12) brightness(1.49);
   opacity: 1;
 }
+
+/* --- industrial visit (Phase 1 link page) -------------------------- */
+.iv-grid { display: grid; gap: 16px; margin-top: 2.5rem; }
+.iv-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.iv-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 980px) { .iv-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .iv-grid-3, .iv-grid-2 { grid-template-columns: 1fr; } }
+.iv-card {
+  padding: 26px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  transition: border-color 300ms cubic-bezier(.16,1,.3,1);
+}
+.iv-card:hover { border-color: rgba(235, 103, 14, 0.45); }
+.iv-card-title {
+  margin: 0;
+  font-size: clamp(17px, 1.6vw, 21px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.iv-card-body { margin: 10px 0 0; font-size: 15px; line-height: 1.55; color: rgba(255, 255, 255, 0.62); }
+.iv-kicker {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+.iv-package-head { display: flex; justify-content: space-between; gap: 12px; }
+.iv-price { margin-top: 18px; font-size: clamp(40px, 4vw, 56px); font-weight: 800; letter-spacing: -0.03em; color: #fff; line-height: 1; }
+.iv-price span { font-size: 14px; font-weight: 500; letter-spacing: 0; color: rgba(255, 255, 255, 0.55); }
+.iv-meal-price { margin-top: 12px; font-size: 20px; font-weight: 700; color: #eb670e; }
+.iv-note { margin-top: 1.4rem; font-size: 14px; color: rgba(255, 255, 255, 0.55); }
+.iv-steps { list-style: none; padding: 0; margin: 2.5rem 0 0; display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 980px) { .iv-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .iv-steps { grid-template-columns: 1fr; } }
+.iv-step { padding: 24px 26px; border-top: 2px solid #eb670e; background: rgba(255, 255, 255, 0.03); border-radius: 0 0 14px 14px; }
+.iv-step-num { display: block; margin-bottom: 12px; font-size: 32px; font-weight: 800; color: #eb670e; line-height: 1; }
+.iv-faq { margin-top: 2rem; display: grid; gap: 10px; max-width: 900px; }
+.iv-faq-item { border: 1px solid rgba(255, 255, 255, 0.10); border-radius: 12px; background: rgba(255, 255, 255, 0.03); }
+.iv-faq-item summary { cursor: pointer; padding: 18px 22px; font-weight: 600; font-size: 16px; color: #fff; list-style-position: inside; }
+.iv-faq-item summary:focus-visible { outline: 2px solid #eb670e; outline-offset: 2px; border-radius: 12px; }
+.iv-faq-item p { margin: 0; padding: 0 22px 20px; font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, 0.66); }
+.iv-big-contact { font-size: clamp(20px, 2.2vw, 28px); font-weight: 700; color: #fff; text-decoration: none; }
+.iv-big-contact:hover { color: #eb670e; }
+.iv-form-group {
+  margin: 8px 0 -4px;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #eb670e;
+}
+.iv-consent { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.5; color: rgba(255, 255, 255, 0.8); cursor: pointer; }
+.ink-form .iv-consent input { width: 20px; height: 20px; min-width: 20px; padding: 0; margin-top: 2px; accent-color: #eb670e; }

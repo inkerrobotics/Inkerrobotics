@@ -21,6 +21,7 @@ const STATUS_COLORS: Record<string, { bg: string; color: string; border: string 
 const TYPE_LABELS: Record<string, string> = {
   robotics: 'Robotics', ai: 'AI Solution', roboparks: 'RoboParks',
   edutech: 'EduTech', careers: 'Careers', general: 'General',
+  'industrial-visit': 'Industrial Visit',
 };
 
 function StatCard({ label, value, accent }: { label: string; value: number; accent?: boolean }) {

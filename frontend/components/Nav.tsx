@@ -51,7 +51,8 @@ const items: NavItem[] = [
       ['05', 'Robo Clubs', '/edutech#robo-clubs'],
       ['06', 'Innovation Labs', '/edutech#innovation-labs'],
       ['SECTION', 'Events', ''],
-      ['Expo', 'Future Tech Expo', '/edutech#future-tech-expo']
+      ['Expo', 'Future Tech Expo', '/edutech#future-tech-expo'],
+      ['IV', 'Industrial Visit', '/industrial-visit']
     ]
   },
   { key: 'about', label: 'About', href: '/about' },

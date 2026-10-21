@@ -32,7 +32,8 @@ export default function Footer() {
           <div className="sv-footer-col">
             <dt>Learn</dt>
             <dd>
-              <Link href="/edutech">EduTech</Link> / <Link href="/contact">Contact</Link>
+              <Link href="/edutech">EduTech</Link> / <Link href="/industrial-visit">Industrial Visit</Link> /{' '}
+              <Link href="/contact">Contact</Link>
             </dd>
           </div>
         </dl>

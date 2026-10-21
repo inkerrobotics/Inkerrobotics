@@ -27,11 +27,26 @@ const TYPE_LABELS: Record<string, string> = {
   edutech: 'EduTech Programs',
   expo: 'Future Tech Expo',
   careers: 'Careers / OJT',
+  'industrial-visit': 'Industrial Visit',
   general: 'General Inquiry',
 };
 
-export async function sendInquiryNotification(data: InquiryPayload) {
-  const type = TYPE_LABELS[data.inquiryType] ?? data.inquiryType;
+function esc(v: string): string {
+  return v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+export async function sendInquiryNotification(raw: InquiryPayload) {
+  // Everything below is user-submitted; escape it before it goes into the HTML email.
+  const data: InquiryPayload = {
+    name: esc(raw.name),
+    organization: raw.organization ? esc(raw.organization) : undefined,
+    phone: esc(raw.phone),
+    email: esc(raw.email),
+    location: raw.location ? esc(raw.location) : undefined,
+    inquiryType: raw.inquiryType,
+    message: esc(raw.message),
+  };
+  const type = TYPE_LABELS[data.inquiryType] ?? esc(data.inquiryType);
 
   const html = `
     <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #E4DED1;border-radius:8px;overflow:hidden;">
@@ -65,7 +80,7 @@ export async function sendInquiryNotification(data: InquiryPayload) {
   await getResend().emails.send({
     from: FROM,
     to: TO,
-    subject: `New Inquiry: ${type} — ${data.name}`,
+    subject: `New Inquiry: ${type} — ${raw.name}`,
     html,
   });
 }
