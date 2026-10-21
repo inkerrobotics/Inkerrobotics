@@ -12,8 +12,12 @@ export default function Footer() {
 
         <dl className="sv-footer-cols">
           <div className="sv-footer-col">
-            <dt>Email</dt>
-            <dd>info@inkerrobotics.com</dd>
+            <dt>Contact</dt>
+            <dd>
+              <a href="mailto:info@inkerrobotics.com">info@inkerrobotics.com</a>
+              <br />
+              <a href="tel:+919061500800">+91 90615 00800</a>
+            </dd>
           </div>
           <div className="sv-footer-col">
             <dt>Solutions</dt>

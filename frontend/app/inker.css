@@ -2322,3 +2322,29 @@ html, body { overflow-x: clip; }
   .nav-iv-btn .nav-iv-full { display: none; }
   .nav-iv-btn .nav-iv-short { display: inline; }
 }
+
+/* --- IV package cards: title, sub-points, "best for" ---------------- */
+.iv-package { display: flex; flex-direction: column; }
+.iv-package-title { margin-top: 14px; }
+.iv-package .iv-price { margin-top: 14px; }
+.iv-inclusions { margin-top: 20px; }
+.iv-sublist { list-style: none; margin: 8px 0 0; padding: 0 0 0 14px; border-left: 1px solid rgba(255, 255, 255, 0.18); display: grid; gap: 6px; }
+.ink-list .iv-sublist li { padding-left: 0; font-size: 14px; font-style: italic; color: rgba(255, 255, 255, 0.58); }
+.ink-list .iv-sublist li::before { display: none; }
+.iv-bestfor {
+  margin: auto 0 0;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.06);
+}
+.iv-inclusions + .iv-bestfor { margin-top: auto; }
+.iv-package .iv-inclusions { margin-bottom: 22px; }
+.iv-bestfor strong { color: #fff; }
+.iv-package.tone-blue .iv-bestfor { background: rgba(96, 140, 255, 0.14); }
+.iv-package.tone-orange .iv-bestfor { background: rgba(235, 103, 14, 0.18); }
+.iv-package.tone-blue { border-top: 3px solid rgba(96, 140, 255, 0.7); }
+.iv-package.tone-orange { border-top: 3px solid #eb670e; }

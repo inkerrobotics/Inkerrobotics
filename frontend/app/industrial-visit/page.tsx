@@ -40,11 +40,63 @@ const ZONES = [
   ['AR & VR', 'Immersive experiences students can step into themselves.'],
 ];
 
-// TODO: add every inclusion and a "best for" line for each package before launch.
-const PACKAGES: { name: string; duration: string; price: number; bestFor?: string; inclusions: string[] }[] = [
-  { name: 'Package 1', duration: '2 hours', price: 199, inclusions: [] },
-  { name: 'Package 2', duration: '3.5 hours', price: 499, inclusions: [] },
-  { name: 'Package 3', duration: '5 hours', price: 799, inclusions: [] },
+// An inclusion is a line, or a line with sub-points beneath it.
+type Inclusion = string | { text: string; sub: string[] };
+const PACKAGES: {
+  name: string;
+  title: string;
+  duration: string;
+  price: number;
+  bestFor: string;
+  tone: 'grey' | 'blue' | 'orange';
+  inclusions: Inclusion[];
+}[] = [
+  {
+    name: 'Option 1',
+    title: 'Foundational Package',
+    duration: '2 hours',
+    price: 199,
+    bestFor: 'Technology awareness & industry exposure',
+    tone: 'grey',
+    inclusions: [
+      'Guided walkthrough of different technology zones',
+      'Introduction to Robotics, AI, IoT & Automation',
+      'Live technology demonstrations',
+      'Industry-oriented exposure',
+    ],
+  },
+  {
+    name: 'Option 2',
+    title: 'IV + Hands-on Workshop',
+    duration: '3.5 hours',
+    price: 499,
+    bestFor: 'Exposure + practical learning',
+    tone: 'blue',
+    inclusions: [
+      '2-hour Industrial Visit',
+      'Walkthrough of technology zones',
+      {
+        text: '1.5-hour Hands-on Workshop',
+        sub: ['Choose from AI / Hardware', 'Practical learning with guided activities'],
+      },
+    ],
+  },
+  {
+    name: 'Option 3',
+    title: 'IV + Extended Hands-on Workshop',
+    duration: '5 hours',
+    price: 799,
+    bestFor: 'Immersive industry exposure + in-depth learning',
+    tone: 'orange',
+    inclusions: [
+      '2-hour Industrial Visit',
+      'Walkthrough of technology zones',
+      {
+        text: '3-hour Extended Hands-on Workshop',
+        sub: ['Choose from AI / Hardware', 'Deeper practical engagement & project-oriented learning'],
+      },
+    ],
+  },
 ];
 
 // TODO: list every item on the plate for each meal option.
@@ -78,7 +130,7 @@ const NOT_INCLUDED = ['Transport to and from Inker Robotics'];
 const FAQS: [string, string][] = [
   ['What is the minimum group size?', '15 students. One session can take around 80 students; tell us if your group is larger and we will plan for it.'], // TODO: confirm
   ['How far ahead do we need to book?', 'At least 7 days ahead if you want meals, and 3 working days if you do not.'], // TODO: confirm
-  ['How long does the visit take?', 'Package 1 takes 2 hours, Package 2 takes 3.5 hours and Package 3 takes 5 hours.'],
+  ['How long does the visit take?', 'Option 1 takes 2 hours, Option 2 takes 3.5 hours and Option 3 takes 5 hours.'],
   ['Do accompanying teachers pay?', 'No. Teachers visit free of charge; only their meals are charged if you choose food.'], // TODO: confirm
   ['What if our numbers change?', 'That is normal. We confirm the final student count a few days before the visit; the food count is fixed 3 days before.'], // TODO: confirm
   ['Is there parking and bus access?', ''], // TODO: write answer
@@ -95,7 +147,7 @@ const jsonLd: object[] = [
     areaServed: 'IN',
     offers: PACKAGES.map((p) => ({
       '@type': 'Offer',
-      name: `${p.name} (${p.duration})`,
+      name: `${p.name} — ${p.title} (${p.duration})`,
       price: p.price,
       priceCurrency: 'INR',
     })),
@@ -191,20 +243,32 @@ export default function Page() {
         <section className="sv-section" id="packages">
           <div className="sv-inner">
             <p className="cine-eyebrow" data-anim="fade-up">Prices per student</p>
-            <h2 className="sv-title" data-anim="words">THE THREE PACKAGES</h2>
+            <h2 className="sv-title" data-anim="words">CHOOSE YOUR VISIT</h2>
             <div className="sv-divider" />
             <div className="iv-grid iv-grid-3">
               {PACKAGES.map((p) => (
-                <article className="iv-card iv-package" key={p.name}>
+                <article className={`iv-card iv-package tone-${p.tone}`} key={p.name}>
                   <div className="iv-package-head">
                     <span className="iv-kicker">{p.name}</span>
                     <span className="iv-kicker">{p.duration}</span>
                   </div>
+                  <h3 className="iv-card-title iv-package-title">{p.title}</h3>
                   <div className="iv-price">₹{p.price}<span> / student</span></div>
-                  {p.bestFor && <p className="iv-card-body"><strong>Best for:</strong> {p.bestFor}</p>}
-                  {p.inclusions.length > 0 && (
-                    <ul className="ink-list">{p.inclusions.map((x) => <li key={x}>{x}</li>)}</ul>
-                  )}
+                  <ul className="ink-list iv-inclusions">
+                    {p.inclusions.map((x) =>
+                      typeof x === 'string' ? (
+                        <li key={x}>{x}</li>
+                      ) : (
+                        <li key={x.text}>
+                          {x.text}
+                          <ul className="iv-sublist">
+                            {x.sub.map((s) => <li key={s}>{s}</li>)}
+                          </ul>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                  <p className="iv-bestfor"><strong>Best for:</strong> {p.bestFor}</p>
                 </article>
               ))}
             </div>

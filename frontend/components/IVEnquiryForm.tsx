@@ -28,7 +28,12 @@ const DISTRICTS = [
 ];
 const DEPARTMENTS = ['CSE or IT', 'ECE', 'EEE', 'Mechanical', 'Civil', 'Robotics or Mechatronics', 'Applied Science', 'Multiple departments'];
 const YEARS = ['First', 'Second', 'Third', 'Final', 'Postgraduate', 'Mixed', 'School students'];
-const PACKAGES = ['Package 1', 'Package 2', 'Package 3', 'Not sure yet, please advise'];
+const PACKAGES = [
+  'Option 1 — Foundational (2 hrs, ₹199)',
+  'Option 2 — IV + Hands-on Workshop (3.5 hrs, ₹499)',
+  'Option 3 — IV + Extended Workshop (5 hrs, ₹799)',
+  'Not sure yet, please advise',
+];
 const MEALS_WANTED = ['Yes', 'No', 'Not decided yet'];
 const MEAL_OPTIONS = ['Option A', 'Option B', 'Option C', 'Advise me'];
 const SOURCES = ['Website', 'Google', 'Instagram or Facebook', 'A colleague or another college', 'An exhibition', 'Our brochure', 'Other'];
@@ -110,8 +115,11 @@ export default function IVEnquiryForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, recaptchaToken }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.message ?? 'Submission failed. Please check the form and try again.');
+      // If the API is down the proxy returns an HTML error page, not JSON.
+      const data = await res.json().catch(() => ({ success: false, message: '' }));
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'We could not send your enquiry right now. Please call +91 90615 00800 or email info@inkerrobotics.com.');
+      }
       setStatus('success');
       setForm(initialForm);
     } catch (err) {

@@ -77,10 +77,14 @@ export async function sendInquiryNotification(raw: InquiryPayload) {
     </div>
   `;
 
-  await getResend().emails.send({
+  // Resend does not throw on failure — it returns { error }. Surface it so
+  // the caller knows the email did not go out.
+  const { error } = await getResend().emails.send({
     from: FROM,
     to: TO,
+    replyTo: raw.email,
     subject: `New Inquiry: ${type} — ${raw.name}`,
     html,
   });
+  if (error) throw new Error(`Resend: ${error.name ?? 'error'} — ${error.message}`);
 }

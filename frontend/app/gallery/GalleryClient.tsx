@@ -722,10 +722,6 @@ export default function GalleryClient() {
               <span>Photographs catalogued</span>
             </div>
 
-            <div className="cg-scroll-hint">
-              <i />
-              Scroll to enter
-            </div>
           </div>
         </section>
       </div>
@@ -754,9 +750,6 @@ export default function GalleryClient() {
                   The horizontal cut
                 </h2>
               </div>
-              <p className="cine-body" data-anim="fade-up" data-anim-delay="0.15" style={{ maxWidth: '30ch' }}>
-                Scroll down to travel sideways.
-              </p>
             </header>
 
             <div className="cg-rail-track" ref={trackRef}>

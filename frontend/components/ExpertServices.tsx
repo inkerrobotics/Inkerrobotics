@@ -1137,10 +1137,6 @@ export default function ExpertServices() {
           </div>
         )}
 
-        <div className={`expert-scroll-hint ${isPinned ? 'is-visible' : ''}`} aria-hidden="true">
-          <span className="expert-scroll-hint-line" />
-          <span>KEEP SCROLLING</span>
-        </div>
       </div>
 
       {activeModalItem && (

@@ -79,10 +79,6 @@ export default function CinematicHero() {
           <span className="cin-hud-label">SEQUENCE</span>
         </div>
 
-        <div className="cin-scroll-hint" style={{ opacity: progress > 0.06 ? 0 : 1 }} aria-hidden="true">
-          <span>SCROLL</span>
-          <i />
-        </div>
       </div>
     </div>
   );

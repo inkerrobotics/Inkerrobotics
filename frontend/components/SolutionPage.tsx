@@ -393,7 +393,6 @@ export default function SolutionPage(p: SolutionPageProps) {
               </button>
             ))}
           </div>
-          <div className="cg-scroll-hint"><i />Scroll</div>
         </div>
       </section>
 

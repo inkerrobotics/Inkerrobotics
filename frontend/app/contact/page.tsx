@@ -62,8 +62,11 @@ export default function Page() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, recaptchaToken }),
       });
-      const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.message ?? 'Submission failed');
+      // If the API is down the proxy returns an HTML error page, not JSON.
+      const data = await res.json().catch(() => ({ success: false, message: '' }));
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || 'We could not send your message right now. Please call +91 90615 00800 or email info@inkerrobotics.com.');
+      }
       setStatus('success');
       setForm(initialForm);
     } catch (err) {

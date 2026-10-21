@@ -4,6 +4,46 @@ import { prisma } from '../lib/prisma';
 import { sendInquiryNotification } from '../lib/mail';
 import { verifyRecaptcha } from '../lib/recaptcha';
 
+type InquiryData = {
+  name: string;
+  organization?: string;
+  phone: string;
+  email: string;
+  location?: string;
+  inquiryType: string;
+  message: string;
+};
+
+/**
+ * Save the enquiry and email it to NOTIFY_EMAIL. Either one succeeding is
+ * enough — the enquiry is not lost — so a database outage no longer stops
+ * the email, and an email failure no longer stops the save. Both failures
+ * are logged with the real reason so they can be fixed.
+ */
+async function saveAndNotify(data: InquiryData): Promise<{ ok: boolean; id?: string }> {
+  let id: string | undefined;
+  let mailed = false;
+
+  try {
+    const inquiry = await prisma.inquiry.create({ data });
+    id = inquiry.id;
+  } catch (err) {
+    console.error(`[inquiry:${data.inquiryType}] Database save FAILED:`, err instanceof Error ? err.message : err);
+  }
+
+  try {
+    await sendInquiryNotification(data);
+    mailed = true;
+  } catch (err) {
+    console.error(`[inquiry:${data.inquiryType}] Email to ${process.env.NOTIFY_EMAIL ?? 'info@inkerrobotics.com'} FAILED:`, err instanceof Error ? err.message : err);
+  }
+
+  return { ok: Boolean(id) || mailed, id };
+}
+
+const FAIL_MESSAGE =
+  'Sorry, we could not send your enquiry right now. Please call +91 90615 00800 or email info@inkerrobotics.com.';
+
 const inquirySchema = z.object({
   name: z.string().min(1, 'Name is required'),
   organization: z.string().optional(),
@@ -32,14 +72,9 @@ export async function submitInquiry(req: Request, res: Response) {
     return res.status(400).json({ success: false, message: 'reCAPTCHA verification failed' });
   }
 
-  try {
-    const inquiry = await prisma.inquiry.create({ data });
-    sendInquiryNotification(data).catch(err => console.error('[mail]', err));
-    return res.status(201).json({ success: true, id: inquiry.id });
-  } catch (err) {
-    console.error('[submitInquiry]', err);
-    return res.status(500).json({ success: false, message: 'Server error' });
-  }
+  const result = await saveAndNotify(data);
+  if (!result.ok) return res.status(500).json({ success: false, message: FAIL_MESSAGE });
+  return res.status(201).json({ success: true, id: result.id });
 }
 
 export async function listInquiries(req: Request, res: Response) {
@@ -124,12 +159,7 @@ export async function submitIvEnquiry(req: Request, res: Response) {
     message,
   };
 
-  try {
-    const inquiry = await prisma.inquiry.create({ data });
-    sendInquiryNotification(data).catch(err => console.error('[mail]', err));
-    return res.status(201).json({ success: true, id: inquiry.id });
-  } catch (err) {
-    console.error('[submitIvEnquiry]', err);
-    return res.status(500).json({ success: false, message: 'Server error' });
-  }
+  const result = await saveAndNotify(data);
+  if (!result.ok) return res.status(500).json({ success: false, message: FAIL_MESSAGE });
+  return res.status(201).json({ success: true, id: result.id });
 }
