@@ -262,22 +262,21 @@ const PRESS_LAYER: Record<Clipping['z'], { drift: number; fan: number; blur: num
   3: { drift: -3.5, fan: 1.4, blur: 1.4, rest: 0.74 },
 };
 
-const ROWS = [
+/* A row without a title is shown as a photo on its own, centred, with no copy. */
+const ROWS: { shot: Shot; index: string; title?: string; body?: string }[] = [
   {
     shot: SHOTS[7],
-    index: '01',
-    title: 'Robots, photographed where they work',
-    body: 'Not studio shots. The Inker Alton, the Federal Bank kiosk and the Tholpava Kooth rig are photographed on the floor, at the counter and on the stage — wherever they actually run.',
+    index: '',
   },
   {
     shot: SHOTS[4],
-    index: '02',
+    index: '01',
     title: 'Two hundred expos and counting',
     body: 'Technology expos, exhibitions and campus demonstrations across Kerala and beyond. Every one of them a room full of people meeting a robot for the first time.',
   },
   {
     shot: SHOTS[11],
-    index: '03',
+    index: '02',
     title: 'The front pages',
     body: 'Malayala Manorama, Mathrubhumi, Flowers TV. When a robot serves an Onam sadhya or performs Tholpava Kooth, the press tends to notice.',
   },
@@ -892,19 +891,20 @@ export default function GalleryClient() {
         </div>
 
         {ROWS.map((row, i) => (
-          <article className={`cg-row ${i % 2 ? 'flip' : ''}`} key={row.index}>
+          <article className={`cg-row ${!row.title ? 'solo' : i % 2 ? 'flip' : ''}`} key={row.shot.src}>
             {/* No data-wipe here: a CSS clip-path only clips the DOM box,
                 not the shader plane drawn over it. These images get their
                 reveal from the uReveal uniform instead. */}
             <div className="cg-row-media" data-webgl onClick={() => open(row.shot)}>
-              <AutoImg src={row.shot.src} alt={row.title} />
+              <AutoImg src={row.shot.src} alt={row.title ?? row.shot.title} />
             </div>
+            {row.title && (
             <div className="cg-row-copy">
               <span className="cg-row-big" aria-hidden="true" data-parallax="0.5" data-parallax-trigger="self">
                 {row.index}
               </span>
               <span className="cg-row-index" data-anim="fade-up">
-                {row.index} / 03
+                {row.index} / {String(ROWS.filter((r) => r.title).length).padStart(2, '0')}
               </span>
               <h3 className="cine-h2" data-anim="words">
                 {row.title}
@@ -917,6 +917,7 @@ export default function GalleryClient() {
                 View plate
               </button>
             </div>
+            )}
           </article>
         ))}
       </section>

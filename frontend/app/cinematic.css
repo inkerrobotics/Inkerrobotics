@@ -1354,3 +1354,13 @@ body::after {
     [data-anim='words'],
     [data-anim='chars'] { opacity: 1; }
 }
+
+/* Photo-only editorial row (no copy beside it) */
+.cg-row.solo {
+    grid-template-columns: 1fr;
+    justify-items: center;
+}
+.cg-row.solo .cg-row-media {
+    width: 100%;
+    max-width: 980px;
+}
