@@ -130,11 +130,6 @@ export default function Page() {
         {/* ── HERO ── */}
         <section className="sv-hero" style={{ minHeight: '72vh' }}>
           <div className="sv-brackets" aria-hidden="true"><i /><i /><i /><i /></div>
-          <div className="cg-depth" aria-hidden="true">
-            <span className="cg-ghost-type" data-parallax="0.3" data-parallax-x="0.18" data-parallax-trigger="self">VISIT</span>
-            <span className="cg-mark cg-mark-a" data-parallax="0.55" data-parallax-rotate="28" data-parallax-trigger="self" />
-            <span className="cg-rule cg-rule-b" data-parallax="0.36" data-parallax-trigger="self" />
-          </div>
           <div className="sv-hero-grid">
             <div className="sv-hero-copy">
               <p className="cine-eyebrow" data-anim="fade-up">Industrial Visit · Thrissur</p>
@@ -146,10 +141,6 @@ export default function Page() {
                 booking works — on one page. Read it at your own pace, share it with your Head of
                 Department, and fill in the short form at the bottom.
               </p>
-              <div className="sv-hero-actions" data-anim="fade-up" data-anim-delay="0.3">
-                <a className="cine-btn" href="#enquire" data-magnetic="0.3"><span className="dot" />Enquire now</a>
-                <a className="cine-btn" href="#packages" data-magnetic="0.3"><span className="dot" />See packages</a>
-              </div>
             </div>
           </div>
         </section>
