@@ -1,0 +1,134 @@
+/* ==================================================================
+   RESPONSIVE FIXES
+   Loaded last (see app/layout.tsx). Each block names the problem it
+   fixes and the screen sizes it was seen at, checked at 360, 390, 768,
+   1024, 1440 and 1920 px wide.
+   ================================================================== */
+
+/* 1. Home hero — on wide screens the headline was squeezed to one word
+      per line, because its max-width was measured in the wrapper's small
+      `ch` rather than the headline's own. (1440–1920) */
+@media (min-width: 901px) {
+  .hero-text-block { max-width: min(46vw, 760px); }
+  .hero-main-title { max-width: 15ch; }
+}
+
+/* 2. "Robotic Culture" — the two words ran together as one line
+      ("ROBOTICCULTURE") and overflowed the screen on tablets. (all) */
+.hm-editorial-title .line { display: block; }
+
+/* 3. Decorative doodles, rings and boxes landed on top of headings and
+      body text on smaller screens. They are pure decoration. (≤900) */
+@media (max-width: 900px) {
+  .hm-doodle { display: none !important; }
+}
+@media (max-width: 700px) {
+  .cg-mark,
+  .cg-rule { display: none !important; }
+}
+
+/* 4. Expert Services — the eyebrow pill and each card's header wrapped
+      onto two cramped lines on phones. (≤640) */
+.expert-card-serial,
+.expert-card-badge { white-space: nowrap; }
+.expert-card-num-wrap { min-width: 0; }
+.expert-card-badge { overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 640px) {
+  .expert-serial-badge { display: none; }
+  /* drop the "SRV-01" code so the category label has room to show in full */
+  .expert-card-serial { display: none; }
+  .expert-services-eyebrow { flex-wrap: nowrap; }
+}
+
+/* 5. "Have a technology requirement?" — grey 13px copy on the halftone
+      dots was close to unreadable. (all) */
+.split-left p {
+  color: #d0d0d0;
+  font-size: 14px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 18px rgba(0, 0, 0, 0.85);
+}
+
+/* 6. Gallery — photos were letterboxed inside their frames, so rows and
+      tiles of different shapes looked misaligned. Fill the frame
+      instead; newspaper clippings are untouched so no text is cut. */
+.cg-row-media img,
+.cg-tile img {
+  object-fit: cover;
+  object-position: center 35%;
+}
+/* A photo shown on its own (no copy beside it) keeps its natural shape */
+.cg-row.solo .cg-row-media {
+  aspect-ratio: auto;
+  max-width: 620px;
+}
+.cg-row.solo .cg-row-media img {
+  height: auto;
+  object-fit: contain;
+}
+/* Justified two-column newsprint left wide gaps between words on
+   phones. One left-aligned column reads cleanly. (≤700) */
+@media (max-width: 700px) {
+  .cg-clip-lede,
+  .cg-clip-cols {
+    text-align: left;
+    hyphens: manual;
+  }
+  .cg-clip-cols { columns: 1; }
+}
+
+/* 7. Never let anything push the page sideways on any screen. */
+html, body { max-width: 100%; overflow-x: clip; }
+
+/* 8. Gallery "Everything else in the drawer" — on phones the tiles sat
+      in a narrow centred column with wide empty margins. Full-width,
+      one per row, all the same shape. (≤700) */
+@media (max-width: 700px) {
+  .cg-mosaic {
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+  }
+  .cg-mosaic .cg-tile {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* 9. Footer — between 1000 and 1200px the four link columns were
+      squeezed into two-thirds of the width and wrapped word by word.
+      Give them the full row on laptops. (1001–1200) */
+@media (min-width: 1001px) and (max-width: 1200px) {
+  .sv-footer-top { grid-template-columns: 1fr; }
+}
+
+/* 10. Home "Architected for unmatched precision" — in the two-column
+       tablet layout the third card sat alone on the left. Centre it.
+       (681–1024) */
+@media (max-width: 1024px) and (min-width: 681px) {
+  .hm-feature-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 0.75rem);
+  }
+}
+
+/* 11. Testimonials — the client name and its role ran together with no
+       space ("Federal BankBANKING DEPLOYMENT"). Put the role on its own
+       line. (all) */
+.sv-quote-name,
+.sv-quote-role { display: block; }
+.sv-quote-role { margin-top: 2px; }
+
+/* 12. About "Measurable impact" — six figures in an auto-fit grid left
+       one figure alone on a second row at laptop and tablet widths.
+       Use even rows instead: 6 / 3+3 / 2+2+2. */
+.ink-impact { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (min-width: 1300px) {
+  .ink-impact { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .ink-impact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

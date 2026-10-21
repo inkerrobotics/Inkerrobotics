@@ -6,6 +6,8 @@ import './service.css';
 // Inker-specific additions layered on top.
 import './inker.css';
 import './admin.css';
+// Responsive fixes across all screen sizes — keep this import last.
+import './responsive.css';
 import Footer from '@/components/Footer';
 import JsonLd from '@/components/JsonLd';
 import AppShell from '@/components/AppShell';
