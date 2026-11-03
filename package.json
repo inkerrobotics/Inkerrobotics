@@ -1,0 +1,13 @@
+{
+  "name": "inker-robotics",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Inker Robotics website + API as a single Node.js app (Hostinger).",
+  "scripts": {
+    "build": "npm --prefix backend install --include=dev && npm --prefix backend run build && npm --prefix frontend install --include=dev && npm --prefix frontend run build",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

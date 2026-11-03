@@ -51,11 +51,18 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
   res.status(500).json({ success: false, message: 'Server error' });
 });
 
-// Docker keeps the API private on 127.0.0.1; on Hostinger set HOST=0.0.0.0.
-const HOST = process.env.HOST ?? '127.0.0.1';
-app.listen(Number(PORT), HOST, () => {
-  console.log(`Inker Robotics API running on http://${HOST}:${PORT}`);
-});
+// Run on its own (Docker/Render, or a separate Hostinger app), the API
+// listens itself. Loaded by the root server.js (single Hostinger app), it
+// only exports `app` and server.js serves it alongside the website.
+if (require.main === module) {
+  // Docker keeps the API private on 127.0.0.1; on Hostinger set HOST=0.0.0.0.
+  const HOST = process.env.HOST ?? '127.0.0.1';
+  app.listen(Number(PORT), HOST, () => {
+    console.log(`Inker Robotics API running on http://${HOST}:${PORT}`);
+  });
+}
+
+export default app;
 
 process.on('uncaughtException', err => console.error('[uncaughtException]', err));
 process.on('unhandledRejection', err => console.error('[unhandledRejection]', err));
