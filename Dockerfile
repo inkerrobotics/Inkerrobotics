@@ -26,6 +26,7 @@ ARG NEXT_PUBLIC_RECAPTCHA_SITE_KEY=6LdhWBctAAAAAOffK5BWiQPitSYCaI9_VK5d4tZO
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL
 ENV NEXT_PUBLIC_RECAPTCHA_SITE_KEY=$NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+ENV NEXT_OUTPUT=standalone
 
 RUN npm run build
 
@@ -36,17 +37,15 @@ WORKDIR /app
 
 RUN apk add --no-cache openssl
 
+# Only non-secret defaults live here. DATABASE_URL, DIRECT_URL,
+# RESEND_API_KEY, ADMIN_SECRET, RECAPTCHA_SECRET_KEY, SUPABASE_URL and
+# SUPABASE_ANON_KEY must be set in Render → Environment. Nothing falls
+# back to a hard-coded value, so a missing setting shows up in the log
+# instead of silently using an old one.
 ENV NODE_ENV=production \
     PORT=3000 \
-    ADMIN_SECRET=inker-admin-2026 \
     FRONTEND_URL=https://inkerrobotics.onrender.com \
-    NOTIFY_EMAIL=info@inkerrobotics.com \
-    DATABASE_URL=postgresql://postgres.uccstywbazpvlljeibey:InkerWebsite987@aws-1-ap-south-1.pooler.supabase.com:6543/postgres?pgbouncer=true \
-    DIRECT_URL=postgresql://postgres.uccstywbazpvlljeibey:InkerWebsite987@aws-1-ap-south-1.pooler.supabase.com:5432/postgres \
-    SUPABASE_URL=https://uccstywbazpvlljeibey.supabase.co \
-    SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVjY3N0eXdiYXpwdmxsamVpYmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk3Nzc2ODMsImV4cCI6MjA5NTM1MzY4M30.NWIMqea_8nszz2NE6DwfoOjzK356UDJDHQBicgzsPSA \
-    RESEND_API_KEY=re_amwBMiaP_9Z66X96dxUg1b3hgkFNVsXjw \
-    RECAPTCHA_SECRET_KEY=6LdhWBctAAAAACvd6DDaxEFLXdmuxu4zcGJR43-h
+    NOTIFY_EMAIL=info@inkerrobotics.com
 
 # Backend
 COPY --from=backend-builder /app/backend/dist           ./backend/dist

@@ -1,7 +1,12 @@
 import { Resend } from 'resend';
 
 const TO = process.env.NOTIFY_EMAIL ?? 'info@inkerrobotics.com';
-const FROM = 'Inker Website <noreply@inkerrobotics.com>';
+// Sender. Override with MAIL_FROM in Render once a different address is
+// verified in Resend. Until inkerrobotics.com is verified, Resend refuses
+// this sender, so sendInquiryNotification falls back to Resend's own test
+// sender (which only delivers to the Resend account owner's address).
+const FROM = process.env.MAIL_FROM ?? 'Inker Website <noreply@inkerrobotics.com>';
+const FALLBACK_FROM = 'Inker Website <onboarding@resend.dev>';
 
 function getResend(): Resend {
   const key = process.env.RESEND_API_KEY;
@@ -79,12 +84,19 @@ export async function sendInquiryNotification(raw: InquiryPayload) {
 
   // Resend does not throw on failure — it returns { error }. Surface it so
   // the caller knows the email did not go out.
-  const { error } = await getResend().emails.send({
-    from: FROM,
+  const message = {
     to: TO,
     replyTo: raw.email,
     subject: `New Inquiry: ${type} — ${raw.name}`,
     html,
-  });
+  };
+  const resend = getResend();
+  let { error } = await resend.emails.send({ from: FROM, ...message });
+
+  // Sender domain not verified yet → retry from Resend's test sender.
+  if (error && /domain|verif|not allowed|own email/i.test(error.message ?? '')) {
+    console.warn(`[mail] ${FROM} refused (${error.message}). Retrying from ${FALLBACK_FROM}.`);
+    ({ error } = await resend.emails.send({ from: FALLBACK_FROM, ...message }));
+  }
   if (error) throw new Error(`Resend: ${error.name ?? 'error'} — ${error.message}`);
 }

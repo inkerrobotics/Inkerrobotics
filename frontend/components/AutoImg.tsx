@@ -20,14 +20,16 @@ export default function AutoImg({
   decoding = 'async',
   ...rest
 }: ImgHTMLAttributes<HTMLImageElement>) {
-  const webp = typeof src === 'string' ? src.replace(/\.(jpe?g|png)$/i, '.webp') : src;
-  const hasTwin = webp !== src;
+  // React 19 types allow a Blob here; this component only ever receives URLs.
+  const url = typeof src === 'string' ? src : '';
+  const webp = url.replace(/\.(jpe?g|png)$/i, '.webp');
+  const hasTwin = webp !== url;
 
   return (
     <picture>
       {hasTwin && <source srcSet={webp} type="image/webp" />}
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} loading={loading} decoding={decoding} {...rest} />
+      <img src={url} alt={alt} loading={loading} decoding={decoding} {...rest} />
     </picture>
   );
 }

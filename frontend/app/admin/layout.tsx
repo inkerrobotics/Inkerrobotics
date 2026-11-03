@@ -20,7 +20,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('inker_admin_token');
+    let token = localStorage.getItem('inker_admin_token');
+    // Sessions expire after 12 hours (see backend/src/middleware/adminAuth.ts).
+    // Old-style tokens, or expired ones, are cleared so the login page shows.
+    if (token) {
+      try {
+        const { exp } = JSON.parse(atob(token.split('.')[0].replace(/-/g, '+').replace(/_/g, '/'))) as { exp?: number };
+        if (typeof exp !== 'number' || exp <= Date.now()) throw new Error('expired');
+      } catch {
+        localStorage.removeItem('inker_admin_token');
+        token = null;
+      }
+    }
     if (!token && pathname !== '/admin/login') {
       router.replace('/admin/login');
     } else {

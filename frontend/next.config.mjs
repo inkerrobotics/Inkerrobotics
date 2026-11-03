@@ -1,8 +1,14 @@
 /** @type {import('next').NextConfig} */
+// Where the Express API runs. In Docker/Render both run in one container
+// (127.0.0.1:4000). On Hostinger the API is a separate Node.js app, so set
+// BACKEND_URL (e.g. https://api.inkerrobotics.com) before building.
+const BACKEND_URL = (process.env.BACKEND_URL || 'http://127.0.0.1:4000').replace(/\/$/, '');
+
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  output: 'standalone',
+  // Docker needs the standalone server; Hostinger runs `next start`.
+  output: process.env.NEXT_OUTPUT === 'standalone' ? 'standalone' : undefined,
 
   // gzip/brotli the HTML and JS responses
   compress: true,
@@ -29,11 +35,11 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://127.0.0.1:4000/api/:path*',
+        destination: `${BACKEND_URL}/api/:path*`,
       },
       {
         source: '/health',
-        destination: 'http://127.0.0.1:4000/health',
+        destination: `${BACKEND_URL}/health`,
       },
     ];
   },

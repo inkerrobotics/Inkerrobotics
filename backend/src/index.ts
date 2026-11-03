@@ -7,6 +7,27 @@ import adminRouter from './routes/admin';
 import contentRouter from './routes/content';
 import publicRouter from './routes/public';
 
+/* Startup check — shows in the Render log which settings this process is
+   actually using, without printing any secret. */
+function describeConfig() {
+  const db = process.env.DATABASE_URL;
+  let dbInfo = 'NOT SET';
+  if (db) {
+    try {
+      const u = new URL(db);
+      dbInfo = `user=${u.username} host=${u.hostname}:${u.port || '5432'}`;
+    } catch {
+      dbInfo = 'set, but not a valid URL (check for quotes or spaces)';
+    }
+  }
+  const key = process.env.RESEND_API_KEY;
+  const keyInfo = key ? `${key.slice(0, 6)}… (${key.length} chars)` : 'NOT SET';
+  console.log(`[config] DATABASE_URL → ${dbInfo}`);
+  console.log(`[config] RESEND_API_KEY → ${keyInfo}`);
+  console.log(`[config] NOTIFY_EMAIL → ${process.env.NOTIFY_EMAIL ?? 'NOT SET'}`);
+}
+describeConfig();
+
 const app = express();
 const PORT = process.env.PORT ?? 4000;
 
@@ -30,8 +51,10 @@ app.use((err: Error, _req: express.Request, res: express.Response, _next: expres
   res.status(500).json({ success: false, message: 'Server error' });
 });
 
-app.listen(Number(PORT), '127.0.0.1', () => {
-  console.log(`Inker Robotics API running internally on http://127.0.0.1:${PORT}`);
+// Docker keeps the API private on 127.0.0.1; on Hostinger set HOST=0.0.0.0.
+const HOST = process.env.HOST ?? '127.0.0.1';
+app.listen(Number(PORT), HOST, () => {
+  console.log(`Inker Robotics API running on http://${HOST}:${PORT}`);
 });
 
 process.on('uncaughtException', err => console.error('[uncaughtException]', err));

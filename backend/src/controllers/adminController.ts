@@ -1,16 +1,19 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { prisma } from '../lib/prisma';
+import { issueAdminToken, safeEqual } from '../middleware/adminAuth';
 
 export function login(req: Request, res: Response) {
   const { password } = req.body as { password?: string };
   const secret = process.env.ADMIN_SECRET;
 
-  if (!secret || password !== secret) {
+  if (!secret || typeof password !== 'string' || !safeEqual(password, secret)) {
     return res.status(401).json({ success: false, message: 'Invalid password' });
   }
 
-  return res.json({ success: true, token: secret });
+  // A signed, expiring session token — never the password itself.
+  const { token, expiresAt } = issueAdminToken(secret);
+  return res.json({ success: true, token, expiresAt });
 }
 
 export async function listInquiries(req: Request, res: Response) {

@@ -4,7 +4,7 @@
   "description": "Inker Robotics API — Express + TypeScript + Prisma + Supabase",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "start": "node dist/index.js",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",

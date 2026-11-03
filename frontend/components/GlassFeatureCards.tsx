@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,6 +15,7 @@ if (typeof window !== 'undefined') {
 const FEATURES = [
   {
     badge: '01 — Robotics',
+    href: '/robotics',
     title: 'Machines that work',
     description:
       'Humanoids, robotic kiosks, serving robots and automation systems deployed in the field.',
@@ -24,6 +26,7 @@ const FEATURES = [
   },
   {
     badge: '02 — AI solutions',
+    href: '/ai-solutions',
     title: 'Engagement that converts',
     description:
       'WhatsApp-first customer management, digital lucky draws and campaign analytics.',
@@ -34,6 +37,7 @@ const FEATURES = [
   },
   {
     badge: '03 — EduTech',
+    href: '/edutech',
     title: 'Skills for what is next',
     description:
       'Workshops, internships, Robo Clubs and innovation labs across schools and colleges.',
@@ -163,9 +167,11 @@ export default function GlassFeatureCards() {
 
       <div className="hm-feature-grid">
         {FEATURES.map((feat) => (
-          <article
+          <Link
             key={feat.badge}
-            className={`hm-feature-card hm-glass ${feat.accent === 'lime' ? 'accent-lime' : ''}`}
+            href={feat.href}
+            aria-label={`${feat.title} — ${feat.badge.split('— ')[1]}`}
+            className={`hm-feature-card hm-glass hm-feature-link ${feat.accent === 'lime' ? 'accent-lime' : ''}`}
           >
             <div className="hm-feature-top">
               <span className="hm-feature-badge">{feat.badge}</span>
@@ -194,7 +200,7 @@ export default function GlassFeatureCards() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M14 5l7 7-7 7M21 12H3" />
               </svg>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

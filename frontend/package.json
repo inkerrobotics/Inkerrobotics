@@ -11,16 +11,15 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
-    "@imgly/background-removal-node": "^1.4.5",
-    "@react-three/drei": "^9.114.3",
-    "@react-three/fiber": "^8.17.10",
-    "@react-three/postprocessing": "^2.16.3",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
+    "@react-three/postprocessing": "^3.2.2",
     "gsap": "^3.13.0",
     "lenis": "^1.1.18",
-    "next": "14.2.15",
+    "next": "15.5.28",
     "postprocessing": "^6.36.4",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "three": "^0.169.0"
   },
   "engines": {
@@ -28,10 +27,14 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "@types/three": "^0.169.0",
     "playwright": "^1.60.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "@imgly/background-removal-node": "^1.4.5"
+  },
+  "overrides": {
+    "postcss": "^8.5.31"
   }
 }
