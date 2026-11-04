@@ -115,6 +115,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
           rel="stylesheet"
         />
+        {/* If a JS chunk fails to load (slow network, or a page cached from an
+            older deploy), reload once instead of showing "Application error". */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){function h(m){m=String(m||'');if(!/ChunkLoadError|Loading chunk [\\w-]+ failed|Loading CSS chunk/i.test(m))return;try{var k='inker-chunk-reload',t=+sessionStorage.getItem(k)||0;if(Date.now()-t<30000)return;sessionStorage.setItem(k,String(Date.now()));}catch(e){}location.reload();}window.addEventListener('error',function(e){h((e.error&&(e.error.name+' '+e.error.message))||e.message);});window.addEventListener('unhandledrejection',function(e){var r=e.reason;h(r&&(r.name+' '+r.message));});})();`,
+          }}
+        />
         <JsonLd data={organizationLd} />
         <JsonLd data={websiteLd} />
         <noscript>

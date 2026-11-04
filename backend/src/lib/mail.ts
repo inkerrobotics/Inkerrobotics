@@ -100,3 +100,36 @@ export async function sendInquiryNotification(raw: InquiryPayload) {
   }
   if (error) throw new Error(`Resend: ${error.name ?? 'error'} — ${error.message}`);
 }
+
+/*
+ * TEMPORARY diagnostic for "emails don't arrive". Reports which Resend
+ * account the key belongs to (its domains), and tries one test send from the
+ * real sender, returning Resend's own answer. Never returns the key itself.
+ * Remove once mail is confirmed working.
+ */
+export async function mailDiagnostics() {
+  const key = process.env.RESEND_API_KEY;
+  const report: Record<string, unknown> = {
+    resendKey: key ? `${key.slice(0, 6)}… (${key.length} chars)` : 'NOT SET',
+    to: TO,
+    from: FROM,
+  };
+  if (!key) return report;
+  const resend = getResend();
+  try {
+    const domains = await resend.domains.list();
+    report.domainsOnThisResendAccount = domains.error
+      ? { error: domains.error }
+      : ((domains.data as any)?.data ?? domains.data ?? []).map((d: any) => ({ name: d.name, status: d.status, region: d.region }));
+  } catch (e) {
+    report.domainsOnThisResendAccount = { error: String(e) };
+  }
+  const send = await resend.emails.send({
+    from: FROM,
+    to: TO,
+    subject: 'Inker website — mail test',
+    html: '<p>This is a test email from the Inker Robotics website mail check.</p>',
+  });
+  report.testSend = send.error ? { ok: false, error: send.error } : { ok: true, id: (send.data as any)?.id };
+  return report;
+}
